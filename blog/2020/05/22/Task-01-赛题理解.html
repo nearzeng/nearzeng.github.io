@@ -1,0 +1,1228 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CV," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="有些东西不动手去做，就很容易想当然，从而脱离现实中可能遇到的种种本该经历的困难。本文将简要介绍CV的基本内容，然后讲解一个名为“街景字符识别”的cv赛题的背景及其数据集的分析和读取过程，最后讨论其解题思路。借此增加对CV的感性认识。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零基础入门CV之赛题理解">
+<meta property="og:url" content="http://7497.xyz/blog/2020/05/22/Task-01-%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3.html">
+<meta property="og:site_name" content="Near&#39;s Notes">
+<meta property="og:description" content="有些东西不动手去做，就很容易想当然，从而脱离现实中可能遇到的种种本该经历的困难。本文将简要介绍CV的基本内容，然后讲解一个名为“街景字符识别”的cv赛题的背景及其数据集的分析和读取过程，最后讨论其解题思路。借此增加对CV的感性认识。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://p0.ssl.qhimgs4.com/t01432a7110c035d469.webp">
+<meta property="article:published_time" content="2020-05-21T22:54:21.000Z">
+<meta property="article:modified_time" content="2020-05-22T00:53:00.557Z">
+<meta property="article:author" content="Near zeng">
+<meta property="article:tag" content="CV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p0.ssl.qhimgs4.com/t01432a7110c035d469.webp">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://7497.xyz/blog/2020/05/22/Task-01-赛题理解.html"/>
+
+
+
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+  <title> 零基础入门CV之赛题理解 | Near's Notes </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+  	 <!-- custom analytics part create by xiamo -->
+<script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+<script>AV.initialize("kJ2sJuSJeByLioULSXrJ5CSq-9Nh9j0Va", "uBWeNxCbFEWsOVDTmAInrDq3");</script>
+<script>
+function showTime(Counter) {
+	var query = new AV.Query(Counter);
+	$(".leancloud_visitors").each(function() {
+		var url = $(this).attr("id").trim();
+		query.equalTo("url", url);
+		query.find({
+			success: function(results) {
+				if (results.length == 0) {
+					var content = $(document.getElementById(url)).text() + ': 0';
+					$(document.getElementById(url)).text(content);
+					return;
+				}
+				for (var i = 0; i < results.length; i++) {
+					var object = results[i];
+					var content = $(document.getElementById(url)).text() + ': ' + object.get('time');
+					$(document.getElementById(url)).text(content);
+				}
+			},
+			error: function(object, error) {
+				console.log("Error: " + error.code + " " + error.message);
+			}
+		});
+
+	});
+}
+
+function addCount(Counter) {
+	var Counter = AV.Object.extend("Counter");
+	url = $(".leancloud_visitors").attr('id').trim();
+	title = $(".leancloud_visitors").attr('data-flag-title').trim();
+	var query = new AV.Query(Counter);
+	query.equalTo("url", url);
+	query.find({
+		success: function(results) {
+			if (results.length > 0) {
+				var counter = results[0];
+				counter.fetchWhenSave(true);
+				counter.increment("time");
+				counter.save(null, {
+					success: function(counter) {
+						var content = $(document.getElementById(url)).text() + ': ' + counter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(counter, error) {
+						console.log('Failed to save Visitor num, with error message: ' + error.message);
+					}
+				});
+			} else {
+				var newcounter = new Counter();
+				newcounter.set("title", title);
+				newcounter.set("url", url);
+				newcounter.set("time", 1);
+				newcounter.save(null, {
+					success: function(newcounter) {
+					    console.log("newcounter.get('time')="+newcounter.get('time'));
+						var content = $(document.getElementById(url)).text() + ': ' + newcounter.get('time');
+						$(document.getElementById(url)).text(content);
+					},
+					error: function(newcounter, error) {
+						console.log('Failed to create');
+					}
+				});
+			}
+		},
+		error: function(error) {
+			console.log('Error:' + error.code + " " + error.message);
+		}
+	});
+}
+$(function() {
+	var Counter = AV.Object.extend("Counter");
+	if ($('.leancloud_visitors').length == 1) {
+		addCount(Counter);
+	} else if ($('.post-title-link').length > 1) {
+		showTime(Counter);
+	}
+});
+</script>
+  
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?340874ba9357cbe81570aa4ac1185941";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Near's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description">NN</h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://7497.xyz/blog/2020/05/22/Task-01-%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3.html">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Near zeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Near's Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Near's Notes" src="/images/avatar.jpg">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                零基础入门CV之赛题理解
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-22T06:54:21+08:00">
+                2020-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%A5%E9%97%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">入门</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%A5%E9%97%A8/%E5%A4%A9%E6%B1%A0%E8%B5%9B%E9%A2%98/" itemprop="url" rel="index">
+                    <span itemprop="name">天池赛题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+             <span id="/blog/2020/05/22/Task-01-%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3.html" class="leancloud_visitors" data-flag-title="零基础入门CV之赛题理解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+				 <span>℃</span>
+             </span>
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+		  
+          
+              <div class="post-description">
+                  有些东西不动手去做，就很容易想当然，从而脱离现实中可能遇到的种种本该经历的困难。本文将简要介绍CV的基本内容，然后讲解一个名为“街景字符识别”的cv赛题的背景及其数据集的分析和读取过程，最后讨论其解题思路。借此增加对CV的感性认识。
+              </div>
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="https://p0.ssl.qhimgs4.com/t01432a7110c035d469.webp" rel="gallery_ckahhpwd80000i0ynh8cwe2m9"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://p0.ssl.qhimgs4.com/t01432a7110c035d469.webp" itemprop="contentUrl"/>
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        <h2 id="CV初探"><a href="#CV初探" class="headerlink" title="CV初探"></a>CV初探</h2><h4 id="CV是什么"><a href="#CV是什么" class="headerlink" title="CV是什么"></a>CV是什么</h4><p>计算机视觉（Computational Vision），英文简写CV，是一门“赋予机器自然视觉能力”的学科，是使用计算机模仿人类视觉系统的科学，让计算机拥有类似人类 提取、处理、理解和分析图像以及图像序列的能力。它是一门包含领域很广的综合性学科。从现阶段的研究来看，计算机视觉试图建立一种人工系统，提出的越来越多的理论和技术主要目的是为了从图像或者多维数据中获取信息。</p>
+<h4 id="CV可以解决什么问题"><a href="#CV可以解决什么问题" class="headerlink" title="CV可以解决什么问题"></a>CV可以解决什么问题</h4><p>好奇CV可以做什么，是一个比较适用的兴趣点和动力源。一般来说，CV的目标是”看到“。其在具体应用中往往都要解决一些相同的问题，这些问题包括：</p>
+<ol>
+<li><strong>识别</strong> —— ”看到“图像中的特定目标并能识别出来。</li>
+<li><strong>运动</strong> —— ”看到“序列图像中物体的运动和自己在运动，或跟踪运动的物体。</li>
+<li><strong>场景重建</strong> —— ”看到“序列图像并建立起完整的三维表面模型。</li>
+<li><strong>图像恢复</strong> —— ”看到“一些被影响的部分背后的内容，主要是移除噪声和改善模糊状态</li>
+</ol>
+<h4 id="CV工程的常见步骤"><a href="#CV工程的常见步骤" class="headerlink" title="CV工程的常见步骤"></a>CV工程的常见步骤</h4><p>简单了解一下工程方面的步骤，有利于知道后续的实践和增加对CV的认识。一般来说，CV工程分为以下5步：</p>
+<ol>
+<li><strong>图像获取</strong> —— 通过各种图像感知器获取需要的图像数据。</li>
+<li><strong>预处理</strong> —— 通过对图像进行一定的预处理来使其满足后续的操作要求。</li>
+<li><strong>特征提取</strong> —— 从图像中提取各种复杂度的特征，以便识别目标。</li>
+<li><strong>检测/分割</strong> —— 处理过程中，可能需要进一步分割有价值的部分用于后继处理。例如分割出包含特定目标的部分。</li>
+<li><strong>高级处理</strong> —— 根据具体应用的需要，验证得到的数据是否符合要求，估测特定的系数等。</li>
+</ol>
+<h2 id="赛题理解"><a href="#赛题理解" class="headerlink" title="赛题理解"></a>赛题理解</h2><p>通过比赛来实践是一个学习的捷径，在压力之下可能会打破自己原来设定的界限，做到自我突破。当然，对我们这种新手来说，还是要脚踏实地一步一步来的。先来了解下Datawhale与天池联合发起的零基础入门系列赛事第二场 —— <a href="https://tianchi.aliyun.com/competition/entrance/531795/introduction" target="_blank" rel="noopener">零基础入门CV赛事之街景字符识别</a>。</p>
+<ul>
+<li><strong>赛题名称</strong>：零基础入门CV之街道字符识别            </li>
+<li><strong>赛题目标</strong>：通过这道赛题可以引导大家走入计算机视觉的世界，主要针对竞赛选手上手视觉赛题，提高对数据建模能力。       </li>
+<li><strong>赛题任务</strong>：赛题以计算机视觉中字符识别为背景，要求选手预测街道字符编码，这是一个典型的字符识别问题。<br>为了简化赛题难度，赛题数据采用公开数据集<a href="http://ufldl.stanford.edu/housenumbers/" target="_blank" rel="noopener">SVHN</a>，因此大家可以选择很多相应的paper作为思路参考。          <h4 id="赛题数据"><a href="#赛题数据" class="headerlink" title="赛题数据"></a>赛题数据</h4></li>
+</ul>
+<p>赛题以街道字符为赛题数据，数据集报名后可见并可下载，该数据来自公开数据集SVHN收集的街道字符，并进行了匿名采样处理。  </p>
+<p><img src="IMG/%E8%B5%9B%E4%BA%8B%E7%AE%80%E4%BB%8B/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%A0%B7%E6%9C%AC%E5%B1%95%E7%A4%BA.png" alt="数据示例"></p>
+<p><strong>注意: 按照比赛规则，所有的参赛选手只能使用比赛给定的数据集完成训练，不能使用SVHN原始数据集进行训练。比赛结束后将会对Top选手进行代码审核，违规的选手将清除排行榜成绩。</strong></p>
+<p>训练集数据包括3W张照片，验证集数据包括1W张照片，每张照片包括颜色图像和对应的编码类别和具体位置；为了保证比赛的公平性，测试集A包括4W张照片，测试集B包括4W张照片。</p>
+<p>需要注意的是本赛题需要选手识别图片中所有的字符，为了降低比赛难度，该赛题还提供了训练集、验证集和测试集中所有字符的位置框。</p>
+<h4 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h4><p>对于训练数据每张图片将给出对应的编码标签和具体的字符框的位置（训练集、测试集和验证集都给出字符位置），可用于模型训练：<br> Field  | Description<br>:——-: | :——:<br>top    | 左上角坐标X<br>height    | 字符高度<br>left   | 左上角最表Y<br>width  | 字符宽度<br>label  | 字符编码 </p>
+<p>字符的坐标具体如下所示：<br><img src="IMG/Task01/%E5%AD%97%E7%AC%A6%E5%9D%90%E6%A0%87.png" alt="坐标">     </p>
+<p> 在比赛数据（训练集、测试集和验证集）中，同一张图片中可能包括一个或者多个字符，因此在比赛数据的JSON标注中，会有多个字符的边框信息：<br> |原始图片|图片JSON标注|<br> |—-|—–|<br> <img src="IMG/Task01/%E5%8E%9F%E5%A7%8B%E5%9B%BE%E7%89%87.png" alt="19">    | <img src="IMG/Task01/%E5%8E%9F%E5%A7%8B%E5%9B%BE%E7%89%87%E6%A0%87%E6%B3%A8.png" alt="标注">  |</p>
+<h4 id="评测指标"><a href="#评测指标" class="headerlink" title="评测指标"></a>评测指标</h4><p> 选手提交结果与实际图片的编码进行对比，以编码整体识别准确率为评价指标。任何一个字符错误都为错误，最终评测指标结果越大越好，具体计算公式如下：<br>                                              Score = 编码识别正确的数量 / 测试集图片数量        </p>
+<h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><p> 这里给出JSON中标签的读取方式：  </p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">import</span> json</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据标注处理</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_json</span><span class="params">(d)</span>:</span></span><br><span class="line">    arr = np.array([</span><br><span class="line">        d[<span class="string">'top'</span>], d[<span class="string">'height'</span>], d[<span class="string">'left'</span>],  d[<span class="string">'width'</span>], d[<span class="string">'label'</span>]</span><br><span class="line">    ])</span><br><span class="line">    arr = arr.astype(int)</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">'../input/train/000000.png'</span>)</span><br><span class="line">arr = parse_json(train_json[<span class="string">'000000.png'</span>])</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">10</span>))</span><br><span class="line">plt.subplot(<span class="number">1</span>, arr.shape[<span class="number">1</span>]+<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">plt.imshow(img)</span><br><span class="line">plt.xticks([]); plt.yticks([])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> range(arr.shape[<span class="number">1</span>]):</span><br><span class="line">    plt.subplot(<span class="number">1</span>, arr.shape[<span class="number">1</span>]+<span class="number">1</span>, idx+<span class="number">2</span>)</span><br><span class="line">    plt.imshow(img[arr[<span class="number">0</span>, idx]:arr[<span class="number">0</span>, idx]+arr[<span class="number">1</span>, idx],arr[<span class="number">2</span>, idx]:arr[<span class="number">2</span>, idx]+arr[<span class="number">3</span>, idx]])</span><br><span class="line">    plt.title(arr[<span class="number">4</span>, idx])</span><br><span class="line">    plt.xticks([]); plt.yticks([])</span><br></pre></td></tr></table></figure>
+<p><img src="IMG/Task01/19.png" alt="19">     </p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>赛题思路分析：<strong>赛题本质是一个分类识别问题，需要对图片的字符进行识别</strong>。但赛题给定的数据图片中不同图片中包含的字符数量不等。如下图所示，有的图片的字符个数为2，有的图片字符个数为3，有的图片字符个数为4。      </p>
+<table>
+<thead>
+<tr>
+<th>字符属性</th>
+<th>图片</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>字符：42   字符个数：2</td>
+<td><img src="IMG/Task01/42.png" alt="标注"></td>
+</tr>
+<tr>
+<td>字符：241   字符个数：3</td>
+<td><img src="IMG/Task01/2411.png" alt="标注"></td>
+</tr>
+<tr>
+<td>字符：7358   字符个数：4</td>
+<td><img src="IMG/Task01/7358.png" alt="标注"></td>
+</tr>
+</tbody></table>
+<p><strong>因此本次赛题的难点是需要对不定长的字符进行识别，与传统的图像分类识别任务有所不同</strong>。</p>
+<h4 id="解题思路探索"><a href="#解题思路探索" class="headerlink" title="解题思路探索"></a>解题思路探索</h4><h5 id="Datawhale给出了三种思路："><a href="#Datawhale给出了三种思路：" class="headerlink" title="Datawhale给出了三种思路："></a>Datawhale给出了三种思路：</h5><ul>
+<li>*<em>1、简单入门思路：定长字符识别 *</em></li>
+</ul>
+<p>可以将赛题抽象为一个定长字符识别问题，在赛题数据集中大部分图像中字符个数为2-4个，最多的字符个数为6个。<br>因此可以对于所有的图像都抽象为6个字符的识别问题，字符23填充为23XXXX，字符231填充为231XXX。<br><img src="IMG/Task01/23xxxxxx.png" alt="标注">   </p>
+<p>经过填充之后，原始的赛题可以简化了6个字符的分类问题。在每个字符的分类中会进行11个类别的分类，假如分类为填充字符，则表明该字符为空。可参考Google2014年的论文《Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks》，该论文提出了基于深度卷积神经网络的定长字符分类识别方法。</p>
+<ul>
+<li>*<em>2、专业字符识别思路：不定长字符识别 *</em></li>
+</ul>
+<p><img src="IMG/Task01/%E4%B8%8D%E5%AE%9A%E9%95%BF%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB.png" alt="标注">      </p>
+<p>在字符识别研究中，有特定的方法来解决此种不定长的字符识别问题，比较典型的有CRNN字符识别模型。</p>
+<p>CRNN采取的架构是CNN+RNN+CTC，cnn提取图像像素特征，rnn提取图像时序特征，而ctc归纳字符间的连接特性。CRNN能够获取不同尺寸的输入图像，并产生不同长度的预测。它直接在粗粒度的标签（例如单词）上运行，在训练阶段不需要详细标注每一个单独的元素（例如字符）。</p>
+<p>此外，<strong>由于CRNN放弃了传统神经网络中使用的全连接层，因此得到了更加紧凑和高效的模型。</strong>所有这些属性使得CRNN成为一种基于图像序列识别的极好方法。</p>
+<p>在本次赛题中给定的图像数据都比较规整，可以视为一个单词或者一个句子。   </p>
+<ul>
+<li><strong>3、专业分类思路：检测再识别</strong>     </li>
+</ul>
+<p>在赛题数据中已经给出了训练集、验证集中所有图片中字符的位置，因此可以首先将字符的位置进行识别，利用物体检测的思路完成。        </p>
+<p><img src="IMG/Task01/%E6%A3%80%E6%B5%8B.png" alt="IMG">           </p>
+<p>此种思路需要参赛选手构建字符检测模型，对测试集中的字符进行识别。选手可以参考物体检测模型SSD或者YOLO来完成。</p>
+<p><strong>SSD算法是一种直接预测目标类别和bounding box的多目标检测算法。</strong>与faster rcnn相比，该算法没有生成 proposal 的过程，这就极大提高了检测速度。针对不同大小的目标检测，传统的做法是先将图像转换成不同大小（图像金字塔），然后分别检测，最后将结果综合起来（NMS）。而SSD算法则利用不同卷积层的 <strong>feature map</strong> 进行综合也能达到同样的效果。算法的主网络结构是VGG16，将最后两个全连接层改成卷积层，并随后增加了4个卷积层来构造网络结构。   </p>
+<p><strong>YOLO（You Only Look Once: Unified, Real-Time Object Detection）</strong>，是Joseph Redmon和Ali Farhadi等人于2015年提出的基于单个神经网络的目标检测系统。YOLO是一个可以一次性预测多个Box位置和类别的卷积神经网络，能够实现端到端的目标检测和识别，其最大的优势就是速度快。事实上，目标检测的本质就是回归，因此一个实现回归功能的CNN并不需要复杂的设计过程。YOLO没有选择滑动窗口（silding window）或提取proposal的方式训练网络，而是直接选用整图训练模型。这样做的好处在于可以更好的区分目标和背景区域，相比之下，采用proposal训练方式的Fast-R-CNN常常把背景区域误检为特定目标。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>综上所示，本次赛题虽然是一个简单的字符识别问题，但有多种解法可以使用到计算机视觉领域中的各个模型，是非常适合CV入门学习的。解题思路中由浅至深分析了一个分类识别的问题，也是很有参考价值的，也算是给我们这样的初学者指出了一条不断深入和从不同角度分析解决问题的路子。</p>
+<h5 id="鸣谢与参考"><a href="#鸣谢与参考" class="headerlink" title="鸣谢与参考"></a>鸣谢与参考</h5><p>References</p>
+<ol>
+<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2001%20%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3%20.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task1 赛题理解</a></li>
+<li><a href="https://blog.csdn.net/wsp_1138886114/article/details/82555728?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">CRNN-基于序列的（端到端）图像文本识别</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1064906" target="_blank" rel="noopener">SSD: Single Shot MultiBox Detector 深度学习笔记之SSD物体检测模型</a></li>
+<li><a href="https://blog.csdn.net/guoyunfei20/article/details/78744753" target="_blank" rel="noopener">YOLO</a></li>
+<li><a href="https://www.cnblogs.com/fariver/p/7446921.html" target="_blank" rel="noopener">YOLO原理</a></li>
+<li><a href="https://arxiv.org/pdf/1312.6082.pdf" target="_blank" rel="noopener">Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"># CV</a>
+          
+        </div>
+      
+
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>🐶 您的支持将鼓励我继续创作 🐶</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赞赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-img.jpg" alt="Near zeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-img.jpg" alt="Near zeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+        
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+          <strong>本文作者：</strong>
+          <a href="/" title="欢迎访问 Near zeng 的个人博客">Near zeng</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文标题：</strong>
+          <a href="http://7497.xyz/blog/2020/05/22/Task-01-%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3.html" title="零基础入门CV之赛题理解">零基础入门CV之赛题理解</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="http://7497.xyz/blog/2020/05/22/Task-01-%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3.html" title="零基础入门CV之赛题理解">http://7497.xyz/blog/2020/05/22/Task-01-%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3.html</a>
+        </li>
+
+        <li class="post-copyright-date">
+            <strong>发布时间：</strong>2020年5月22日 - 06时05分
+        </li>  
+
+        <li class="post-copyright-license">
+          <strong>版权声明： </strong>
+          本文由 Near zeng 原创，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="license" target="_blank">保留署名-非商业性使用-禁止演绎 4.0-国际许可协议</a> </br>转载请保留以上声明信息！
+        </li>
+      </ul>
+    
+  </div>  
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjI4My84ODQ3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Near zeng" />
+          <p class="site-author-name" itemprop="name">Near zeng</p>
+          <p class="site-description motion-element" itemprop="description">a place for fun</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nearzeng" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/7333272869/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/near-63-53" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-battery-3"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.zhihu.com/people/near-63-53" title="友链出租" target="_blank">友链出租</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CV初探"><span class="nav-number">1.</span> <span class="nav-text">CV初探</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CV是什么"><span class="nav-number">1.0.1.</span> <span class="nav-text">CV是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CV可以解决什么问题"><span class="nav-number">1.0.2.</span> <span class="nav-text">CV可以解决什么问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CV工程的常见步骤"><span class="nav-number">1.0.3.</span> <span class="nav-text">CV工程的常见步骤</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#赛题理解"><span class="nav-number">2.</span> <span class="nav-text">赛题理解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#赛题数据"><span class="nav-number">2.0.1.</span> <span class="nav-text">赛题数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据标签"><span class="nav-number">2.0.2.</span> <span class="nav-text">数据标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#评测指标"><span class="nav-number">2.0.3.</span> <span class="nav-text">评测指标</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读取数据"><span class="nav-number">2.0.4.</span> <span class="nav-text">读取数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解题思路"><span class="nav-number">2.1.</span> <span class="nav-text">解题思路</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解题思路探索"><span class="nav-number">2.1.1.</span> <span class="nav-text">解题思路探索</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Datawhale给出了三种思路："><span class="nav-number">2.1.1.1.</span> <span class="nav-text">Datawhale给出了三种思路：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">2.2.</span> <span class="nav-text">小结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#鸣谢与参考"><span class="nav-number">2.2.0.1.</span> <span class="nav-text">鸣谢与参考</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Near zeng</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="external nofollow noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external nofollow noopener">
+    NexT.Mist
+  </a>| Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
+</div>
+
+
+
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv"><i class="fa fa-user"></i><span class="busuanzi-value" id="busuanzi_value_site_uv"></span></span>
+  
+
+  
+    <span class="site-pv"><i class="fa fa-eye"></i><span class="busuanzi-value" id="busuanzi_value_site_pv"></span></span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+  
+  <script type="text/javascript" src="/vendors/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("kJ2sJuSJeByLioULSXrJ5CSq-9Nh9j0Va", "uBWeNxCbFEWsOVDTmAInrDq3");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+	<!-- 页面点击小红心 
+<script type="text/javascript" src="/js/src/love.js"></script>
+-->
+</body>
+</html>

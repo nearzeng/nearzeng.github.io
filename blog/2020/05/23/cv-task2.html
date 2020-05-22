@@ -1,0 +1,1228 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <link href="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CV," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="前面简单聊了CV入门以及一个CV赛事的赛题了解和解题思路分析。这里我们来了解一下预处理部分的数据读取与扩增，先介绍最常见的图像处理库Pillow和OpenCV的简单操作，然后利用Pytorch来加载赛题数据。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零基础入门CV之数据读取与数据扩增">
+<meta property="og:url" content="http://7497.xyz/blog/2020/05/23/cv-task2.html">
+<meta property="og:site_name" content="Near&#39;s Notes">
+<meta property="og:description" content="前面简单聊了CV入门以及一个CV赛事的赛题了解和解题思路分析。这里我们来了解一下预处理部分的数据读取与扩增，先介绍最常见的图像处理库Pillow和OpenCV的简单操作，然后利用Pytorch来加载赛题数据。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20181203105432644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5ZGJ5eHI=,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2020-05-22T16:10:21.000Z">
+<meta property="article:modified_time" content="2020-05-22T16:50:13.610Z">
+<meta property="article:author" content="Near zeng">
+<meta property="article:tag" content="CV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20181203105432644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5ZGJ5eHI=,size_16,color_FFFFFF,t_70">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"right","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://7497.xyz/blog/2020/05/23/cv-task2.html"/>
+
+
+
+
+
+<script src="//cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+<link href="//cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+<style>
+    .pace .pace-progress {
+        background: #1E92FB; /*进度条颜色*/
+        height: 3px;
+    }
+    .pace .pace-progress-inner {
+         box-shadow: 0 0 10px #1E92FB, 0 0 5px     #1E92FB; /*阴影颜色*/
+    }
+    .pace .pace-activity {
+        border-top-color: #1E92FB;    /*上边框颜色*/
+        border-left-color: #1E92FB;    /*左边框颜色*/
+    }
+</style>
+
+
+  <title> 零基础入门CV之数据读取与数据扩增 | Near's Notes </title>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?340874ba9357cbe81570aa4ac1185941";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta custom-logo">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Near's Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <h1 class="site-subtitle" itemprop="description">NN</h1>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://7497.xyz/blog/2020/05/23/cv-task2.html">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Near zeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Near's Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Near's Notes" src="/images/avatar.jpg">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                零基础入门CV之数据读取与数据扩增
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-23T00:10:21+08:00">
+                2020-05-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%A5%E9%97%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">入门</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%A5%E9%97%A8/%E5%A4%A9%E6%B1%A0%E8%B5%9B%E9%A2%98/" itemprop="url" rel="index">
+                    <span itemprop="name">天池赛题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  2.3k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  9
+                </span>
+              
+            </div>
+          
+		  
+          
+              <div class="post-description">
+                  前面简单聊了CV入门以及一个CV赛事的赛题了解和解题思路分析。这里我们来了解一下预处理部分的数据读取与扩增，先介绍最常见的图像处理库Pillow和OpenCV的简单操作，然后利用Pytorch来加载赛题数据。
+              </div>
+          
+ 
+        
+
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="https://img-blog.csdnimg.cn/20181203105432644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5ZGJ5eHI=,size_16,color_FFFFFF,t_70" rel="gallery_ckaifzsdh00020xyn2trgabx9"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://img-blog.csdnimg.cn/20181203105432644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5ZGJ5eHI=,size_16,color_FFFFFF,t_70" itemprop="contentUrl"/>
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        <h3 id="图像读取"><a href="#图像读取" class="headerlink" title="图像读取"></a>图像读取</h3><p>由于赛题数据是图像数据，赛题的任务是识别图像中的字符。因此我们首先需要完成对数据的读取操作，在Python中有很多库可以完成数据读取的操作，比较常见的有Pillow和OpenCV。     </p>
+<h4 id="Pillow"><a href="#Pillow" class="headerlink" title="Pillow"></a>Pillow</h4><p><a href="https://pillow.readthedocs.io/en/stable/" target="_blank" rel="noopener">官方文档</a></p>
+<p>Pillow是Python图像处理函式库(PIL）的一个分支。Pillow提供了常见的图像读取和处理的操作，而且可以与ipython notebook无缝集成，是应用比较广泛的库。 </p>
+<p>可以简单看下这个库常用的模块：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190303145700384.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0ZXZlbnRpYW43Mg==,size_16,color_FFFFFF,t_70" alt></p>
+<p> <strong>接着我们来演示一下简单其最基本的几个操作</strong>：               <img src="/blog/2020/05/23/cv-task2/2_1.png" alt="原图"></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_2.png" alt="rotate"></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_3.png" alt="thumbnail"></p>
+<p>Pillow还有很多图像操作，是图像处理的必备库。</p>
+<h4 id="OpenCV"><a href="#OpenCV" class="headerlink" title="OpenCV"></a>OpenCV</h4><p>OpenCV是一个跨平台的计算机视觉库，最早由Intel开源得来。OpenCV发展的非常早，拥有众多的计算机视觉、数字图像处理和机器视觉等功能。<strong>OpenCV在功能上比Pillow更加强大很多，学习成本也高很多。</strong></p>
+<p>我们可以看看OpenCV的学习思维导图：</p>
+<p> <img src="https://img-blog.csdn.net/20160812160354901?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt></p>
+<p><strong>同样，下面我们演示一些基本的操作：</strong></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_4.png" alt></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_5.png" alt="gray"></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_6.png" alt="canny"></p>
+<p>OpenCV包含了众多的图像处理的功能，OpenCV包含了你能想得到的只要与图像相关的操作。此外OpenCV还内置了很多的图像特征处理算法，如关键点检测、边缘检测和直线检测等。<br>OpenCV官网：<a href="https://opencv.org/" target="_blank" rel="noopener">https://opencv.org/</a><br>OpenCV Github：<a href="https://github.com/opencv/opencv" target="_blank" rel="noopener">https://github.com/opencv/opencv</a><br>OpenCV 扩展算法库：<a href="https://github.com/opencv/opencv_contrib" target="_blank" rel="noopener">https://github.com/opencv/opencv_contrib</a></p>
+<h3 id="数据扩增方法"><a href="#数据扩增方法" class="headerlink" title="数据扩增方法"></a>数据扩增方法</h3><p>在上一小节中给大家初步介绍了Pillow和OpenCV的使用，现在回到赛题街道字符识别任务中。在赛题中我们需要对的图像进行字符识别，因此需要我们完成的数据的读取操作，同时也需要完成数据扩增（Data Augmentation）操作。     </p>
+<h4 id="数据扩增介绍"><a href="#数据扩增介绍" class="headerlink" title="数据扩增介绍"></a>数据扩增介绍</h4><p><strong>在深度学习中数据扩增方法非常重要，数据扩增可以增加训练集的样本，同时也可以有效缓解模型过拟合的情况，也可以给模型带来的更强的泛化能力。</strong></p>
+<p><img src="/blog/2020/05/23/cv-task2/%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9E.png" alt="IMG"></p>
+<ul>
+<li><h4 id="数据扩增为什么有用？"><a href="#数据扩增为什么有用？" class="headerlink" title="数据扩增为什么有用？"></a>数据扩增为什么有用？</h4>在深度学习模型的训练过程中，数据扩增是必不可少的环节。现有深度学习的参数非常多，一般的模型可训练的参数量基本上都是万到百万级别，而训练集样本的数量很难有这么多。<br>其次数据扩增可以扩展样本空间，假设现在的分类模型需要对汽车进行分类，左边的是汽车A，右边为汽车B。如果不使用任何数据扩增方法，深度学习模型会从汽车车头的角度来进行判别，而不是汽车具体的区别。     </li>
+</ul>
+<p><img src="/blog/2020/05/23/cv-task2/%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9Ecar.png" alt="IMG">   </p>
+<ul>
+<li><h4 id="有哪些数据扩增方法？"><a href="#有哪些数据扩增方法？" class="headerlink" title="有哪些数据扩增方法？"></a>有哪些数据扩增方法？</h4>数据扩增方法有很多：从颜色空间、尺度空间到样本空间，同时根据不同任务数据扩增都有相应的区别。        <strong>对于图像分类，数据扩增一般不会改变标签；对于物体检测，数据扩增会改变物体坐标位置；对于图像分割，数据扩增会改变像素标签。</strong>      <h4 id="常见的数据扩增方法"><a href="#常见的数据扩增方法" class="headerlink" title="常见的数据扩增方法"></a>常见的数据扩增方法</h4>在常见的数据扩增方法中，一般会从图像颜色、尺寸、形态、空间和像素等角度进行变换。当然不同的数据扩增方法可以自由进行组合，得到更加丰富的数据扩增方法。         </li>
+</ul>
+<p>以torchvision为例，常见的数据扩增方法包括：</p>
+<table>
+<thead>
+<tr>
+<th align="center">扩增方法</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">transforms.CenterCrop</td>
+<td align="center">对图片中心进行裁剪</td>
+</tr>
+<tr>
+<td align="center">transforms.ColorJitter</td>
+<td align="center">调整图像颜色的对比度、饱和度和零度</td>
+</tr>
+<tr>
+<td align="center">transforms.FiveCrop</td>
+<td align="center">对图像四个角和中心进行裁剪得到五分图像</td>
+</tr>
+<tr>
+<td align="center">transforms.Grayscale</td>
+<td align="center">对图像进行灰度变换</td>
+</tr>
+<tr>
+<td align="center">transforms.Pad</td>
+<td align="center">使用固定值进行像素填充</td>
+</tr>
+<tr>
+<td align="center">transforms.RandomAffine</td>
+<td align="center">随机仿射变换</td>
+</tr>
+<tr>
+<td align="center">transforms.RandomCrop</td>
+<td align="center">随机区域裁剪</td>
+</tr>
+<tr>
+<td align="center">transforms.RandomHorizontalFlip</td>
+<td align="center">随机水平翻转</td>
+</tr>
+<tr>
+<td align="center">transforms.RandomRotation</td>
+<td align="center">随机旋转</td>
+</tr>
+<tr>
+<td align="center">transforms.RandomVerticalFlip</td>
+<td align="center">随机垂直翻转</td>
+</tr>
+</tbody></table>
+<p> <img src="/blog/2020/05/23/cv-task2/%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9E%E7%A4%BA%E4%BE%8B.png" alt="IMG">    </p>
+<p>在本次赛题中，赛题任务是需要对图像中的字符进行识别，因此对于字符图片并不能进行翻转操作。比如字符6经过水平翻转就变成了字符9，会改变字符原本的含义。    </p>
+<h4 id="常用的数据扩增库"><a href="#常用的数据扩增库" class="headerlink" title="常用的数据扩增库"></a>常用的数据扩增库</h4><ul>
+<li><h4 id="torchvision"><a href="#torchvision" class="headerlink" title="torchvision"></a><a href="https://github.com/pytorch/vision" target="_blank" rel="noopener">torchvision</a></h4><p>pytorch官方提供的数据扩增库，提供了基本的数据数据扩增方法，可以无缝与torch进行集成；但数据扩增方法种类较少，且速度中等；下面给出的例子就是用这种方法。       </p>
+</li>
+<li><h4 id="imgaug"><a href="#imgaug" class="headerlink" title="imgaug"></a><a href="https://github.com/aleju/imgaug" target="_blank" rel="noopener">imgaug</a></h4><p>imgaug是常用的第三方数据扩增库，提供了多样的数据扩增方法，且组合起来非常方便，速度较快；      </p>
+</li>
+<li><h4 id="albumentations"><a href="#albumentations" class="headerlink" title="albumentations"></a><a href="https://albumentations.readthedocs.io" target="_blank" rel="noopener">albumentations</a></h4><p>是常用的第三方数据扩增库，提供了多样的数据扩增方法，对图像分类、语义分割、物体检测和关键点检测都支持，速度较快。      </p>
+</li>
+</ul>
+<h2 id="Pytorch读取数据"><a href="#Pytorch读取数据" class="headerlink" title="Pytorch读取数据"></a>Pytorch读取数据</h2><p>由于本次赛题我们使用Pytorch框架讲解具体的解决方案，接下来将是解决赛题的第一步 —— 使用Pytorch读取赛题数据。<br><strong>在Pytorch中数据是通过Dataset进行封装，并通过DataLoder进行并行读取。</strong></p>
+<p>我们先来看一下<strong>Dataset</strong>这个类：</p>
+<ol>
+<li><strong>作用: 创建数据集，有<code>__getitem__</code>(self, index)函数来根据索引序号获取图片和标签，有<code>__len__</code>(self)函数来获取数据集的长度。</strong></li>
+<li><strong>其他的数据集类必须是torch.utils.data.Dataset的子类,比如说torchvision.ImageFolder</strong></li>
+</ol>
+<p>所以我们只需要重载一下数据读取的逻辑就可以完成数据的读取。      </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">data = SVHNDataset(train_path, train_label,</span><br><span class="line">          transforms.Compose([</span><br><span class="line">              <span class="comment"># 缩放到固定尺寸</span></span><br><span class="line">              transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 随机颜色变换</span></span><br><span class="line">              transforms.ColorJitter(<span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 加入随机旋转</span></span><br><span class="line">              transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 将图片转换为pytorch 的tesntor</span></span><br><span class="line">              <span class="comment"># transforms.ToTensor(),</span></span><br><span class="line"></span><br><span class="line">              <span class="comment"># 对图像像素进行归一化</span></span><br><span class="line">              <span class="comment"># transforms.Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])</span></span><br><span class="line">            ]))</span><br></pre></td></tr></table></figure>
+<p>通过上述代码，可以将赛题的图像数据和对应标签进行读取，在读取过程中的进行数据扩增，效果如下所示：</p>
+<p>​       </p>
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><img src="/blog/2020/05/23/cv-task2/23.png" alt="IMG"></td>
+<td><img src="/blog/2020/05/23/cv-task2/23_1.png" alt="IMG"></td>
+<td><img src="/blog/2020/05/23/cv-task2/23_2.png" alt="IMG"></td>
+</tr>
+<tr>
+<td><img src="/blog/2020/05/23/cv-task2/144_1.png" alt="IMG"></td>
+<td><img src="/blog/2020/05/23/cv-task2/144_2.png" alt="IMG"></td>
+<td><img src="/blog/2020/05/23/cv-task2/144_3.png" alt="IMG"></td>
+</tr>
+</tbody></table>
+<p>接下来我们将在定义好的Dataset基础上构建DataLoder，你可以会问有了Dataset为什么还要有DataLoder？其实这两个是两个不同的概念，是为了实现不同的功能。                 </p>
+<ul>
+<li><strong>Dataset：对数据集的封装，提供索引方式的对数据样本进行读取</strong>      </li>
+<li><strong>DataLoder：对Dataset进行封装，提供批量读取的迭代读取</strong>    </li>
+</ul>
+<p>其中，<strong>DataLoder</strong>的参数说明如下：</p>
+<ul>
+<li><code>dataset</code> 传入的数据集；</li>
+<li><code>batch_size</code>每个batch有多少个样本；</li>
+<li><code>shuffle</code>是否打乱数据；</li>
+<li><code>num_workers</code>有几个进程来处理data loading；win下一般不能多进程，只能设置为0；</li>
+<li><code>collate_fn</code>将一个list的sample组成一个mini-batch的函数；</li>
+</ul>
+<p>其主要逻辑处理过程是先通过Dataset类里面的<code>__getitem__</code>函数获取单个的数据，然后组合成batch，再使用<code>collate_fn</code>所指定的函数对这个batch做一些操作，比如padding之类的。</p>
+<p> 加入DataLoder后，数据读取代码改为如下：      </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(</span><br><span class="line">        SVHNDataset(train_path, train_label,</span><br><span class="line">                   transforms.Compose([</span><br><span class="line">                       transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line">                       transforms.ColorJitter(<span class="number">0.3</span>, <span class="number">0.3</span>, <span class="number">0.2</span>),</span><br><span class="line">                       transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line">                       transforms.ToTensor(),</span><br><span class="line">                       transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">            ])), </span><br><span class="line">    batch_size=<span class="number">10</span>, <span class="comment"># 每批样本个数</span></span><br><span class="line">    shuffle=<span class="literal">False</span>, <span class="comment"># 是否打乱顺序</span></span><br><span class="line">    num_workers=<span class="number">10</span>, <span class="comment"># 读取的线程个数</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> train_loader:</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p>在加入DataLoder后，数据按照批次获取，每批次调用Dataset读取单个样本进行拼接。此时data的格式为：<br>                <code>torch.Size([10, 3, 64, 128]), torch.Size([10, 6])</code><br>前者为图像文件，为<code>batchsize</code>  *  <code>chanel</code>  *  <code>height</code>  *  <code>width</code>次序；后者为字符标签。      </p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章对数据读取进行了详细的讲解，并介绍了常见的数据扩增方法和使用，最后使用Pytorch框架对本次赛题的数据进行读取。 </p>
+<h5 id="鸣谢和参考"><a href="#鸣谢和参考" class="headerlink" title="鸣谢和参考"></a>鸣谢和参考</h5><p>References</p>
+<ol>
+<li><a href="https://blog.csdn.net/wfy2695766757/article/details/81193370" target="_blank" rel="noopener">Python的Pillow库进行图像文件处理</a></li>
+<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2002%20%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9E.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task2 数据读取与数据扩增</a></li>
+<li><a href="https://blog.csdn.net/steventian72/article/details/88088277?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-2" target="_blank" rel="noopener">Python图像处理库PIL的知识点思维导图</a></li>
+</ol>
+<p>​     </p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"><i class="fa fa-tag"></i> CV</a>
+          
+        </div>
+      
+
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>🐶 您的支持将鼓励我继续创作 🐶</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赞赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-img.jpg" alt="Near zeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-img.jpg" alt="Near zeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+        
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+          <strong>本文作者：</strong>
+          <a href="/" title="欢迎访问 Near zeng 的个人博客">Near zeng</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文标题：</strong>
+          <a href="http://7497.xyz/blog/2020/05/23/cv-task2.html" title="零基础入门CV之数据读取与数据扩增">零基础入门CV之数据读取与数据扩增</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="http://7497.xyz/blog/2020/05/23/cv-task2.html" title="零基础入门CV之数据读取与数据扩增">http://7497.xyz/blog/2020/05/23/cv-task2.html</a>
+        </li>
+
+        <li class="post-copyright-date">
+            <strong>发布时间：</strong>2020年5月23日 - 00时05分
+        </li>  
+
+        <li class="post-copyright-license">
+          <strong>版权声明： </strong>
+          本文由 Near zeng 原创，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="license" target="_blank">保留署名-非商业性使用-禁止演绎 4.0-国际许可协议</a> </br>转载请保留以上声明信息！
+        </li>
+      </ul>
+    
+  </div>  
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2020/05/22/cv-task1.html" rel="next" title="零基础入门CV之赛题理解">
+                <i class="fa fa-chevron-left"></i> 零基础入门CV之赛题理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjI4My84ODQ3"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Near zeng" />
+          <p class="site-author-name" itemprop="name">Near zeng</p>
+          <p class="site-description motion-element" itemprop="description">a place for fun</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/nearzeng" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://weibo.com/7333272869/profile?topnav=1&wvr=6&is_all=1" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/near-63-53" target="_blank" title="zhihu">
+                  
+                    <i class="fa fa-fw fa-battery-3"></i>
+                  
+                  zhihu
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="https://www.zhihu.com/people/near-63-53" title="友链出租" target="_blank">友链出租</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像读取"><span class="nav-number">1.</span> <span class="nav-text">图像读取</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pillow"><span class="nav-number">1.1.</span> <span class="nav-text">Pillow</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OpenCV"><span class="nav-number">1.2.</span> <span class="nav-text">OpenCV</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据扩增方法"><span class="nav-number">2.</span> <span class="nav-text">数据扩增方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数据扩增介绍"><span class="nav-number">2.1.</span> <span class="nav-text">数据扩增介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据扩增为什么有用？"><span class="nav-number">2.2.</span> <span class="nav-text">数据扩增为什么有用？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有哪些数据扩增方法？"><span class="nav-number">2.3.</span> <span class="nav-text">有哪些数据扩增方法？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常见的数据扩增方法"><span class="nav-number">2.4.</span> <span class="nav-text">常见的数据扩增方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#常用的数据扩增库"><span class="nav-number">2.5.</span> <span class="nav-text">常用的数据扩增库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#torchvision"><span class="nav-number">2.6.</span> <span class="nav-text">torchvision</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#imgaug"><span class="nav-number">2.7.</span> <span class="nav-text">imgaug</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#albumentations"><span class="nav-number">2.8.</span> <span class="nav-text">albumentations</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pytorch读取数据"><span class="nav-number"></span> <span class="nav-text">Pytorch读取数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number"></span> <span class="nav-text">小结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#鸣谢和参考"><span class="nav-number">0.0.1.</span> <span class="nav-text">鸣谢和参考</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Near zeng</span>
+</div>
+<!--
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="external nofollow noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="external nofollow noopener">
+    NexT.Mist
+  </a>| Hosted by <a href="https://pages.coding.me" target="_blank" rel="noopener" style="font-weight: bold">Coding Pages</a>
+</div>
+
+-->
+
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fastclick/1.0.6/fastclick.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery.lazyload/1.9.3/jquery.lazyload.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/fancybox/2.1.5/jquery.fancybox.pack.js"></script>
+
+  
+  <script type="text/javascript" src="/vendors/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
+  
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+	<!-- 页面点击小红心 
+<script type="text/javascript" src="/js/src/love.js"></script>
+-->
+</body>
+</html>

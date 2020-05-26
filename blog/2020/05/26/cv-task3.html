@@ -90,7 +90,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Near,zeng" />
+  <meta name="keywords" content="CV," />
 
 
 
@@ -106,16 +106,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://7497.xyz/categories/index.html">
+<meta name="description" content="记录一下使用pytorch构建CNN模型的过程，以增加对该算法的理解。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="零基础入门CV之CNN初探">
+<meta property="og:url" content="http://7497.xyz/blog/2020/05/26/cv-task3.html">
 <meta property="og:site_name" content="Near&#39;s Notes">
+<meta property="og:description" content="记录一下使用pytorch构建CNN模型的过程，以增加对该算法的理解。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-05-21T23:50:58.000Z">
-<meta property="article:modified_time" content="2020-05-22T00:34:59.413Z">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9210113-77e7c9c5b315fe7d.png">
+<meta property="article:published_time" content="2020-05-26T13:10:21.000Z">
+<meta property="article:modified_time" content="2020-05-26T14:02:26.421Z">
 <meta property="article:author" content="Near zeng">
-<meta property="article:tag" content="fun">
+<meta property="article:tag" content="CV">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9210113-77e7c9c5b315fe7d.png">
 
 
 
@@ -143,7 +147,7 @@
 
 
 
-  <link rel="canonical" href="http://7497.xyz/categories/"/>
+  <link rel="canonical" href="http://7497.xyz/blog/2020/05/26/cv-task3.html"/>
 
 
 
@@ -166,13 +170,7 @@
 </style>
 
 
-  <title>
-  
-
-  
-    categories | Near's Notes
-  
-</title>
+  <title> 零基础入门CV之CNN初探 | Near's Notes </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -203,7 +201,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-right  ">
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -329,25 +327,309 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h2 class="post-title" itemprop="name headline">categories</h2>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://7497.xyz/blog/2020/05/26/cv-task3.html">
 
-</header>
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Near zeng">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Near's Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Near's Notes" src="/images/avatar.jpg">
+    </span>
+  </span>
 
     
-    
-      <div class="category-all-page">
-        <div class="category-all-title">
-            2 categories in total
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+            
+            
+              
+                零基础入门CV之CNN初探
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-26T21:10:21+08:00">
+                2020-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%A5%E9%97%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">入门</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%A5%E9%97%A8/%E5%A4%A9%E6%B1%A0%E8%B5%9B%E9%A2%98/" itemprop="url" rel="index">
+                    <span itemprop="name">天池赛题</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+		  
+			 
+          
+          
+		   
+          
+
+		  
+            <div class="post-wordcount">
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计</span>
+                
+                <span title="字数统计">
+                  702
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长</span>
+                
+                <span title="阅读时长">
+                  2
+                </span>
+              
+            </div>
+          
+		  
+          
+              <div class="post-description">
+                  记录一下使用pytorch构建CNN模型的过程，以增加对该算法的理解。
+              </div>
+          
+ 
+        
+
+
         </div>
-        <div class="category-all">
-          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%A5%E9%97%A8/">入门</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%A5%E9%97%A8/%E5%A4%A9%E6%B1%A0%E8%B5%9B%E9%A2%98/">天池赛题</a><span class="category-list-count">3</span></li></ul></li></ul>
-        </div>
-      </div>
+      </header>
     
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+        <div class="post-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+          
+          
+            <div class="post-gallery-row">
+              <a class="post-gallery-img fancybox"
+                 href="https://upload-images.jianshu.io/upload_images/9210113-77e7c9c5b315fe7d.png" rel="gallery_ckanzquif0006zdyn4ufnc833"
+                 itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
+                <img src="https://upload-images.jianshu.io/upload_images/9210113-77e7c9c5b315fe7d.png" itemprop="contentUrl"/>
+              </a>
+            
+          
+
+          
+          </div>
+        </div>
+      
+
+      
+        <h2 id="CNN-简介"><a href="#CNN-简介" class="headerlink" title="CNN 简介"></a>CNN 简介</h2><h5 id="1、CNN的组成"><a href="#1、CNN的组成" class="headerlink" title="1、CNN的组成"></a>1、CNN的组成</h5><p>CNN由纽约大学的Yann LeCun于1998年提出。本质上是一个多层感知机，其成功的原因关键在于它所采用的局部连接和共享权值的方式。CNN是一类特殊的人工神经网络，是深度学习中重要的一个分支。CNN在很多领域都表现优异，精度和速度比传统计算学习算法高很多。特别是在计算机视觉领域，CNN是解决图像分类、图像检索、物体检测和语义分割的主流模型。CNN通常由卷积（convolution）、池化（pooling）、非线性激活函数（non-linear activation function）和全连接层（fully connected layer）构成。</p>
+<p>其中conv层和pooling层简介如下：</p>
+<ol>
+<li>conv层的理论依据主要是生物学上的感受野概念，通俗点讲就是权值共享，这样可以大大减少神经网络需要训练的参数；卷积核是CNN的重要组成，常见做法是从原始图像中采样，基于无监督学习算法进行训练得到，这一步就是DNN中的预训练。</li>
+<li>pooling层，其实就是对图像进行子采样，利用图像局部相关性的原理，在减少数据量的同时又保留有用信息。常见的pooling有max跟mean，就是对每一个采样区域做max运算或者mean运算，既可以减少参数，又可以保留信息，与此同时，还引入平移不变性等图像性质。</li>
+</ol>
+<h5 id="2、CNN模型的典型结构"><a href="#2、CNN模型的典型结构" class="headerlink" title="2、CNN模型的典型结构"></a>2、CNN模型的典型结构</h5><ol>
+<li>LeNet：最早用于数字识别的CNN；</li>
+<li>AlexNet：2012年 ILSVRC比赛中远超第二名的CNN，用多层小卷积层替换掉单层大卷积层；</li>
+<li>GoogLeNet：2014年 ILSVRC比赛冠军；</li>
+<li>VGGNet：2014年表现略差于GoogLeNet，但是在其他图像转换领域表现较好，如目标检测领域；</li>
+<li>InceptionV3</li>
+<li>ResNet<br><img src="https://upload-images.jianshu.io/upload_images/4070307-d58cba17916ff535.png?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="comp"></li>
+</ol>
+<h2 id="用pytorch构建简单的CNN模型"><a href="#用pytorch构建简单的CNN模型" class="headerlink" title="用pytorch构建简单的CNN模型"></a>用pytorch构建简单的CNN模型</h2><h5 id="1、导入所需包"><a href="#1、导入所需包" class="headerlink" title="1、导入所需包"></a>1、导入所需包</h5><p><img src="/blog/2020/05/26/cv-task3/img1.jpg" alt="tu1"></p>
+<h5 id="2、构建一个简单的CNN模型"><a href="#2、构建一个简单的CNN模型" class="headerlink" title="2、构建一个简单的CNN模型"></a>2、构建一个简单的CNN模型</h5><p><img src="/blog/2020/05/26/cv-task3/img4.jpg" alt="tu1"><br><img src="/blog/2020/05/26/cv-task3/img3.jpg" alt="tu1"><br>从<code>print</code>结果可以看出，我们构建了一个由两层卷积层、两层基于max的pool层和两个激活函数构成的简单模型。</p>
+<h5 id="3、定义损失函数和优化器"><a href="#3、定义损失函数和优化器" class="headerlink" title="3、定义损失函数和优化器"></a>3、定义损失函数和优化器</h5><p><img src="/blog/2020/05/26/cv-task3/img2.jpg" alt="tu1"><br>我们使用交叉验证损失函数和Adam优化器来训练我们的简单模型。</p>
+<h5 id="4、训练网络"><a href="#4、训练网络" class="headerlink" title="4、训练网络"></a>4、训练网络</h5><p><img src="/blog/2020/05/26/cv-task3/img5.jpg" alt="tu1"><br><img src="/blog/2020/05/26/cv-task3/img6.jpg" alt="tu1"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>以上介绍了CNN并用pytorch构建了一个很简单的网络模型，还对该模型进行了必要的分析，以便有一个感性的认识。CNN用处很大，目前了解只是皮毛，还需通过实践来进一步深入的了解和加深实践经验。后续有用到或者有时间再做深入吧。</p>
+<h5 id="鸣谢与引用"><a href="#鸣谢与引用" class="headerlink" title="鸣谢与引用"></a>鸣谢与引用</h5><ol>
+<li><a href="https://zm.sm-tc.cn/?src=l4uLj4zF0NCdk5CY0ZyMm5HRkZqL0JuNmp6SoJyei5yXmo2gzs%2FQno2LlpyTmtCbmouelpOM0MvIz8%2FOz8rO&uid=2a9b68a44a4de1455fea961a81551e33&hid=884939928472aaaae9ef4cbb2001feec&pos=4&cid=9&time=1590485479485&from=click&restype=1&pagetype=0020004002010402&bu=news_natural&query=CNN%E6%A8%A1%E5%9E%8B&mode=&v=1&force=true&wap=false&province=%E5%B9%BF%E4%B8%9C%E7%9C%81&city=%E5%B9%BF%E5%B7%9E%E5%B8%82&uc_param_str=dnntnwvepffrgibijbprsvdsdichei" target="_blank" rel="noopener">CNN模型</a></li>
+<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2003%20%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task3 字符识别模型</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+  
+        <div class="post-tags">
+          
+            <a href="/tags/CV/" rel="tag"><i class="fa fa-tag"></i> CV</a>
+          
+        </div>
+      
+
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>🐶 您的支持将鼓励我继续创作 🐶</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赞赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wechat-reward-img.jpg" alt="Near zeng WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/alipay-reward-img.jpg" alt="Near zeng Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+        
+     <div>    
+      
+      <ul class="post-copyright">
+         <li class="post-copyright-link">
+          <strong>本文作者：</strong>
+          <a href="/" title="欢迎访问 Near zeng 的个人博客">Near zeng</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文标题：</strong>
+          <a href="http://7497.xyz/blog/2020/05/26/cv-task3.html" title="零基础入门CV之CNN初探">零基础入门CV之CNN初探</a>
+        </li>
+
+        <li class="post-copyright-link">
+          <strong>本文链接：</strong>
+          <a href="http://7497.xyz/blog/2020/05/26/cv-task3.html" title="零基础入门CV之CNN初探">http://7497.xyz/blog/2020/05/26/cv-task3.html</a>
+        </li>
+
+        <li class="post-copyright-date">
+            <strong>发布时间：</strong>2020年5月26日 - 21时05分
+        </li>  
+
+        <li class="post-copyright-license">
+          <strong>版权声明： </strong>
+          本文由 Near zeng 原创，采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh" rel="license" target="_blank">保留署名-非商业性使用-禁止演绎 4.0-国际许可协议</a> </br>转载请保留以上声明信息！
+        </li>
+      </ul>
+    
+  </div>  
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2020/05/23/cv-task2.html" rel="next" title="零基础入门CV之数据读取与数据扩增">
+                <i class="fa fa-chevron-left"></i> 零基础入门CV之数据读取与数据扩增
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
           
@@ -356,6 +638,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjI4My84ODQ3"></div>
+    
+  </div>
+
 
         </div>
         
@@ -375,8 +663,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.gif"
@@ -475,6 +772,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CNN-简介"><span class="nav-number">1.</span> <span class="nav-text">CNN 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、CNN的组成"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1、CNN的组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、CNN模型的典型结构"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2、CNN模型的典型结构</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用pytorch构建简单的CNN模型"><span class="nav-number">2.</span> <span class="nav-text">用pytorch构建简单的CNN模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、导入所需包"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">1、导入所需包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、构建一个简单的CNN模型"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">2、构建一个简单的CNN模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、定义损失函数和优化器"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">3、定义损失函数和优化器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、训练网络"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">4、训练网络</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">2.1.</span> <span class="nav-text">小结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#鸣谢与引用"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">鸣谢与引用</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
@@ -583,6 +896,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
@@ -614,6 +931,10 @@
 
   
 
+  
+      <!-- UY BEGIN -->
+      <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid="></script>
+      <!-- UY END -->
   
 
 

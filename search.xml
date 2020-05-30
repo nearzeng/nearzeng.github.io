@@ -318,4 +318,40 @@
         <tag>CV</tag>
       </tags>
   </entry>
+  <entry>
+    <title>零基础入门CV之模型评估与性能度量</title>
+    <url>//blog/2020/05/29/cv-task4.html</url>
+    <content><![CDATA[<h2 id="模型评估方法"><a href="#模型评估方法" class="headerlink" title="模型评估方法"></a>模型评估方法</h2><p>现实任务中，我们往往有多种学习算法可供选择，甚至对于同一个学习算法，当我们使用不同的参数配置时，也会产生不同的模型。这种情况下，我们选择模型时就得比较和评估，以便我们能选择出泛化性能最好的那个模型。</p>
+<p>用学生学习的情况来类比，我们希望学生在一定的课本知识<strong>(训练集)</strong>上学习到某些知识，然后在平时的作业和模拟考<strong>(验证集)</strong>中检查自己学的知识和实际的知识点之间是否有出入，以便最后在期终考试<strong>(测试集、实际应用数据)</strong>有一个比较好的表现——教全面地掌握所要学习的知识。</p>
+<p>通过上面这个类比，想必对于大家在机器学习领域常常听说的训练集、验证集和测试集有相对清晰的认识了吧。对我们评估的目标——泛化性能较强这个目标想必也有所理解了。</p>
+<h4 id="训练集、验证集和测试集"><a href="#训练集、验证集和测试集" class="headerlink" title="训练集、验证集和测试集"></a>训练集、验证集和测试集</h4><p>我们先来看看为什么要分这三种数据集。在机器学习的过程中，我们的目标是找到那个泛化性能最好的模型，因此我们有两方面的参数需要确定：1、模型里函数的参数，也就是我们常说的权重矩阵w和修正b；这类参数一般在训练过程中通过各种最优化算法求得；2、模型参数，比如多项式回归的次数、规则化参数λ等；这些参数也成为超参数。很明显，为了获得这些参数，我们需要在数据集上训练模型，这就需要一个训练集。为了评估训练出来的模型，以便选择一个效果最好的模型，我们需要一个验证集；为了用上一步选出的最优模型来进行泛化性能评估，我们需要一个测试集。所以，这三个集合的用途分别是：</p>
+<ul>
+<li><h4 id="训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；"><a href="#训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；" class="headerlink" title="训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；"></a>训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；</h4></li>
+<li><h4 id="验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"><a href="#验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；" class="headerlink" title="验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"></a>验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；</h4></li>
+<li><h4 id="测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"><a href="#测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。" class="headerlink" title="测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"></a>测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。</h4></li>
+</ul>
+<p>一般来说，我们拿到的都只有一个数据集D，那如何对D进行适当的处理，以便从中产生出训练集S、验证集V和测试集T呢？常用的方法有一下三种：</p>
+<h5 id="1、留出法（Hold-Out）"><a href="#1、留出法（Hold-Out）" class="headerlink" title="1、留出法（Hold-Out）"></a>1、留出法（Hold-Out）</h5><p>直接将数据集D划分成两个互斥的部分——训练集S和验证集T。一般来说是把其中的2/3~4/5划为训练集，其余为验证集；与此同时，为了保证划分的集合分布与原集合分布一致，通常使用“分层采样”的方式划分。这种划分方式的优点是最为直接简单，缺点是只得到了一份验证集，有可能导致模型在验证集上过拟合。因此，留出法应用场景一般是数据量比较大的情况。</p>
+<h5 id="2、交叉验证法（Cross-Validation，CV）"><a href="#2、交叉验证法（Cross-Validation，CV）" class="headerlink" title="2、交叉验证法（Cross Validation，CV）"></a>2、交叉验证法（Cross Validation，CV）</h5><p>将训练集划分成K份，将其中的K-1份作为训练集，剩余的1份作为验证集，循环K训练。也就是K折交叉验证。如果K=1，则叫留一法。这种划分方式是所有的训练集都是验证集，最终模型验证精度是K份平均得到。优点是验证集精度比较可靠，训练K次可以得到K个有多样性差异的模型；C缺点是需要训练K次，导致复杂度过大，不适合数据量很大的情况。</p>
+<h5 id="3、自助采样法（BootStrap）"><a href="#3、自助采样法（BootStrap）" class="headerlink" title="3、自助采样法（BootStrap）"></a>3、自助采样法（BootStrap）</h5><p>这种方法我是通过吃自助餐理解的，就是一种数据自助取用的方式。通过有放回的采样方式得到新的训练集和验证集，每次的训练集和验证集都是有区别的。通过概率计算可以知道，大概有2/3左右的数据会被采样到训练集，而有1/3是没有在训练集出现的。这种划分方式一般适用于数据量较小，难以有效划分的情况。此外，自助法能从初始数据集中产生出多个不同的训练集，对于集成学习来说是有利的。缺点是采样过程中一定程度上改变了初始数据集的分布，也就是引入了估计偏差。因此，一般来说用前面两种方法比较多。</p>
+<h2 id="模型性能度量"><a href="#模型性能度量" class="headerlink" title="模型性能度量"></a>模型性能度量</h2><p>对模型的泛化性能进行评估，不仅仅需要有效可行的实验估计方法，还需要有衡量模型泛化能力的评价标准，这就是性能度量(performance measure)。</p>
+<p>一般来说，性能度量是反映任务需求的。就是说，我们要实事求是，不同类型的任务使用不同的性能度量，好的模型不仅取决于算法和数据，还取决于任务需求。</p>
+<h4 id="回归任务的评估"><a href="#回归任务的评估" class="headerlink" title="回归任务的评估"></a>回归任务的评估</h4><p><img src="/blog/2020/05/29/cv-task4/D:%5Cxiaohai%5Clearn%5C2020-05-30-cv-task4%5Ctu1.png" alt></p>
+<h4 id="分类任务的评估"><a href="#分类任务的评估" class="headerlink" title="分类任务的评估"></a>分类任务的评估</h4><p><strong>使用混淆矩阵评估模型</strong>:</p>
+<p><img src="/blog/2020/05/29/cv-task4/D:%5Cxiaohai%5Clearn%5C2020-05-30-cv-task4%5Ctu4.png" alt></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>本文简要梳理了机器学习中常见的三种数据集类别：训练集、验证集和测试集；并对常见的三种数据集划分方式做了介绍。最后提了一下模型的性能度量，了解还不够深入，留以后再做补充。</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ol>
+<li>《机器学习》. 周志华</li>
+<li><a href="http://stats.stackexchange.com/questions/52274/how-to-choose-a-predictive-model-after-k-fold-cross-validation" target="_blank" rel="noopener">How to choose a predictive model after k-fold cross-validation</a></li>
+<li><a href="https://www.jianshu.com/p/21cb3ad928c6" target="_blank" rel="noopener">模型性能度量方法</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>入门</category>
+        <category>天池赛题</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
 </search>

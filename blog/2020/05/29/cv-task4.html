@@ -106,20 +106,20 @@
 
 
 
-<meta name="description" content="记录一下使用pytorch构建CNN模型的过程，以增加对该算法的理解。">
+<meta name="description" content="本文聊聊模型评估与性能度量，以及相应的数据集划分，加深对训练集、验证集和测试集的了解。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="零基础入门CV之CNN初探">
-<meta property="og:url" content="http://7497.xyz/blog/2020/05/26/cv-task3.html">
+<meta property="og:title" content="零基础入门CV之模型评估与性能度量">
+<meta property="og:url" content="http://7497.xyz/blog/2020/05/29/cv-task4.html">
 <meta property="og:site_name" content="Near&#39;s Notes">
-<meta property="og:description" content="记录一下使用pytorch构建CNN模型的过程，以增加对该算法的理解。">
+<meta property="og:description" content="本文聊聊模型评估与性能度量，以及相应的数据集划分，加深对训练集、验证集和测试集的了解。">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/9210113-77e7c9c5b315fe7d.png">
-<meta property="article:published_time" content="2020-05-26T13:10:21.000Z">
-<meta property="article:modified_time" content="2020-05-26T14:02:26.421Z">
+<meta property="og:image" content="http://5b0988e595225.cdn.sohucs.com/images/20170915/da51e7cb2155403daedb9bd90e097342.png">
+<meta property="article:published_time" content="2020-05-29T01:10:21.000Z">
+<meta property="article:modified_time" content="2020-05-30T15:45:06.929Z">
 <meta property="article:author" content="Near zeng">
 <meta property="article:tag" content="CV">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/9210113-77e7c9c5b315fe7d.png">
+<meta name="twitter:image" content="http://5b0988e595225.cdn.sohucs.com/images/20170915/da51e7cb2155403daedb9bd90e097342.png">
 
 
 
@@ -147,7 +147,7 @@
 
 
 
-  <link rel="canonical" href="http://7497.xyz/blog/2020/05/26/cv-task3.html"/>
+  <link rel="canonical" href="http://7497.xyz/blog/2020/05/29/cv-task4.html"/>
 
 
 
@@ -170,7 +170,7 @@
 </style>
 
 
-  <title> 零基础入门CV之CNN初探 | Near's Notes </title>
+  <title> 零基础入门CV之模型评估与性能度量 | Near's Notes </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -336,7 +336,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://7497.xyz/blog/2020/05/26/cv-task3.html">
+  <link itemprop="mainEntityOfPage" href="http://7497.xyz/blog/2020/05/29/cv-task4.html">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Near zeng">
@@ -360,7 +360,7 @@
             
             
               
-                零基础入门CV之CNN初探
+                零基础入门CV之模型评估与性能度量
               
             
           </h2>
@@ -375,8 +375,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-26T21:10:21+08:00">
-                2020-05-26
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-29T09:10:21+08:00">
+                2020-05-29
               </time>
             
 
@@ -442,7 +442,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  702
+                  1.5k
                 </span>
               
 
@@ -458,7 +458,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  2
+                  5
                 </span>
               
             </div>
@@ -466,7 +466,7 @@
 		  
           
               <div class="post-description">
-                  记录一下使用pytorch构建CNN模型的过程，以增加对该算法的理解。
+                  本文聊聊模型评估与性能度量，以及相应的数据集划分，加深对训练集、验证集和测试集的了解。
               </div>
           
  
@@ -487,9 +487,9 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="https://upload-images.jianshu.io/upload_images/9210113-77e7c9c5b315fe7d.png" rel="gallery_ckatt6c7m000ef0yn8ktccr0l"
+                 href="http://5b0988e595225.cdn.sohucs.com/images/20170915/da51e7cb2155403daedb9bd90e097342.png" rel="gallery_ckatt6c7o000gf0yn3lbrhkj6"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="https://upload-images.jianshu.io/upload_images/9210113-77e7c9c5b315fe7d.png" itemprop="contentUrl"/>
+                <img src="http://5b0988e595225.cdn.sohucs.com/images/20170915/da51e7cb2155403daedb9bd90e097342.png" itemprop="contentUrl"/>
               </a>
             
           
@@ -500,28 +500,29 @@
       
 
       
-        <h2 id="CNN-简介"><a href="#CNN-简介" class="headerlink" title="CNN 简介"></a>CNN 简介</h2><h5 id="1、CNN的组成"><a href="#1、CNN的组成" class="headerlink" title="1、CNN的组成"></a>1、CNN的组成</h5><p>CNN由纽约大学的Yann LeCun于1998年提出。本质上是一个多层感知机，其成功的原因关键在于它所采用的局部连接和共享权值的方式。CNN是一类特殊的人工神经网络，是深度学习中重要的一个分支。CNN在很多领域都表现优异，精度和速度比传统计算学习算法高很多。特别是在计算机视觉领域，CNN是解决图像分类、图像检索、物体检测和语义分割的主流模型。CNN通常由卷积（convolution）、池化（pooling）、非线性激活函数（non-linear activation function）和全连接层（fully connected layer）构成。</p>
-<p>其中conv层和pooling层简介如下：</p>
-<ol>
-<li>conv层的理论依据主要是生物学上的感受野概念，通俗点讲就是权值共享，这样可以大大减少神经网络需要训练的参数；卷积核是CNN的重要组成，常见做法是从原始图像中采样，基于无监督学习算法进行训练得到，这一步就是DNN中的预训练。</li>
-<li>pooling层，其实就是对图像进行子采样，利用图像局部相关性的原理，在减少数据量的同时又保留有用信息。常见的pooling有max跟mean，就是对每一个采样区域做max运算或者mean运算，既可以减少参数，又可以保留信息，与此同时，还引入平移不变性等图像性质。</li>
-</ol>
-<h5 id="2、CNN模型的典型结构"><a href="#2、CNN模型的典型结构" class="headerlink" title="2、CNN模型的典型结构"></a>2、CNN模型的典型结构</h5><ol>
-<li>LeNet：最早用于数字识别的CNN；</li>
-<li>AlexNet：2012年 ILSVRC比赛中远超第二名的CNN，用多层小卷积层替换掉单层大卷积层；</li>
-<li>GoogLeNet：2014年 ILSVRC比赛冠军；</li>
-<li>VGGNet：2014年表现略差于GoogLeNet，但是在其他图像转换领域表现较好，如目标检测领域；</li>
-<li>InceptionV3</li>
-<li>ResNet<br><img src="https://upload-images.jianshu.io/upload_images/4070307-d58cba17916ff535.png?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="comp"></li>
-</ol>
-<h2 id="用pytorch构建简单的CNN模型"><a href="#用pytorch构建简单的CNN模型" class="headerlink" title="用pytorch构建简单的CNN模型"></a>用pytorch构建简单的CNN模型</h2><h5 id="1、导入所需包"><a href="#1、导入所需包" class="headerlink" title="1、导入所需包"></a>1、导入所需包</h5><p><img src="/blog/2020/05/26/cv-task3/img1.jpg" alt="tu1"></p>
-<h5 id="2、构建一个简单的CNN模型"><a href="#2、构建一个简单的CNN模型" class="headerlink" title="2、构建一个简单的CNN模型"></a>2、构建一个简单的CNN模型</h5><p><img src="/blog/2020/05/26/cv-task3/img4.jpg" alt="tu1"><br><img src="/blog/2020/05/26/cv-task3/img3.jpg" alt="tu1"><br>从<code>print</code>结果可以看出，我们构建了一个由两层卷积层、两层基于max的pool层和两个激活函数构成的简单模型。</p>
-<h5 id="3、定义损失函数和优化器"><a href="#3、定义损失函数和优化器" class="headerlink" title="3、定义损失函数和优化器"></a>3、定义损失函数和优化器</h5><p><img src="/blog/2020/05/26/cv-task3/img2.jpg" alt="tu1"><br>我们使用交叉验证损失函数和Adam优化器来训练我们的简单模型。</p>
-<h5 id="4、训练网络"><a href="#4、训练网络" class="headerlink" title="4、训练网络"></a>4、训练网络</h5><p><img src="/blog/2020/05/26/cv-task3/img5.jpg" alt="tu1"><br><img src="/blog/2020/05/26/cv-task3/img6.jpg" alt="tu1"></p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>以上介绍了CNN并用pytorch构建了一个很简单的网络模型，还对该模型进行了必要的分析，以便有一个感性的认识。CNN用处很大，目前了解只是皮毛，还需通过实践来进一步深入的了解和加深实践经验。后续有用到或者有时间再做深入吧。</p>
-<h5 id="鸣谢与引用"><a href="#鸣谢与引用" class="headerlink" title="鸣谢与引用"></a>鸣谢与引用</h5><ol>
-<li><a href="https://zm.sm-tc.cn/?src=l4uLj4zF0NCdk5CY0ZyMm5HRkZqL0JuNmp6SoJyei5yXmo2gzs%2FQno2LlpyTmtCbmouelpOM0MvIz8%2FOz8rO&uid=2a9b68a44a4de1455fea961a81551e33&hid=884939928472aaaae9ef4cbb2001feec&pos=4&cid=9&time=1590485479485&from=click&restype=1&pagetype=0020004002010402&bu=news_natural&query=CNN%E6%A8%A1%E5%9E%8B&mode=&v=1&force=true&wap=false&province=%E5%B9%BF%E4%B8%9C%E7%9C%81&city=%E5%B9%BF%E5%B7%9E%E5%B8%82&uc_param_str=dnntnwvepffrgibijbprsvdsdichei" target="_blank" rel="noopener">CNN模型</a></li>
-<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2003%20%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task3 字符识别模型</a></li>
+        <h2 id="模型评估方法"><a href="#模型评估方法" class="headerlink" title="模型评估方法"></a>模型评估方法</h2><p>现实任务中，我们往往有多种学习算法可供选择，甚至对于同一个学习算法，当我们使用不同的参数配置时，也会产生不同的模型。这种情况下，我们选择模型时就得比较和评估，以便我们能选择出泛化性能最好的那个模型。</p>
+<p>用学生学习的情况来类比，我们希望学生在一定的课本知识<strong>(训练集)</strong>上学习到某些知识，然后在平时的作业和模拟考<strong>(验证集)</strong>中检查自己学的知识和实际的知识点之间是否有出入，以便最后在期终考试<strong>(测试集、实际应用数据)</strong>有一个比较好的表现——教全面地掌握所要学习的知识。</p>
+<p>通过上面这个类比，想必对于大家在机器学习领域常常听说的训练集、验证集和测试集有相对清晰的认识了吧。对我们评估的目标——泛化性能较强这个目标想必也有所理解了。</p>
+<h4 id="训练集、验证集和测试集"><a href="#训练集、验证集和测试集" class="headerlink" title="训练集、验证集和测试集"></a>训练集、验证集和测试集</h4><p>我们先来看看为什么要分这三种数据集。在机器学习的过程中，我们的目标是找到那个泛化性能最好的模型，因此我们有两方面的参数需要确定：1、模型里函数的参数，也就是我们常说的权重矩阵w和修正b；这类参数一般在训练过程中通过各种最优化算法求得；2、模型参数，比如多项式回归的次数、规则化参数λ等；这些参数也成为超参数。很明显，为了获得这些参数，我们需要在数据集上训练模型，这就需要一个训练集。为了评估训练出来的模型，以便选择一个效果最好的模型，我们需要一个验证集；为了用上一步选出的最优模型来进行泛化性能评估，我们需要一个测试集。所以，这三个集合的用途分别是：</p>
+<ul>
+<li><h4 id="训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；"><a href="#训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；" class="headerlink" title="训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；"></a>训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；</h4></li>
+<li><h4 id="验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"><a href="#验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；" class="headerlink" title="验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"></a>验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；</h4></li>
+<li><h4 id="测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"><a href="#测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。" class="headerlink" title="测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"></a>测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。</h4></li>
+</ul>
+<p>一般来说，我们拿到的都只有一个数据集D，那如何对D进行适当的处理，以便从中产生出训练集S、验证集V和测试集T呢？常用的方法有一下三种：</p>
+<h5 id="1、留出法（Hold-Out）"><a href="#1、留出法（Hold-Out）" class="headerlink" title="1、留出法（Hold-Out）"></a>1、留出法（Hold-Out）</h5><p>直接将数据集D划分成两个互斥的部分——训练集S和验证集T。一般来说是把其中的2/3~4/5划为训练集，其余为验证集；与此同时，为了保证划分的集合分布与原集合分布一致，通常使用“分层采样”的方式划分。这种划分方式的优点是最为直接简单，缺点是只得到了一份验证集，有可能导致模型在验证集上过拟合。因此，留出法应用场景一般是数据量比较大的情况。</p>
+<h5 id="2、交叉验证法（Cross-Validation，CV）"><a href="#2、交叉验证法（Cross-Validation，CV）" class="headerlink" title="2、交叉验证法（Cross Validation，CV）"></a>2、交叉验证法（Cross Validation，CV）</h5><p>将训练集划分成K份，将其中的K-1份作为训练集，剩余的1份作为验证集，循环K训练。也就是K折交叉验证。如果K=1，则叫留一法。这种划分方式是所有的训练集都是验证集，最终模型验证精度是K份平均得到。优点是验证集精度比较可靠，训练K次可以得到K个有多样性差异的模型；C缺点是需要训练K次，导致复杂度过大，不适合数据量很大的情况。</p>
+<h5 id="3、自助采样法（BootStrap）"><a href="#3、自助采样法（BootStrap）" class="headerlink" title="3、自助采样法（BootStrap）"></a>3、自助采样法（BootStrap）</h5><p>这种方法我是通过吃自助餐理解的，就是一种数据自助取用的方式。通过有放回的采样方式得到新的训练集和验证集，每次的训练集和验证集都是有区别的。通过概率计算可以知道，大概有2/3左右的数据会被采样到训练集，而有1/3是没有在训练集出现的。这种划分方式一般适用于数据量较小，难以有效划分的情况。此外，自助法能从初始数据集中产生出多个不同的训练集，对于集成学习来说是有利的。缺点是采样过程中一定程度上改变了初始数据集的分布，也就是引入了估计偏差。因此，一般来说用前面两种方法比较多。</p>
+<h2 id="模型性能度量"><a href="#模型性能度量" class="headerlink" title="模型性能度量"></a>模型性能度量</h2><p>对模型的泛化性能进行评估，不仅仅需要有效可行的实验估计方法，还需要有衡量模型泛化能力的评价标准，这就是性能度量(performance measure)。</p>
+<p>一般来说，性能度量是反映任务需求的。就是说，我们要实事求是，不同类型的任务使用不同的性能度量，好的模型不仅取决于算法和数据，还取决于任务需求。</p>
+<h4 id="回归任务的评估"><a href="#回归任务的评估" class="headerlink" title="回归任务的评估"></a>回归任务的评估</h4><p><img src="/blog/2020/05/29/cv-task4/D:%5Cxiaohai%5Clearn%5C2020-05-30-cv-task4%5Ctu1.png" alt></p>
+<h4 id="分类任务的评估"><a href="#分类任务的评估" class="headerlink" title="分类任务的评估"></a>分类任务的评估</h4><p><strong>使用混淆矩阵评估模型</strong>:</p>
+<p><img src="/blog/2020/05/29/cv-task4/D:%5Cxiaohai%5Clearn%5C2020-05-30-cv-task4%5Ctu4.png" alt></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>本文简要梳理了机器学习中常见的三种数据集类别：训练集、验证集和测试集；并对常见的三种数据集划分方式做了介绍。最后提了一下模型的性能度量，了解还不够深入，留以后再做补充。</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ol>
+<li>《机器学习》. 周志华</li>
+<li><a href="http://stats.stackexchange.com/questions/52274/how-to-choose-a-predictive-model-after-k-fold-cross-validation" target="_blank" rel="noopener">How to choose a predictive model after k-fold cross-validation</a></li>
+<li><a href="https://www.jianshu.com/p/21cb3ad928c6" target="_blank" rel="noopener">模型性能度量方法</a></li>
 </ol>
 
       
@@ -583,16 +584,16 @@
 
         <li class="post-copyright-link">
           <strong>本文标题：</strong>
-          <a href="http://7497.xyz/blog/2020/05/26/cv-task3.html" title="零基础入门CV之CNN初探">零基础入门CV之CNN初探</a>
+          <a href="http://7497.xyz/blog/2020/05/29/cv-task4.html" title="零基础入门CV之模型评估与性能度量">零基础入门CV之模型评估与性能度量</a>
         </li>
 
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="http://7497.xyz/blog/2020/05/26/cv-task3.html" title="零基础入门CV之CNN初探">http://7497.xyz/blog/2020/05/26/cv-task3.html</a>
+          <a href="http://7497.xyz/blog/2020/05/29/cv-task4.html" title="零基础入门CV之模型评估与性能度量">http://7497.xyz/blog/2020/05/29/cv-task4.html</a>
         </li>
 
         <li class="post-copyright-date">
-            <strong>发布时间：</strong>2020年5月26日 - 21时05分
+            <strong>发布时间：</strong>2020年5月29日 - 09时05分
         </li>  
 
         <li class="post-copyright-license">
@@ -606,8 +607,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2020/05/23/cv-task2.html" rel="next" title="零基础入门CV之数据读取与数据扩增">
-                <i class="fa fa-chevron-left"></i> 零基础入门CV之数据读取与数据扩增
+              <a href="/blog/2020/05/26/cv-task3.html" rel="next" title="零基础入门CV之CNN初探">
+                <i class="fa fa-chevron-left"></i> 零基础入门CV之CNN初探
               </a>
             
           </div>
@@ -615,10 +616,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2020/05/29/cv-task4.html" rel="prev" title="零基础入门CV之模型评估与性能度量">
-                零基础入门CV之模型评估与性能度量 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -786,7 +783,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CNN-简介"><span class="nav-number">1.</span> <span class="nav-text">CNN 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、CNN的组成"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1、CNN的组成</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、CNN模型的典型结构"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2、CNN模型的典型结构</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用pytorch构建简单的CNN模型"><span class="nav-number">2.</span> <span class="nav-text">用pytorch构建简单的CNN模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、导入所需包"><span class="nav-number">2.0.0.1.</span> <span class="nav-text">1、导入所需包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、构建一个简单的CNN模型"><span class="nav-number">2.0.0.2.</span> <span class="nav-text">2、构建一个简单的CNN模型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、定义损失函数和优化器"><span class="nav-number">2.0.0.3.</span> <span class="nav-text">3、定义损失函数和优化器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4、训练网络"><span class="nav-number">2.0.0.4.</span> <span class="nav-text">4、训练网络</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">2.1.</span> <span class="nav-text">小结</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#鸣谢与引用"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">鸣谢与引用</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型评估方法"><span class="nav-number">1.</span> <span class="nav-text">模型评估方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#训练集、验证集和测试集"><span class="nav-number">1.0.1.</span> <span class="nav-text">训练集、验证集和测试集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；"><span class="nav-number">1.0.2.</span> <span class="nav-text">训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"><span class="nav-number">1.0.3.</span> <span class="nav-text">验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"><span class="nav-number">1.0.4.</span> <span class="nav-text">测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、留出法（Hold-Out）"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1、留出法（Hold-Out）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、交叉验证法（Cross-Validation，CV）"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">2、交叉验证法（Cross Validation，CV）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、自助采样法（BootStrap）"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">3、自助采样法（BootStrap）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型性能度量"><span class="nav-number">2.</span> <span class="nav-text">模型性能度量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#回归任务的评估"><span class="nav-number">2.0.1.</span> <span class="nav-text">回归任务的评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类任务的评估"><span class="nav-number">2.0.2.</span> <span class="nav-text">分类任务的评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">2.0.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">2.1.</span> <span class="nav-text">References</span></a></li></ol></li></ol></div>
             
 
           </div>

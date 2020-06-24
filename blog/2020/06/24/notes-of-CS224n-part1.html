@@ -90,7 +90,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CV," />
+  <meta name="keywords" content="NLP," />
 
 
 
@@ -106,20 +106,20 @@
 
 
 
-<meta name="description" content="集成学习(Ensemble learning)可以说是非常火爆的机器学习算法了，是一种“集思广益、博采众长”的方法。本文就该算法的基本内容做一个概括。">
+<meta name="description" content="To figure out what NLP is and What word vectors are. And it&#39;s a start for me to take notes in English, cause I want to improve my English.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="零基础入门CV之集成学习">
-<meta property="og:url" content="http://www.7497.xyz/blog/2020/06/02/cv-task5.html">
+<meta property="og:title" content="Note of CS224N Lecture1 —— Introduction and word vectors">
+<meta property="og:url" content="http://www.7497.xyz/blog/2020/06/24/notes-of-CS224n-part1.html">
 <meta property="og:site_name" content="Near&#39;s Notes">
-<meta property="og:description" content="集成学习(Ensemble learning)可以说是非常火爆的机器学习算法了，是一种“集思广益、博采众长”的方法。本文就该算法的基本内容做一个概括。">
+<meta property="og:description" content="To figure out what NLP is and What word vectors are. And it&#39;s a start for me to take notes in English, cause I want to improve my English.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://www.aboutyun.com/data/attachment/forum/201905/22/183047y44n4z7997d8d479.jpg">
-<meta property="article:published_time" content="2020-06-02T10:54:21.000Z">
-<meta property="article:modified_time" content="2020-06-02T10:52:10.509Z">
+<meta property="og:image" content="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/06/06064148/joke.jpg">
+<meta property="article:published_time" content="2020-06-24T12:50:00.000Z">
+<meta property="article:modified_time" content="2020-06-24T16:06:50.342Z">
 <meta property="article:author" content="Near zeng">
-<meta property="article:tag" content="CV">
+<meta property="article:tag" content="NLP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.aboutyun.com/data/attachment/forum/201905/22/183047y44n4z7997d8d479.jpg">
+<meta name="twitter:image" content="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/06/06064148/joke.jpg">
 
 
 
@@ -147,7 +147,7 @@
 
 
 
-  <link rel="canonical" href="http://www.7497.xyz/blog/2020/06/02/cv-task5.html"/>
+  <link rel="canonical" href="http://www.7497.xyz/blog/2020/06/24/notes-of-CS224n-part1.html"/>
 
 
 
@@ -170,7 +170,7 @@
 </style>
 
 
-  <title> 零基础入门CV之集成学习 | Near's Notes </title>
+  <title> Note of CS224N Lecture1 —— Introduction and word vectors | Near's Notes </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -336,7 +336,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.7497.xyz/blog/2020/06/02/cv-task5.html">
+  <link itemprop="mainEntityOfPage" href="http://www.7497.xyz/blog/2020/06/24/notes-of-CS224n-part1.html">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Near zeng">
@@ -360,7 +360,7 @@
             
             
               
-                零基础入门CV之集成学习
+                Note of CS224N Lecture1 —— Introduction and word vectors
               
             
           </h2>
@@ -375,8 +375,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-02T18:54:21+08:00">
-                2020-06-02
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-24T20:50:00+08:00">
+                2020-06-24
               </time>
             
 
@@ -409,8 +409,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%85%A5%E9%97%A8/%E5%A4%A9%E6%B1%A0%E8%B5%9B%E9%A2%98/" itemprop="url" rel="index">
-                    <span itemprop="name">天池赛题</span>
+                  <a href="/categories/%E5%85%A5%E9%97%A8/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
                   </a>
                 </span>
 
@@ -442,7 +442,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1.1k
+                  489
                 </span>
               
 
@@ -466,7 +466,7 @@
 		  
           
               <div class="post-description">
-                  集成学习(Ensemble learning)可以说是非常火爆的机器学习算法了，是一种“集思广益、博采众长”的方法。本文就该算法的基本内容做一个概括。
+                  To figure out what NLP is and What word vectors are. And it's a start for me to take notes in English, cause I want to improve my English.
               </div>
           
  
@@ -487,9 +487,9 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="https://www.aboutyun.com/data/attachment/forum/201905/22/183047y44n4z7997d8d479.jpg" rel="gallery_ckbtjw5q00006vwynb7osfh4b"
+                 href="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/06/06064148/joke.jpg" rel="gallery_ckbtjw5t8000vvwynboj0d2fo"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="https://www.aboutyun.com/data/attachment/forum/201905/22/183047y44n4z7997d8d479.jpg" itemprop="contentUrl"/>
+                <img src="https://cdn.analyticsvidhya.com/wp-content/uploads/2017/06/06064148/joke.jpg" itemprop="contentUrl"/>
               </a>
             
           
@@ -500,31 +500,34 @@
       
 
       
-        <h2 id="集成学习是什么"><a href="#集成学习是什么" class="headerlink" title="集成学习是什么"></a>集成学习是什么</h2><h2 id="一、集成学习是什么"><a href="#一、集成学习是什么" class="headerlink" title="一、集成学习是什么"></a>一、集成学习是什么</h2><p>“团结就是力量”、“综合就是全面”，这是机器学习领域中”集成学习“的基本思想。大多数数据竞赛排名靠前的解决方案所采用的集成方法，都建立在一个假设：组合多个模型以期得到一个更全面的模型，从而得到一个泛化性能更好的模型。</p>
-<p>集成学习一般有Bagging、Boosting和Stacking三种类别：</p>
-<ul>
-<li><strong>Bagging</strong>：利用bootstrap方法从整体数据集中采取有放回抽样得到N个数据集，在每个数据集上学习出一个模型，最后的预测结果利用N个模型的输出综合得到。具体地：分类问题采用N个模型预测投票的方式，回归问题采用N个模型预测平均的方式。</li>
-<li><strong>Boosting</strong>：一种可以用来减小监督学习中偏差的机器学习算法。主要也是学习一系列弱分类器，并将其组合为一个强分类器。</li>
-<li><strong>Stacking</strong>：指训练一个模型用于组合其他各个模型。首先我们先训练多个不同的模型，然后把之前训练的各个模型的输出为输入来训练一个模型，以得到一个最终的输出。</li>
-</ul>
-<h2 id="二、集成学习的应用场景"><a href="#二、集成学习的应用场景" class="headerlink" title="二、集成学习的应用场景"></a>二、集成学习的应用场景</h2><p>集成学习的主要应用场景有以下几个方面：</p>
+        <h1 id="Note-of-CS224N-Lecture1-Introduction-and-word-vectors"><a href="#Note-of-CS224N-Lecture1-Introduction-and-word-vectors" class="headerlink" title="Note of CS224N Lecture1: Introduction and word vectors"></a>Note of CS224N Lecture1: Introduction and word vectors</h1><blockquote>
+<p>School:  Stanford</p>
+<p>Teacher: Prof. Christopher Manning</p>
+<p>Library: Pytorch</p>
+<p>Course: <a href="https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/index.html" target="_blank" rel="noopener">CS224n</a></p>
+</blockquote>
+<h2 id="1-What’s-NLP"><a href="#1-What’s-NLP" class="headerlink" title="1. What’s NLP?"></a>1. What’s NLP?</h2><h4 id="a-Definition"><a href="#a-Definition" class="headerlink" title="a. Definition"></a>a. Definition</h4><p>Natural Language Processing(NLP for short),  is broadly defined as the automatic manipulation of natural language which refers to the way we humans communicate with each other, like speech and text, by software. </p>
+<h4 id="b-Basic-tasks"><a href="#b-Basic-tasks" class="headerlink" title="b. Basic tasks"></a>b. Basic tasks</h4><p>The study of NLP has been around for more than half a century, and the target of NLP is helping computers understand, interpret and manipulate human language, which isn’t really solved. </p>
+<p>NLP includes many different techniques for interpreting human language, ranging from statistical and machine learning methods to rules-based and algorithmic approaches. We need a broad array of approaches because the text- and voice-based data varies widely, as do the practical applications. </p>
+<p>Basic NLP tasks include tokenization and parsing, lemmatization/stemming, part-of-speech tagging, language detection and identification of semantic relationships. If you ever diagramed sentences in grade school, you’ve done these tasks manually before. </p>
+<p>In general terms, NLP tasks break down language into shorter, elemental pieces, try to understand relationships between the pieces and explore how the pieces work together to create meaning.</p>
+<h5 id="1-Content-categorization"><a href="#1-Content-categorization" class="headerlink" title="1. Content categorization"></a>1. Content categorization</h5><h5 id="2-Topic-discovery-and-modeling"><a href="#2-Topic-discovery-and-modeling" class="headerlink" title="2. Topic discovery and modeling"></a>2. Topic discovery and modeling</h5><h5 id="3-Contextual-extraction"><a href="#3-Contextual-extraction" class="headerlink" title="3. Contextual extraction"></a>3. Contextual extraction</h5><h5 id="4-Sentiment-analysis"><a href="#4-Sentiment-analysis" class="headerlink" title="4. Sentiment analysis"></a>4. Sentiment analysis</h5><h5 id="5-Speech-to-text-and-text-to-speech-conversion"><a href="#5-Speech-to-text-and-text-to-speech-conversion" class="headerlink" title="5. Speech-to-text and text-to-speech conversion"></a>5. Speech-to-text and text-to-speech conversion</h5><h5 id="6-Document-summarization"><a href="#6-Document-summarization" class="headerlink" title="6. Document summarization"></a>6. Document summarization</h5><h5 id="7-Machine-translation"><a href="#7-Machine-translation" class="headerlink" title="7. Machine translation"></a>7. Machine translation</h5><h2 id="2-What’s-word-vectors"><a href="#2-What’s-word-vectors" class="headerlink" title="2. What’s word vectors?"></a>2. What’s word vectors?</h2><p><img src="/blog/2020/06/24/notes-of-CS224n-part1/D:%5CDocuments%5CGitHub%5Cteam_learning_notes%5CNLP%5Ctask01%5Cword_vectors.png" alt></p>
+<p>Obviously, the first step of all NLP tasks is how we represent words as input to any our models. Word vectors which are the texts converted into numbers and there may be different numerical representations of the same text, give a way to this problem. </p>
+<p>A Word vector format generally tries to map a word using a dictionary to a vector. Let us break this phrase down into finer details to have a clear view.</p>
+<p>Take a look at this example - “The banking system is a basic system”; A dictionary may be the list of all unique words in the sentence. So, a dictionary may look like – [‘The’,’banking’,’system’,’is’,’a’,’basic’]. A vector representation of a word may be a one-hot encoded vector, like a vector show in above picture.</p>
+<h5 id="Different-types-of-Word-Vectors"><a href="#Different-types-of-Word-Vectors" class="headerlink" title="Different types of Word Vectors"></a>Different types of Word Vectors</h5><p>The different types of word vectors can be broadly classified into two categories-</p>
 <ol>
-<li><strong>模型选择</strong>：相比于只选择一个模型，集成学习对模型集合中所有模型的输出按照某种方法进行组合，例如简单的取平均，可以降低模型选择不当的风险。这个要求能达到适当的多样性，这样才能通过一定的策略优势互补地减少总体误差。</li>
-<li><strong>分而治之</strong>：集成学习系统遵循一种分而治之的方法，将数据空间划分为更小、更易于学习的分区，其中每个模型只学习其中一个更简单的分区。然后通过不同方法来适当组合模型的输出来近似复杂决策边界。这可以解决难以用一个模型来处理的机器学习问题。</li>
-<li><strong>数据融合</strong>：在许多需要自动决策的应用程序中，接收来自不同来源的数据并提供补充信息是很常见的。这种信息的适当组合被称为<strong>数据或信息融合</strong>，与仅根据任何单个数据源进行决策相比，可以提高分类决策的准确性。</li>
-<li><strong>置信度估计</strong>：考虑对一个分类问题训练一个分类器集合，如果集合中绝大多数分类器决策一致，那么就认为整体决策的结果具有较高置信度；反之则具有较低置信度。</li>
-<li><strong>数据扩增</strong>：如果训练数据量太小，那么使用bootstrapping技术可以从总体数据集中有放回的随机采样获得多个样本集，每个样本集作为训练集训练一个模型，最后再以一定策略组合。</li>
+<li>Frequency based</li>
+<li>Prediction based</li>
 </ol>
-<h2 id="三、集成学习的结合策略"><a href="#三、集成学习的结合策略" class="headerlink" title="三、集成学习的结合策略"></a>三、集成学习的结合策略</h2><p>模型集合的组合方法有很多，我们这里主要介绍在实践中最常用的四种：线性组合、乘积组合、投票组合和学习组合。</p>
-<ol>
-<li><strong>线性组合</strong>：线性组合用于输出实数的模型，因此适用于回归模型结果的集成，或分类模型集成中估计类别的概率。</li>
-<li><strong>乘积组合</strong>：在各模型的类别条件概率估计相互独立的假设下，乘积组合在理论上是最好的组合策略。</li>
-<li><strong>投票组合</strong>：每个分类器对某个类别投票，获得多数票的类别作为集成模型整体的输出。包括相对多数投票法、绝对多数投票法和加权投票法。</li>
-<li><strong>学习组合</strong>：通过机器学习的方式来组合，代表是Stacking。我们将弱学习器称为初级学习器，将用于结合的学习器称为次级学习器。对于测试集，我们首先用初级学习器预测一次，得到次级学习器的输入样本，再用次级学习器预测一次，得到最终的预测结果。</li>
-</ol>
+<h5 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h5><p><img src="/blog/2020/06/24/notes-of-CS224n-part1/D:%5CDocuments%5CGitHub%5Cteam_learning_notes%5CNLP%5Ctask01%5Cword2vec.png" alt></p>
+<h2 id="3-What’s-next"><a href="#3-What’s-next" class="headerlink" title="3. What’s next?"></a>3. What’s next?</h2><p>I joined in a NLP learning activity held by an open-source organization <a href="https://datawhale.club/" target="_blank" rel="noopener">Datawhale</a> recently. We are gonna learning the awesome course <a href="https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/index.html" target="_blank" rel="noopener">CS224n</a> by Stanford in this activity. </p>
+<p>I will keep updating my progress and my learning note in the upcoming posts on this blog. As a beginner of this field, I have a lot to learn. I may just follow the plan of this activity or this course to have a big picture of NLP. So, my next post may be the exploring of Word2vec.</p>
 <h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
-<li><a href="https://www.jianshu.com/p/3e8c44314be5" target="_blank" rel="noopener">集成学习(Ensemble learning)</a></li>
-<li><a href="https://www.cnblogs.com/wxquare/p/5440664.html" target="_blank" rel="noopener">集成学习方法</a></li>
+<li><p><a href="https://www.sas.com/en_us/insights/analytics/what-is-natural-language-processing-nlp.html#howitworks" target="_blank" rel="noopener">NLP: What it is and why it matters</a></p>
+</li>
+<li><p><a href="https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/" target="_blank" rel="noopener">An Intuitive Understanding of Word Embeddings: From Count Vectors to Word2Vec</a></p>
+</li>
 </ol>
 
       
@@ -539,7 +542,7 @@
   
         <div class="post-tags">
           
-            <a href="/tags/CV/" rel="tag"><i class="fa fa-tag"></i> CV</a>
+            <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
           
         </div>
       
@@ -586,16 +589,16 @@
 
         <li class="post-copyright-link">
           <strong>本文标题：</strong>
-          <a href="http://www.7497.xyz/blog/2020/06/02/cv-task5.html" title="零基础入门CV之集成学习">零基础入门CV之集成学习</a>
+          <a href="http://www.7497.xyz/blog/2020/06/24/notes-of-CS224n-part1.html" title="Note of CS224N Lecture1 —— Introduction and word vectors">Note of CS224N Lecture1 —— Introduction and word vectors</a>
         </li>
 
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="http://www.7497.xyz/blog/2020/06/02/cv-task5.html" title="零基础入门CV之集成学习">http://www.7497.xyz/blog/2020/06/02/cv-task5.html</a>
+          <a href="http://www.7497.xyz/blog/2020/06/24/notes-of-CS224n-part1.html" title="Note of CS224N Lecture1 —— Introduction and word vectors">http://www.7497.xyz/blog/2020/06/24/notes-of-CS224n-part1.html</a>
         </li>
 
         <li class="post-copyright-date">
-            <strong>发布时间：</strong>2020年6月2日 - 18时06分
+            <strong>发布时间：</strong>2020年6月24日 - 20时06分
         </li>  
 
         <li class="post-copyright-license">
@@ -609,8 +612,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2020/05/29/cv-task4.html" rel="next" title="零基础入门CV之模型评估与性能度量">
-                <i class="fa fa-chevron-left"></i> 零基础入门CV之模型评估与性能度量
+              <a href="/blog/2020/06/02/cv-task5.html" rel="next" title="零基础入门CV之集成学习">
+                <i class="fa fa-chevron-left"></i> 零基础入门CV之集成学习
               </a>
             
           </div>
@@ -618,10 +621,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2020/06/24/notes-of-CS224n-part1.html" rel="prev" title="Note of CS224N Lecture1 —— Introduction and word vectors">
-                Note of CS224N Lecture1 —— Introduction and word vectors <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -789,7 +788,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#集成学习是什么"><span class="nav-number">1.</span> <span class="nav-text">集成学习是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、集成学习是什么"><span class="nav-number">2.</span> <span class="nav-text">一、集成学习是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、集成学习的应用场景"><span class="nav-number">3.</span> <span class="nav-text">二、集成学习的应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、集成学习的结合策略"><span class="nav-number">4.</span> <span class="nav-text">三、集成学习的结合策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">5.</span> <span class="nav-text">References</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Note-of-CS224N-Lecture1-Introduction-and-word-vectors"><span class="nav-number">1.</span> <span class="nav-text">Note of CS224N Lecture1: Introduction and word vectors</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-What’s-NLP"><span class="nav-number">1.1.</span> <span class="nav-text">1. What’s NLP?</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a-Definition"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">a. Definition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b-Basic-tasks"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">b. Basic tasks</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Content-categorization"><span class="nav-number">1.1.0.2.1.</span> <span class="nav-text">1. Content categorization</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Topic-discovery-and-modeling"><span class="nav-number">1.1.0.2.2.</span> <span class="nav-text">2. Topic discovery and modeling</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Contextual-extraction"><span class="nav-number">1.1.0.2.3.</span> <span class="nav-text">3. Contextual extraction</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-Sentiment-analysis"><span class="nav-number">1.1.0.2.4.</span> <span class="nav-text">4. Sentiment analysis</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-Speech-to-text-and-text-to-speech-conversion"><span class="nav-number">1.1.0.2.5.</span> <span class="nav-text">5. Speech-to-text and text-to-speech conversion</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-Document-summarization"><span class="nav-number">1.1.0.2.6.</span> <span class="nav-text">6. Document summarization</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-Machine-translation"><span class="nav-number">1.1.0.2.7.</span> <span class="nav-text">7. Machine translation</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-What’s-word-vectors"><span class="nav-number">1.2.</span> <span class="nav-text">2. What’s word vectors?</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Different-types-of-Word-Vectors"><span class="nav-number">1.2.0.0.1.</span> <span class="nav-text">Different types of Word Vectors</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Word2vec"><span class="nav-number">1.2.0.0.2.</span> <span class="nav-text">Word2vec</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-What’s-next"><span class="nav-number">1.3.</span> <span class="nav-text">3. What’s next?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">1.4.</span> <span class="nav-text">References</span></a></li></ol></li></ol></div>
             
 
           </div>

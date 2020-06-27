@@ -487,7 +487,7 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="https://img-blog.csdnimg.cn/20181203105432644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5ZGJ5eHI=,size_16,color_FFFFFF,t_70" rel="gallery_ckbxuznrf0002j5ynh4do96o3"
+                 href="https://img-blog.csdnimg.cn/20181203105432644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5ZGJ5eHI=,size_16,color_FFFFFF,t_70" rel="gallery_ckbxw23ry00071fyn3g6z8qqi"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
                 <img src="https://img-blog.csdnimg.cn/20181203105432644.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3d5ZGJ5eHI=,size_16,color_FFFFFF,t_70" itemprop="contentUrl"/>
               </a>
@@ -519,64 +519,68 @@
 <p>OpenCV包含了众多的图像处理的功能，OpenCV包含了你能想得到的只要与图像相关的操作。此外OpenCV还内置了很多的图像特征处理算法，如关键点检测、边缘检测和直线检测等。<br>OpenCV官网：<a href="https://opencv.org/" target="_blank" rel="noopener">https://opencv.org/</a><br>OpenCV Github：<a href="https://github.com/opencv/opencv" target="_blank" rel="noopener">https://github.com/opencv/opencv</a><br>OpenCV 扩展算法库：<a href="https://github.com/opencv/opencv_contrib" target="_blank" rel="noopener">https://github.com/opencv/opencv_contrib</a></p>
 <h3 id="数据扩增方法"><a href="#数据扩增方法" class="headerlink" title="数据扩增方法"></a>数据扩增方法</h3><p>在上一小节中给大家初步介绍了Pillow和OpenCV的使用，现在回到赛题街道字符识别任务中。在赛题中我们需要对的图像进行字符识别，因此需要我们完成的数据的读取操作，同时也需要完成数据扩增（Data Augmentation）操作。     </p>
 <h4 id="数据扩增介绍"><a href="#数据扩增介绍" class="headerlink" title="数据扩增介绍"></a>数据扩增介绍</h4><p><strong>在深度学习中数据扩增方法非常重要，数据扩增可以增加训练集的样本，同时也可以有效缓解模型过拟合的情况，也可以给模型带来的更强的泛化能力。</strong></p>
-<p><img src="/blog/2020/05/23/cv-task2/%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9E.png" alt="IMG"></p>
+<p><img src="/blog/2020/05/23/cv-task2/数据扩增.png" alt="IMG"></p>
 <ul>
 <li><h4 id="数据扩增为什么有用？"><a href="#数据扩增为什么有用？" class="headerlink" title="数据扩增为什么有用？"></a>数据扩增为什么有用？</h4>在深度学习模型的训练过程中，数据扩增是必不可少的环节。现有深度学习的参数非常多，一般的模型可训练的参数量基本上都是万到百万级别，而训练集样本的数量很难有这么多。<br>其次数据扩增可以扩展样本空间，假设现在的分类模型需要对汽车进行分类，左边的是汽车A，右边为汽车B。如果不使用任何数据扩增方法，深度学习模型会从汽车车头的角度来进行判别，而不是汽车具体的区别。     </li>
 </ul>
-<p><img src="/blog/2020/05/23/cv-task2/%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9Ecar.png" alt="IMG">   </p>
+<p><img src="/blog/2020/05/23/cv-task2/数据扩增car.png" alt="IMG">   </p>
 <ul>
 <li><h4 id="有哪些数据扩增方法？"><a href="#有哪些数据扩增方法？" class="headerlink" title="有哪些数据扩增方法？"></a>有哪些数据扩增方法？</h4>数据扩增方法有很多：从颜色空间、尺度空间到样本空间，同时根据不同任务数据扩增都有相应的区别。        <strong>对于图像分类，数据扩增一般不会改变标签；对于物体检测，数据扩增会改变物体坐标位置；对于图像分割，数据扩增会改变像素标签。</strong>      <h4 id="常见的数据扩增方法"><a href="#常见的数据扩增方法" class="headerlink" title="常见的数据扩增方法"></a>常见的数据扩增方法</h4>在常见的数据扩增方法中，一般会从图像颜色、尺寸、形态、空间和像素等角度进行变换。当然不同的数据扩增方法可以自由进行组合，得到更加丰富的数据扩增方法。         </li>
 </ul>
 <p>以torchvision为例，常见的数据扩增方法包括：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">扩增方法</th>
-<th align="center">功能</th>
+<th style="text-align:center">扩增方法</th>
+<th style="text-align:center">功能</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">transforms.CenterCrop</td>
-<td align="center">对图片中心进行裁剪</td>
+<tbody>
+<tr>
+<td style="text-align:center">transforms.CenterCrop</td>
+<td style="text-align:center">对图片中心进行裁剪</td>
 </tr>
 <tr>
-<td align="center">transforms.ColorJitter</td>
-<td align="center">调整图像颜色的对比度、饱和度和零度</td>
+<td style="text-align:center">transforms.ColorJitter</td>
+<td style="text-align:center">调整图像颜色的对比度、饱和度和零度</td>
 </tr>
 <tr>
-<td align="center">transforms.FiveCrop</td>
-<td align="center">对图像四个角和中心进行裁剪得到五分图像</td>
+<td style="text-align:center">transforms.FiveCrop</td>
+<td style="text-align:center">对图像四个角和中心进行裁剪得到五分图像</td>
 </tr>
 <tr>
-<td align="center">transforms.Grayscale</td>
-<td align="center">对图像进行灰度变换</td>
+<td style="text-align:center">transforms.Grayscale</td>
+<td style="text-align:center">对图像进行灰度变换</td>
 </tr>
 <tr>
-<td align="center">transforms.Pad</td>
-<td align="center">使用固定值进行像素填充</td>
+<td style="text-align:center">transforms.Pad</td>
+<td style="text-align:center">使用固定值进行像素填充</td>
 </tr>
 <tr>
-<td align="center">transforms.RandomAffine</td>
-<td align="center">随机仿射变换</td>
+<td style="text-align:center">transforms.RandomAffine</td>
+<td style="text-align:center">随机仿射变换</td>
 </tr>
 <tr>
-<td align="center">transforms.RandomCrop</td>
-<td align="center">随机区域裁剪</td>
+<td style="text-align:center">transforms.RandomCrop</td>
+<td style="text-align:center">随机区域裁剪</td>
 </tr>
 <tr>
-<td align="center">transforms.RandomHorizontalFlip</td>
-<td align="center">随机水平翻转</td>
+<td style="text-align:center">transforms.RandomHorizontalFlip</td>
+<td style="text-align:center">随机水平翻转</td>
 </tr>
 <tr>
-<td align="center">transforms.RandomRotation</td>
-<td align="center">随机旋转</td>
+<td style="text-align:center">transforms.RandomRotation</td>
+<td style="text-align:center">随机旋转</td>
 </tr>
 <tr>
-<td align="center">transforms.RandomVerticalFlip</td>
-<td align="center">随机垂直翻转</td>
+<td style="text-align:center">transforms.RandomVerticalFlip</td>
+<td style="text-align:center">随机垂直翻转</td>
 </tr>
-</tbody></table>
-<p> <img src="/blog/2020/05/23/cv-task2/%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9E%E7%A4%BA%E4%BE%8B.png" alt="IMG">    </p>
+</tbody>
+</table>
+</div>
+<p> <img src="/blog/2020/05/23/cv-task2/数据扩增示例.png" alt="IMG">    </p>
 <p>在本次赛题中，赛题任务是需要对图像中的字符进行识别，因此对于字符图片并不能进行翻转操作。比如字符6经过水平翻转就变成了字符9，会改变字符原本的含义。    </p>
 <h4 id="常用的数据扩增库"><a href="#常用的数据扩增库" class="headerlink" title="常用的数据扩增库"></a>常用的数据扩增库</h4><ul>
 <li><h4 id="torchvision"><a href="#torchvision" class="headerlink" title="torchvision"></a><a href="https://github.com/pytorch/vision" target="_blank" rel="noopener">torchvision</a></h4><p>pytorch官方提供的数据扩增库，提供了基本的数据数据扩增方法，可以无缝与torch进行集成；但数据扩增方法种类较少，且速度中等；下面给出的例子就是用这种方法。       </p>
@@ -596,6 +600,7 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">data = SVHNDataset(train_path, train_label,</span><br><span class="line">          transforms.Compose([</span><br><span class="line">              <span class="comment"># 缩放到固定尺寸</span></span><br><span class="line">              transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 随机颜色变换</span></span><br><span class="line">              transforms.ColorJitter(<span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 加入随机旋转</span></span><br><span class="line">              transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 将图片转换为pytorch 的tesntor</span></span><br><span class="line">              <span class="comment"># transforms.ToTensor(),</span></span><br><span class="line"></span><br><span class="line">              <span class="comment"># 对图像像素进行归一化</span></span><br><span class="line">              <span class="comment"># transforms.Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])</span></span><br><span class="line">            ]))</span><br></pre></td></tr></table></figure>
 <p>通过上述代码，可以将赛题的图像数据和对应标签进行读取，在读取过程中的进行数据扩增，效果如下所示：</p>
 <p>​       </p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -604,7 +609,8 @@
 <th>3</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td><img src="/blog/2020/05/23/cv-task2/23.png" alt="IMG"></td>
 <td><img src="/blog/2020/05/23/cv-task2/23_1.png" alt="IMG"></td>
 <td><img src="/blog/2020/05/23/cv-task2/23_2.png" alt="IMG"></td>
@@ -614,7 +620,9 @@
 <td><img src="/blog/2020/05/23/cv-task2/144_2.png" alt="IMG"></td>
 <td><img src="/blog/2020/05/23/cv-task2/144_3.png" alt="IMG"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p>接下来我们将在定义好的Dataset基础上构建DataLoder，你可以会问有了Dataset为什么还要有DataLoder？其实这两个是两个不同的概念，是为了实现不同的功能。                 </p>
 <ul>
 <li><strong>Dataset：对数据集的封装，提供索引方式的对数据样本进行读取</strong>      </li>
@@ -629,10 +637,8 @@
 <li><code>collate_fn</code>将一个list的sample组成一个mini-batch的函数；</li>
 </ul>
 <p>其主要逻辑处理过程是先通过Dataset类里面的<code>__getitem__</code>函数获取单个的数据，然后组合成batch，再使用<code>collate_fn</code>所指定的函数对这个batch做一些操作，比如padding之类的。</p>
-<p> 加入DataLoder后，数据读取代码改为如下：      </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(</span><br><span class="line">        SVHNDataset(train_path, train_label,</span><br><span class="line">                   transforms.Compose([</span><br><span class="line">                       transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line">                       transforms.ColorJitter(<span class="number">0.3</span>, <span class="number">0.3</span>, <span class="number">0.2</span>),</span><br><span class="line">                       transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line">                       transforms.ToTensor(),</span><br><span class="line">                       transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">            ])), </span><br><span class="line">    batch_size=<span class="number">10</span>, <span class="comment"># 每批样本个数</span></span><br><span class="line">    shuffle=<span class="literal">False</span>, <span class="comment"># 是否打乱顺序</span></span><br><span class="line">    num_workers=<span class="number">10</span>, <span class="comment"># 读取的线程个数</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> train_loader:</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
-
-<p>在加入DataLoder后，数据按照批次获取，每批次调用Dataset读取单个样本进行拼接。此时data的格式为：<br>                <code>torch.Size([10, 3, 64, 128]), torch.Size([10, 6])</code><br>前者为图像文件，为<code>batchsize</code>  *  <code>chanel</code>  *  <code>height</code>  *  <code>width</code>次序；后者为字符标签。      </p>
+<p> 加入DataLoder后，数据读取代码改为如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(</span><br><span class="line">        SVHNDataset(train_path, train_label,</span><br><span class="line">                   transforms.Compose([</span><br><span class="line">                       transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line">                       transforms.ColorJitter(<span class="number">0.3</span>, <span class="number">0.3</span>, <span class="number">0.2</span>),</span><br><span class="line">                       transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line">                       transforms.ToTensor(),</span><br><span class="line">                       transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">            ])), </span><br><span class="line">    batch_size=<span class="number">10</span>, <span class="comment"># 每批样本个数</span></span><br><span class="line">    shuffle=<span class="literal">False</span>, <span class="comment"># 是否打乱顺序</span></span><br><span class="line">    num_workers=<span class="number">10</span>, <span class="comment"># 读取的线程个数</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> train_loader:</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure></p>
+<p>在加入DataLoder后，数据按照批次获取，每批次调用Dataset读取单个样本进行拼接。此时data的格式为：<br>                <code>torch.Size([10, 3, 64, 128]), torch.Size([10, 6])</code><br>前者为图像文件，为<code>batchsize</code>  <em>  <code>chanel</code>  </em>  <code>height</code>  *  <code>width</code>次序；后者为字符标签。      </p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章对数据读取进行了详细的讲解，并介绍了常见的数据扩增方法和使用，最后使用Pytorch框架对本次赛题的数据进行读取。 </p>
 <h5 id="鸣谢和参考"><a href="#鸣谢和参考" class="headerlink" title="鸣谢和参考"></a>鸣谢和参考</h5><p>References</p>
 <ol>
@@ -1203,6 +1209,28 @@
 
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

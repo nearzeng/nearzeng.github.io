@@ -487,7 +487,7 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="https://p0.ssl.qhimgs4.com/t01432a7110c035d469.webp" rel="gallery_ckbxuznr60000j5yn0t5c0vib"
+                 href="https://p0.ssl.qhimgs4.com/t01432a7110c035d469.webp" rel="gallery_ckbxw23mi00001fyngsape0lu"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
                 <img src="https://p0.ssl.qhimgs4.com/t01432a7110c035d469.webp" itemprop="contentUrl"/>
               </a>
@@ -523,58 +523,67 @@
 <li><strong>赛题任务</strong>：赛题以计算机视觉中字符识别为背景，要求选手预测街道字符编码，这是一个典型的字符识别问题。<br>为了简化赛题难度，赛题数据采用公开数据集<a href="http://ufldl.stanford.edu/housenumbers/" target="_blank" rel="noopener">SVHN</a>，因此大家可以选择很多相应的paper作为思路参考。          <h4 id="赛题数据"><a href="#赛题数据" class="headerlink" title="赛题数据"></a>赛题数据</h4></li>
 </ul>
 <p>赛题以街道字符为赛题数据，数据集报名后可见并可下载，该数据来自公开数据集SVHN收集的街道字符，并进行了匿名采样处理。  </p>
-<p><img src="/blog/2020/05/22/cv-task1/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%A0%B7%E6%9C%AC%E5%B1%95%E7%A4%BA.png" alt="数据示例"></p>
+<p><img src="/blog/2020/05/22/cv-task1/数据集样本展示.png" alt="数据示例"></p>
 <p><strong>注意: 按照比赛规则，所有的参赛选手只能使用比赛给定的数据集完成训练，不能使用SVHN原始数据集进行训练。比赛结束后将会对Top选手进行代码审核，违规的选手将清除排行榜成绩。</strong></p>
 <p>训练集数据包括3W张照片，验证集数据包括1W张照片，每张照片包括颜色图像和对应的编码类别和具体位置；为了保证比赛的公平性，测试集A包括4W张照片，测试集B包括4W张照片。</p>
 <p>需要注意的是本赛题需要选手识别图片中所有的字符，为了降低比赛难度，该赛题还提供了训练集、验证集和测试集中所有字符的位置框。</p>
 <h4 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h4><p>对于训练数据每张图片将给出对应的编码标签和具体的字符框的位置（训练集、测试集和验证集都给出字符位置），可用于模型训练：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">Field</th>
-<th align="center">Description</th>
+<th style="text-align:center">Field</th>
+<th style="text-align:center">Description</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center">top</td>
-<td align="center">左上角坐标X</td>
+<tbody>
+<tr>
+<td style="text-align:center">top</td>
+<td style="text-align:center">左上角坐标X </td>
 </tr>
 <tr>
-<td align="center">height</td>
-<td align="center">字符高度</td>
+<td style="text-align:center">height</td>
+<td style="text-align:center">字符高度 </td>
 </tr>
 <tr>
-<td align="center">left</td>
-<td align="center">左上角最表Y</td>
+<td style="text-align:center">left</td>
+<td style="text-align:center">左上角最表Y </td>
 </tr>
 <tr>
-<td align="center">width</td>
-<td align="center">字符宽度</td>
+<td style="text-align:center">width</td>
+<td style="text-align:center">字符宽度 </td>
 </tr>
 <tr>
-<td align="center">label</td>
-<td align="center">字符编码</td>
+<td style="text-align:center">label</td>
+<td style="text-align:center">字符编码 </td>
 </tr>
-</tbody></table>
-<p>字符的坐标具体如下所示：<img src="/blog/2020/05/22/cv-task1/%E5%AD%97%E7%AC%A6%E5%9D%90%E6%A0%87.png" alt="坐标">     </p>
+</tbody>
+</table>
+</div>
+<p>字符的坐标具体如下所示：<img src="/blog/2020/05/22/cv-task1/字符坐标.png" alt="坐标">     </p>
 <p> 在比赛数据（训练集、测试集和验证集）中，同一张图片中可能包括一个或者多个字符，因此在比赛数据的JSON标注中，会有多个字符的边框信息：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th align="center">原始图片</th>
-<th align="center">图片JSON标注</th>
+<th style="text-align:center">原始图片</th>
+<th style="text-align:center">图片JSON标注</th>
 </tr>
 </thead>
-<tbody><tr>
-<td align="center"><img src="/blog/2020/05/22/cv-task1/%E5%8E%9F%E5%A7%8B%E5%9B%BE%E7%89%87.png" alt="19"></td>
-<td align="center"><img src="/blog/2020/05/22/cv-task1/%E5%8E%9F%E5%A7%8B%E5%9B%BE%E7%89%87%E6%A0%87%E6%B3%A8.png" alt="标注"></td>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/blog/2020/05/22/cv-task1/原始图片.png" alt="19"></td>
+<td style="text-align:center"><img src="/blog/2020/05/22/cv-task1/原始图片标注.png" alt="标注"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <h4 id="评测指标"><a href="#评测指标" class="headerlink" title="评测指标"></a>评测指标</h4><p> 选手提交结果与实际图片的编码进行对比，以编码整体识别准确率为评价指标。任何一个字符错误都为错误，最终评测指标结果越大越好，具体计算公式如下：<br>                                              Score = 编码识别正确的数量 / 测试集图片数量        </p>
 <h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><p> 这里给出JSON中标签的读取方式：  </p>
  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">import</span> json</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据标注处理</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_json</span><span class="params">(d)</span>:</span></span><br><span class="line">    arr = np.array([</span><br><span class="line">        d[<span class="string">'top'</span>], d[<span class="string">'height'</span>], d[<span class="string">'left'</span>],  d[<span class="string">'width'</span>], d[<span class="string">'label'</span>]</span><br><span class="line">    ])</span><br><span class="line">    arr = arr.astype(int)</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">'../input/train/000000.png'</span>)</span><br><span class="line">arr = parse_json(train_json[<span class="string">'000000.png'</span>])</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">10</span>))</span><br><span class="line">plt.subplot(<span class="number">1</span>, arr.shape[<span class="number">1</span>]+<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">plt.imshow(img)</span><br><span class="line">plt.xticks([]); plt.yticks([])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> range(arr.shape[<span class="number">1</span>]):</span><br><span class="line">    plt.subplot(<span class="number">1</span>, arr.shape[<span class="number">1</span>]+<span class="number">1</span>, idx+<span class="number">2</span>)</span><br><span class="line">    plt.imshow(img[arr[<span class="number">0</span>, idx]:arr[<span class="number">0</span>, idx]+arr[<span class="number">1</span>, idx],arr[<span class="number">2</span>, idx]:arr[<span class="number">2</span>, idx]+arr[<span class="number">3</span>, idx]])</span><br><span class="line">    plt.title(arr[<span class="number">4</span>, idx])</span><br><span class="line">    plt.xticks([]); plt.yticks([])</span><br></pre></td></tr></table></figure>
 <p><img src="/blog/2020/05/22/cv-task1/19.png" alt="19">     </p>
 <h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>赛题思路分析：<strong>赛题本质是一个分类识别问题，需要对图片的字符进行识别</strong>。但赛题给定的数据图片中不同图片中包含的字符数量不等。如下图所示，有的图片的字符个数为2，有的图片字符个数为3，有的图片字符个数为4。      </p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -582,7 +591,8 @@
 <th>图片</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>字符：42   字符个数：2</td>
 <td><img src="/blog/2020/05/22/cv-task1/42.png" alt="标注"></td>
 </tr>
@@ -594,17 +604,19 @@
 <td>字符：7358   字符个数：4</td>
 <td><img src="/blog/2020/05/22/cv-task1/7358.png" alt="标注"></td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
+</div>
 <p><strong>因此本次赛题的难点是需要对不定长的字符进行识别，与传统的图像分类识别任务有所不同</strong>。</p>
 <h4 id="解题思路探索"><a href="#解题思路探索" class="headerlink" title="解题思路探索"></a>解题思路探索</h4><h5 id="Datawhale给出了三种思路："><a href="#Datawhale给出了三种思路：" class="headerlink" title="Datawhale给出了三种思路："></a>Datawhale给出了三种思路：</h5><h5 id="1、简单入门思路：定长字符识别"><a href="#1、简单入门思路：定长字符识别" class="headerlink" title="1、简单入门思路：定长字符识别"></a>1、简单入门思路：定长字符识别</h5><p>可以将赛题抽象为一个定长字符识别问题，在赛题数据集中大部分图像中字符个数为2-4个，最多的字符个数为6个。<br>因此可以对于所有的图像都抽象为6个字符的识别问题，字符23填充为23XXXX，字符231填充为231XXX。    </p>
 <p>经过填充之后，原始的赛题可以简化了6个字符的分类问题。在每个字符的分类中会进行11个类别的分类，假如分类为填充字符，则表明该字符为空。可参考Google2014年的论文《Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks》，该论文提出了基于深度卷积神经网络的定长字符分类识别方法。</p>
-<h5 id="2、专业字符识别思路：不定长字符识别"><a href="#2、专业字符识别思路：不定长字符识别" class="headerlink" title="2、专业字符识别思路：不定长字符识别"></a>2、专业字符识别思路：不定长字符识别</h5><p><img src="/blog/2020/05/22/cv-task1/%E4%B8%8D%E5%AE%9A%E9%95%BF%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB.png" alt="标注">      </p>
+<h5 id="2、专业字符识别思路：不定长字符识别"><a href="#2、专业字符识别思路：不定长字符识别" class="headerlink" title="2、专业字符识别思路：不定长字符识别"></a>2、专业字符识别思路：不定长字符识别</h5><p><img src="/blog/2020/05/22/cv-task1/不定长字符识别.png" alt="标注">      </p>
 <p>在字符识别研究中，有特定的方法来解决此种不定长的字符识别问题，比较典型的有CRNN字符识别模型。</p>
 <p>CRNN采取的架构是CNN+RNN+CTC，cnn提取图像像素特征，rnn提取图像时序特征，而ctc归纳字符间的连接特性。CRNN能够获取不同尺寸的输入图像，并产生不同长度的预测。它直接在粗粒度的标签（例如单词）上运行，在训练阶段不需要详细标注每一个单独的元素（例如字符）。</p>
 <p>此外，<strong>由于CRNN放弃了传统神经网络中使用的全连接层，因此得到了更加紧凑和高效的模型。</strong>所有这些属性使得CRNN成为一种基于图像序列识别的极好方法。</p>
 <p>在本次赛题中给定的图像数据都比较规整，可以视为一个单词或者一个句子。   </p>
 <h5 id="3、专业分类思路：检测再识别"><a href="#3、专业分类思路：检测再识别" class="headerlink" title="3、专业分类思路：检测再识别"></a>3、专业分类思路：检测再识别</h5><p>在赛题数据中已经给出了训练集、验证集中所有图片中字符的位置，因此可以首先将字符的位置进行识别，利用物体检测的思路完成。        </p>
-<p><img src="/blog/2020/05/22/cv-task1/%E6%A3%80%E6%B5%8B.png" alt="IMG">           </p>
+<p><img src="/blog/2020/05/22/cv-task1/检测.png" alt="IMG">           </p>
 <p>此种思路需要参赛选手构建字符检测模型，对测试集中的字符进行识别。选手可以参考物体检测模型SSD或者YOLO来完成。</p>
 <p><strong>SSD算法是一种直接预测目标类别和bounding box的多目标检测算法。</strong>与faster rcnn相比，该算法没有生成 proposal 的过程，这就极大提高了检测速度。针对不同大小的目标检测，传统的做法是先将图像转换成不同大小（图像金字塔），然后分别检测，最后将结果综合起来（NMS）。而SSD算法则利用不同卷积层的 <strong>feature map</strong> 进行综合也能达到同样的效果。算法的主网络结构是VGG16，将最后两个全连接层改成卷积层，并随后增加了4个卷积层来构造网络结构。   </p>
 <p><strong>YOLO（You Only Look Once: Unified, Real-Time Object Detection）</strong>，是Joseph Redmon和Ali Farhadi等人于2015年提出的基于单个神经网络的目标检测系统。YOLO是一个可以一次性预测多个Box位置和类别的卷积神经网络，能够实现端到端的目标检测和识别，其最大的优势就是速度快。事实上，目标检测的本质就是回归，因此一个实现回归功能的CNN并不需要复杂的设计过程。YOLO没有选择滑动窗口（silding window）或提取proposal的方式训练网络，而是直接选用整图训练模型。这样做的好处在于可以更好的区分目标和背景区域，相比之下，采用proposal训练方式的Fast-R-CNN常常把背景区域误检为特定目标。</p>
@@ -612,7 +624,7 @@
 <h5 id="鸣谢与参考"><a href="#鸣谢与参考" class="headerlink" title="鸣谢与参考"></a>鸣谢与参考</h5><p>References</p>
 <ol>
 <li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2001%20%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3%20.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task1 赛题理解</a></li>
-<li><a href="https://blog.csdn.net/wsp_1138886114/article/details/82555728?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">CRNN-基于序列的（端到端）图像文本识别</a></li>
+<li><a href="https://blog.csdn.net/wsp_1138886114/article/details/82555728?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">CRNN-基于序列的（端到端）图像文本识别</a></li>
 <li><a href="https://cloud.tencent.com/developer/article/1064906" target="_blank" rel="noopener">SSD: Single Shot MultiBox Detector 深度学习笔记之SSD物体检测模型</a></li>
 <li><a href="https://blog.csdn.net/guoyunfei20/article/details/78744753" target="_blank" rel="noopener">YOLO</a></li>
 <li><a href="https://www.cnblogs.com/fariver/p/7446921.html" target="_blank" rel="noopener">YOLO原理</a></li>
@@ -1176,6 +1188,28 @@
 
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
 
   
 

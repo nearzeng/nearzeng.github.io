@@ -90,7 +90,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="CV," />
+  <meta name="keywords" content="NLP," />
 
 
 
@@ -106,20 +106,20 @@
 
 
 
-<meta name="description" content="本文聊聊模型评估与性能度量，以及相应的数据集划分，加深对训练集、验证集和测试集的了解。">
+<meta name="description" content="this post is trying to learn more about Word2vec. First recomment some refs, then try to summary the key idea of Word2vec, and mention training tricks at the end.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="零基础入门CV之模型评估与性能度量">
-<meta property="og:url" content="http://www.7497.xyz/blog/2020/05/29/cv-task4.html">
+<meta property="og:title" content="Exploring of Word2vec">
+<meta property="og:url" content="http://www.7497.xyz/blog/2020/06/26/exploring-of-word2vec.html">
 <meta property="og:site_name" content="Near&#39;s Notes">
-<meta property="og:description" content="本文聊聊模型评估与性能度量，以及相应的数据集划分，加深对训练集、验证集和测试集的了解。">
+<meta property="og:description" content="this post is trying to learn more about Word2vec. First recomment some refs, then try to summary the key idea of Word2vec, and mention training tricks at the end.">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="http://5b0988e595225.cdn.sohucs.com/images/20170915/da51e7cb2155403daedb9bd90e097342.png">
-<meta property="article:published_time" content="2020-05-29T01:10:21.000Z">
-<meta property="article:modified_time" content="2020-05-30T15:57:59.266Z">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9yTHhHQTg0QlV4bE9rM0o4aWFSdmZTY0FCTkFrN0VtQ2ljZ0lwZmliVDZNaWJ4RmtGb2xpY1ZnaFVPeFVzYnlkRjAxd2tCV05JaWNTQW9iWkxiUWliOXlRc0dZdUEvNjQw?x-oss-process=image/format,png">
+<meta property="article:published_time" content="2020-06-26T14:46:25.000Z">
+<meta property="article:modified_time" content="2020-06-27T12:43:51.717Z">
 <meta property="article:author" content="Near zeng">
-<meta property="article:tag" content="CV">
+<meta property="article:tag" content="NLP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://5b0988e595225.cdn.sohucs.com/images/20170915/da51e7cb2155403daedb9bd90e097342.png">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9yTHhHQTg0QlV4bE9rM0o4aWFSdmZTY0FCTkFrN0VtQ2ljZ0lwZmliVDZNaWJ4RmtGb2xpY1ZnaFVPeFVzYnlkRjAxd2tCV05JaWNTQW9iWkxiUWliOXlRc0dZdUEvNjQw?x-oss-process=image/format,png">
 
 
 
@@ -147,7 +147,7 @@
 
 
 
-  <link rel="canonical" href="http://www.7497.xyz/blog/2020/05/29/cv-task4.html"/>
+  <link rel="canonical" href="http://www.7497.xyz/blog/2020/06/26/exploring-of-word2vec.html"/>
 
 
 
@@ -170,7 +170,7 @@
 </style>
 
 
-  <title> 零基础入门CV之模型评估与性能度量 | Near's Notes </title>
+  <title> Exploring of Word2vec | Near's Notes </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -336,7 +336,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.7497.xyz/blog/2020/05/29/cv-task4.html">
+  <link itemprop="mainEntityOfPage" href="http://www.7497.xyz/blog/2020/06/26/exploring-of-word2vec.html">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Near zeng">
@@ -360,7 +360,7 @@
             
             
               
-                零基础入门CV之模型评估与性能度量
+                Exploring of Word2vec
               
             
           </h2>
@@ -375,8 +375,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-05-29T09:10:21+08:00">
-                2020-05-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-06-26T22:46:25+08:00">
+                2020-06-26
               </time>
             
 
@@ -409,8 +409,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%85%A5%E9%97%A8/%E5%A4%A9%E6%B1%A0%E8%B5%9B%E9%A2%98/" itemprop="url" rel="index">
-                    <span itemprop="name">天池赛题</span>
+                  <a href="/categories/%E5%85%A5%E9%97%A8/NLP/" itemprop="url" rel="index">
+                    <span itemprop="name">NLP</span>
                   </a>
                 </span>
 
@@ -442,7 +442,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  1.5k
+                  684
                 </span>
               
 
@@ -458,7 +458,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  5
+                  4
                 </span>
               
             </div>
@@ -466,7 +466,7 @@
 		  
           
               <div class="post-description">
-                  本文聊聊模型评估与性能度量，以及相应的数据集划分，加深对训练集、验证集和测试集的了解。
+                  this post is trying to learn more about Word2vec. First recomment some refs, then try to summary the key idea of Word2vec, and mention training tricks at the end.
               </div>
           
  
@@ -487,9 +487,9 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="http://5b0988e595225.cdn.sohucs.com/images/20170915/da51e7cb2155403daedb9bd90e097342.png" rel="gallery_ckbxmyowz000ljqyn3amg87jj"
+                 href="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9yTHhHQTg0QlV4bE9rM0o4aWFSdmZTY0FCTkFrN0VtQ2ljZ0lwZmliVDZNaWJ4RmtGb2xpY1ZnaFVPeFVzYnlkRjAxd2tCV05JaWNTQW9iWkxiUWliOXlRc0dZdUEvNjQw?x-oss-process=image/format,png" rel="gallery_ckbxmyoxq000tjqynd3ng1ubb"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="http://5b0988e595225.cdn.sohucs.com/images/20170915/da51e7cb2155403daedb9bd90e097342.png" itemprop="contentUrl"/>
+                <img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9tbWJpei5xcGljLmNuL21tYml6X3BuZy9yTHhHQTg0QlV4bE9rM0o4aWFSdmZTY0FCTkFrN0VtQ2ljZ0lwZmliVDZNaWJ4RmtGb2xpY1ZnaFVPeFVzYnlkRjAxd2tCV05JaWNTQW9iWkxiUWliOXlRc0dZdUEvNjQw?x-oss-process=image/format,png" itemprop="contentUrl"/>
               </a>
             
           
@@ -500,31 +500,45 @@
       
 
       
-        <h2 id="模型评估方法"><a href="#模型评估方法" class="headerlink" title="模型评估方法"></a>模型评估方法</h2><p>现实任务中，我们往往有多种学习算法可供选择，甚至对于同一个学习算法，当我们使用不同的参数配置时，也会产生不同的模型。这种情况下，我们选择模型时就得比较和评估，以便我们能选择出泛化性能最好的那个模型。</p>
-<p>用学生学习的情况来类比，我们希望学生在一定的课本知识<strong>(训练集)</strong>上学习到某些知识，然后在平时的作业和模拟考<strong>(验证集)</strong>中检查自己学的知识和实际的知识点之间是否有出入，以便最后在期终考试<strong>(测试集、实际应用数据)</strong>有一个比较好的表现——教全面地掌握所要学习的知识。</p>
-<p>通过上面这个类比，想必对于大家在机器学习领域常常听说的训练集、验证集和测试集有相对清晰的认识了吧。对我们评估的目标——泛化性能较强这个目标想必也有所理解了。</p>
-<h4 id="训练集、验证集和测试集"><a href="#训练集、验证集和测试集" class="headerlink" title="训练集、验证集和测试集"></a>训练集、验证集和测试集</h4><p>我们先来看看为什么要分这三种数据集。在机器学习的过程中，我们的目标是找到那个泛化性能最好的模型，因此我们有两方面的参数需要确定：1、模型里函数的参数，也就是我们常说的权重矩阵w和修正b；这类参数一般在训练过程中通过各种最优化算法求得；2、模型参数，比如多项式回归的次数、规则化参数λ等；这些参数也成为超参数。很明显，为了获得这些参数，我们需要在数据集上训练模型，这就需要一个训练集。为了评估训练出来的模型，以便选择一个效果最好的模型，我们需要一个验证集；为了用上一步选出的最优模型来进行泛化性能评估，我们需要一个测试集。所以，这三个集合的用途分别是：</p>
-<ul>
-<li><h4 id="训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；"><a href="#训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；" class="headerlink" title="训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；"></a>训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；</h4></li>
-<li><h4 id="验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"><a href="#验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；" class="headerlink" title="验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"></a>验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；</h4></li>
-<li><h4 id="测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"><a href="#测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。" class="headerlink" title="测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"></a>测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。</h4></li>
-</ul>
-<p>一般来说，我们拿到的都只有一个数据集D，那如何对D进行适当的处理，以便从中产生出训练集S、验证集V和测试集T呢？常用的方法有一下三种：</p>
-<h5 id="1、留出法（Hold-Out）"><a href="#1、留出法（Hold-Out）" class="headerlink" title="1、留出法（Hold-Out）"></a>1、留出法（Hold-Out）</h5><p>直接将数据集D划分成两个互斥的部分——训练集S和验证集T。一般来说是把其中的2/3~4/5划为训练集，其余为验证集；与此同时，为了保证划分的集合分布与原集合分布一致，通常使用“分层采样”的方式划分。这种划分方式的优点是最为直接简单，缺点是只得到了一份验证集，有可能导致模型在验证集上过拟合。因此，留出法应用场景一般是数据量比较大的情况。</p>
-<h5 id="2、交叉验证法（Cross-Validation，CV）"><a href="#2、交叉验证法（Cross-Validation，CV）" class="headerlink" title="2、交叉验证法（Cross Validation，CV）"></a>2、交叉验证法（Cross Validation，CV）</h5><p>将训练集划分成K份，将其中的K-1份作为训练集，剩余的1份作为验证集，循环K训练。也就是K折交叉验证。如果K=1，则叫留一法。这种划分方式是所有的训练集都是验证集，最终模型验证精度是K份平均得到。优点是验证集精度比较可靠，训练K次可以得到K个有多样性差异的模型；C缺点是需要训练K次，导致复杂度过大，不适合数据量很大的情况。</p>
-<h5 id="3、自助采样法（BootStrap）"><a href="#3、自助采样法（BootStrap）" class="headerlink" title="3、自助采样法（BootStrap）"></a>3、自助采样法（BootStrap）</h5><p>这种方法我是通过吃自助餐理解的，就是一种数据自助取用的方式。通过有放回的采样方式得到新的训练集和验证集，每次的训练集和验证集都是有区别的。通过概率计算可以知道，大概有2/3左右的数据会被采样到训练集，而有1/3是没有在训练集出现的。这种划分方式一般适用于数据量较小，难以有效划分的情况。此外，自助法能从初始数据集中产生出多个不同的训练集，对于集成学习来说是有利的。缺点是采样过程中一定程度上改变了初始数据集的分布，也就是引入了估计偏差。因此，一般来说用前面两种方法比较多。</p>
-<h2 id="模型性能度量"><a href="#模型性能度量" class="headerlink" title="模型性能度量"></a>模型性能度量</h2><p>对模型的泛化性能进行评估，不仅仅需要有效可行的实验估计方法，还需要有衡量模型泛化能力的评价标准，这就是性能度量(performance measure)。</p>
-<p>一般来说，性能度量是反映任务需求的。就是说，我们要实事求是，不同类型的任务使用不同的性能度量，好的模型不仅取决于算法和数据，还取决于任务需求。</p>
-<h4 id="回归任务的评估"><a href="#回归任务的评估" class="headerlink" title="回归任务的评估"></a>回归任务的评估</h4><p><img src="/blog/2020/05/29/cv-task4/tu1.png" alt></p>
-<h4 id="分类任务的评估"><a href="#分类任务的评估" class="headerlink" title="分类任务的评估"></a>分类任务的评估</h4><p><strong>使用混淆矩阵评估模型</strong>:</p>
-<p><img src="/blog/2020/05/29/cv-task4/tu4.png" alt></p>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>本文简要梳理了机器学习中常见的三种数据集类别：训练集、验证集和测试集；并对常见的三种数据集划分方式做了介绍。最后提了一下模型的性能度量，了解还不够深入，留以后再做补充。</p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ol>
-<li>《机器学习》. 周志华</li>
-<li><a href="http://stats.stackexchange.com/questions/52274/how-to-choose-a-predictive-model-after-k-fold-cross-validation" target="_blank" rel="noopener">How to choose a predictive model after k-fold cross-validation</a></li>
-<li><a href="https://www.jianshu.com/p/21cb3ad928c6" target="_blank" rel="noopener">模型性能度量方法</a></li>
+        <blockquote>
+<p>Word2vec is a deep learning technique that feeds massive amounts of text into a shallow neural net which can then be used to solve a variety of NLP and ML problems. Usually, Word2vec Explorer uses <a href="https://github.com/piskvorky/gensim" target="_blank" rel="noopener">Gensim</a> to list and compare vectors. </p>
+</blockquote>
+<h2 id="1-recommented-refs-of-Word2vec"><a href="#1-recommented-refs-of-Word2vec" class="headerlink" title="1. recommented refs of Word2vec"></a>1. recommented refs of Word2vec</h2><ol>
+<li>Mikolov’s papers:<ol>
+<li><a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a> Word2vec, a more powerful language model framework, is proposed and used to generate word vectors.</li>
+<li><a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a> mainly about two tricks of word2vec: hierarchical softmax, negative sampling.</li>
 </ol>
-
+</li>
+<li>Yoav Goldberg’s paper: <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a> good for learning more about the formula of negative sampling.</li>
+<li>Xin Rong’s paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a> highly recommented! There are both high-level intuition explanations and detailed derivation processes.</li>
+<li>Siwei lai’s paper: <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a> </li>
+</ol>
+<h2 id="2-Word2vec"><a href="#2-Word2vec" class="headerlink" title="2. Word2vec"></a>2. Word2vec</h2><h3 id="2-1-what’s-Word2vec？"><a href="#2-1-what’s-Word2vec？" class="headerlink" title="2.1 what’s Word2vec？"></a>2.1 what’s Word2vec？</h3><p>To perform NLP, we need to find a way to vectorise words so that we can input them into our machine. So we need word embedding, which can convert symbolic words into numerical forms, in other word, embedded into a mathematical space. And Word2vec is a kind of word embedding. </p>
+<p>Word2vec only care about the model parameters (specifically the weight of the neural network), and take these parameters as a kind of vectorized representation of the input word. That means we can use Word2vec to generate word vectors.</p>
+<h3 id="2-2-Skip-gram-and-CBOW"><a href="#2-2-Skip-gram-and-CBOW" class="headerlink" title="2.2 Skip-gram and CBOW"></a>2.2 Skip-gram and CBOW</h3><ul>
+<li><strong>Skip-gram</strong>: a model use a word as input to predict the context around it.</li>
+<li><strong>CBOW</strong>: a model use the context around a word as input to predict the word itself.</li>
+</ul>
+<h4 id="2-2-1-Skip-gram"><a href="#2-2-1-Skip-gram" class="headerlink" title="2.2.1 Skip-gram"></a>2.2.1 Skip-gram</h4><p>we can take a look at the Skip-gram network structure:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/vec.jpg" alt></p>
+<p>which x is one-hot encoder which is a vector only containing one one and all other zeros and used to uniquely represent a word; y is the probability of these V words output as a group.</p>
+<p>Let’s notice this: <strong>the activation function of the hidden layer is actually linear</strong>, which the key method of Word2vec simplify the previous language model. And we use BP to train this neural network. After training, we got the weights of this net. Because only the weight corresponding to the different position of 1’s is activated, this Vx which is consisted of the weights we got can be used to uniquely represent x.  And the dimension of Vx is generally far smaller than the total number of words V, so Word2vec is essentially a dimensionality reduction operation.</p>
+<p>while y has multiple words, the network structure is as follows:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/vet2.jpg" alt></p>
+<p>It can be seen as a parallel of a single x-&gt;single y model, and the cost function is the accumulation of a single cost function (after taking log). </p>
+<h4 id="2-2-2-CBOW"><a href="#2-2-2-CBOW" class="headerlink" title="2.2.2 CBOW"></a>2.2.2 CBOW</h4><p>Similar to Skip-gram, except Skip-gram predicts the context of a word, and CBOW predicts the word using context.</p>
+<p>Network structure is as follow:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/cbow.jpg" alt></p>
+<p>It is different from the Skip-gram model in parallel. Here, the input becomes multiple words, so we need to process the input (generally sum and then average) first. The cost function of the output is unchanged. For detail you can read this paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a>.</p>
+<h3 id="2-3-training-tricks"><a href="#2-3-training-tricks" class="headerlink" title="2.3 training tricks"></a>2.3 training tricks</h3><p>Why do we need training tricks? As we just mentioned, Word2vec is essentially a language model, its output node number is V, corresponding to V words, which is essentially a multi-classification problem. But in reality, the number of words is very, very large. It will cause great difficulty in calculation, so we need to use tricks to accelerate the training.</p>
+<p>Here are two tricks:</p>
+<ul>
+<li><p>hierarchical softmax: turn the N classification problem into log(N) secondary classification.</p>
+</li>
+<li><p>negative sampling: predict a subset of the overall category.</p>
+</li>
+</ul>
+<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-Natural-Language-Processing1-Word-To-Vectors"><a href="#1-Natural-Language-Processing1-Word-To-Vectors" class="headerlink" title="1. Natural Language Processing1: Word To Vectors"></a>1. <a href="https://billmazengou.github.io/2020/06/23/NLP1-Word-to-Vectors/" target="_blank" rel="noopener">Natural Language Processing1: Word To Vectors</a></h5><h5 id="2-Word2Vec-Explorer"><a href="#2-Word2Vec-Explorer" class="headerlink" title="2. Word2Vec Explorer"></a>2. <a href="https://github.com/dominiek/word2vec-explorer" target="_blank" rel="noopener">Word2Vec Explorer</a></h5><h5 id="3-Distributed-Representations-of-Sentences-and-Documents"><a href="#3-Distributed-Representations-of-Sentences-and-Documents" class="headerlink" title="3. Distributed Representations of Sentences and Documents"></a>3. <a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a></h5><h5 id="4-Efficient-estimation-of-word-representations-in-vector-space"><a href="#4-Efficient-estimation-of-word-representations-in-vector-space" class="headerlink" title="4. Efficient estimation of word representations in vector space"></a>4. <a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a></h5><h5 id="5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method"><a href="#5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method" class="headerlink" title="5.  word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method"></a>5.  <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a></h5><h5 id="6-word2vec-Parameter-Learning-Explained"><a href="#6-word2vec-Parameter-Learning-Explained" class="headerlink" title="6. word2vec Parameter Learning Explained"></a>6. <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a></h5><h5 id="7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches"><a href="#7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches" class="headerlink" title="7.  Word and Document Embeddings based on Neural Network Approaches"></a>7.  <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a></h5>
       
     </div>
 
@@ -537,7 +551,7 @@
   
         <div class="post-tags">
           
-            <a href="/tags/CV/" rel="tag"><i class="fa fa-tag"></i> CV</a>
+            <a href="/tags/NLP/" rel="tag"><i class="fa fa-tag"></i> NLP</a>
           
         </div>
       
@@ -584,16 +598,16 @@
 
         <li class="post-copyright-link">
           <strong>本文标题：</strong>
-          <a href="http://www.7497.xyz/blog/2020/05/29/cv-task4.html" title="零基础入门CV之模型评估与性能度量">零基础入门CV之模型评估与性能度量</a>
+          <a href="http://www.7497.xyz/blog/2020/06/26/exploring-of-word2vec.html" title="Exploring of Word2vec">Exploring of Word2vec</a>
         </li>
 
         <li class="post-copyright-link">
           <strong>本文链接：</strong>
-          <a href="http://www.7497.xyz/blog/2020/05/29/cv-task4.html" title="零基础入门CV之模型评估与性能度量">http://www.7497.xyz/blog/2020/05/29/cv-task4.html</a>
+          <a href="http://www.7497.xyz/blog/2020/06/26/exploring-of-word2vec.html" title="Exploring of Word2vec">http://www.7497.xyz/blog/2020/06/26/exploring-of-word2vec.html</a>
         </li>
 
         <li class="post-copyright-date">
-            <strong>发布时间：</strong>2020年5月29日 - 09时05分
+            <strong>发布时间：</strong>2020年6月26日 - 22时06分
         </li>  
 
         <li class="post-copyright-license">
@@ -607,8 +621,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2020/05/26/cv-task3.html" rel="next" title="零基础入门CV之CNN初探">
-                <i class="fa fa-chevron-left"></i> 零基础入门CV之CNN初探
+              <a href="/blog/2020/06/24/notes-of-CS224n-part1.html" rel="next" title="Note of CS224N Lecture1 —— Introduction and word vectors">
+                <i class="fa fa-chevron-left"></i> Note of CS224N Lecture1 —— Introduction and word vectors
               </a>
             
           </div>
@@ -617,8 +631,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2020/06/02/cv-task5.html" rel="prev" title="零基础入门CV之集成学习">
-                零基础入门CV之集成学习 <i class="fa fa-chevron-right"></i>
+              <a href="/blog/2020/06/26/notes-of-cs224n-part2.html" rel="prev" title="Note of CS224n —— GloVe, Evaluation and Training">
+                Note of CS224n —— GloVe, Evaluation and Training <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -787,7 +801,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#模型评估方法"><span class="nav-number">1.</span> <span class="nav-text">模型评估方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#训练集、验证集和测试集"><span class="nav-number">1.0.1.</span> <span class="nav-text">训练集、验证集和测试集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；"><span class="nav-number">1.0.2.</span> <span class="nav-text">训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"><span class="nav-number">1.0.3.</span> <span class="nav-text">验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"><span class="nav-number">1.0.4.</span> <span class="nav-text">测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1、留出法（Hold-Out）"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">1、留出法（Hold-Out）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2、交叉验证法（Cross-Validation，CV）"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">2、交叉验证法（Cross Validation，CV）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3、自助采样法（BootStrap）"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">3、自助采样法（BootStrap）</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型性能度量"><span class="nav-number">2.</span> <span class="nav-text">模型性能度量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#回归任务的评估"><span class="nav-number">2.0.1.</span> <span class="nav-text">回归任务的评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分类任务的评估"><span class="nav-number">2.0.2.</span> <span class="nav-text">分类任务的评估</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#小结"><span class="nav-number">2.0.3.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">2.1.</span> <span class="nav-text">References</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-recommented-refs-of-Word2vec"><span class="nav-number">1.</span> <span class="nav-text">1. recommented refs of Word2vec</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Word2vec"><span class="nav-number">2.</span> <span class="nav-text">2. Word2vec</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-what’s-Word2vec？"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 what’s Word2vec？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Skip-gram-and-CBOW"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Skip-gram and CBOW</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-Skip-gram"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.2.1 Skip-gram</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-CBOW"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2.2 CBOW</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-training-tricks"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 training tricks</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-References"><span class="nav-number">3.</span> <span class="nav-text">3. References</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Natural-Language-Processing1-Word-To-Vectors"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">1. Natural Language Processing1: Word To Vectors</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-Word2Vec-Explorer"><span class="nav-number">3.0.0.2.</span> <span class="nav-text">2. Word2Vec Explorer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-Distributed-Representations-of-Sentences-and-Documents"><span class="nav-number">3.0.0.3.</span> <span class="nav-text">3. Distributed Representations of Sentences and Documents</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-Efficient-estimation-of-word-representations-in-vector-space"><span class="nav-number">3.0.0.4.</span> <span class="nav-text">4. Efficient estimation of word representations in vector space</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method"><span class="nav-number">3.0.0.5.</span> <span class="nav-text">5.  word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-word2vec-Parameter-Learning-Explained"><span class="nav-number">3.0.0.6.</span> <span class="nav-text">6. word2vec Parameter Learning Explained</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches"><span class="nav-number">3.0.0.7.</span> <span class="nav-text">7.  Word and Document Embeddings based on Neural Network Approaches</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>

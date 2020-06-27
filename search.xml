@@ -433,4 +433,66 @@
         <tag>NLP</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Exploring of Word2vec</title>
+    <url>//blog/2020/06/26/exploring-of-word2vec.html</url>
+    <content><![CDATA[<blockquote>
+<p>Word2vec is a deep learning technique that feeds massive amounts of text into a shallow neural net which can then be used to solve a variety of NLP and ML problems. Usually, Word2vec Explorer uses <a href="https://github.com/piskvorky/gensim" target="_blank" rel="noopener">Gensim</a> to list and compare vectors. </p>
+</blockquote>
+<h2 id="1-recommented-refs-of-Word2vec"><a href="#1-recommented-refs-of-Word2vec" class="headerlink" title="1. recommented refs of Word2vec"></a>1. recommented refs of Word2vec</h2><ol>
+<li>Mikolov’s papers:<ol>
+<li><a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a> Word2vec, a more powerful language model framework, is proposed and used to generate word vectors.</li>
+<li><a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a> mainly about two tricks of word2vec: hierarchical softmax, negative sampling.</li>
+</ol>
+</li>
+<li>Yoav Goldberg’s paper: <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a> good for learning more about the formula of negative sampling.</li>
+<li>Xin Rong’s paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a> highly recommented! There are both high-level intuition explanations and detailed derivation processes.</li>
+<li>Siwei lai’s paper: <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a> </li>
+</ol>
+<h2 id="2-Word2vec"><a href="#2-Word2vec" class="headerlink" title="2. Word2vec"></a>2. Word2vec</h2><h3 id="2-1-what’s-Word2vec？"><a href="#2-1-what’s-Word2vec？" class="headerlink" title="2.1 what’s Word2vec？"></a>2.1 what’s Word2vec？</h3><p>To perform NLP, we need to find a way to vectorise words so that we can input them into our machine. So we need word embedding, which can convert symbolic words into numerical forms, in other word, embedded into a mathematical space. And Word2vec is a kind of word embedding. </p>
+<p>Word2vec only care about the model parameters (specifically the weight of the neural network), and take these parameters as a kind of vectorized representation of the input word. That means we can use Word2vec to generate word vectors.</p>
+<h3 id="2-2-Skip-gram-and-CBOW"><a href="#2-2-Skip-gram-and-CBOW" class="headerlink" title="2.2 Skip-gram and CBOW"></a>2.2 Skip-gram and CBOW</h3><ul>
+<li><strong>Skip-gram</strong>: a model use a word as input to predict the context around it.</li>
+<li><strong>CBOW</strong>: a model use the context around a word as input to predict the word itself.</li>
+</ul>
+<h4 id="2-2-1-Skip-gram"><a href="#2-2-1-Skip-gram" class="headerlink" title="2.2.1 Skip-gram"></a>2.2.1 Skip-gram</h4><p>we can take a look at the Skip-gram network structure:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/vec.jpg" alt></p>
+<p>which x is one-hot encoder which is a vector only containing one one and all other zeros and used to uniquely represent a word; y is the probability of these V words output as a group.</p>
+<p>Let’s notice this: <strong>the activation function of the hidden layer is actually linear</strong>, which the key method of Word2vec simplify the previous language model. And we use BP to train this neural network. After training, we got the weights of this net. Because only the weight corresponding to the different position of 1’s is activated, this Vx which is consisted of the weights we got can be used to uniquely represent x.  And the dimension of Vx is generally far smaller than the total number of words V, so Word2vec is essentially a dimensionality reduction operation.</p>
+<p>while y has multiple words, the network structure is as follows:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/vet2.jpg" alt></p>
+<p>It can be seen as a parallel of a single x-&gt;single y model, and the cost function is the accumulation of a single cost function (after taking log). </p>
+<h4 id="2-2-2-CBOW"><a href="#2-2-2-CBOW" class="headerlink" title="2.2.2 CBOW"></a>2.2.2 CBOW</h4><p>Similar to Skip-gram, except Skip-gram predicts the context of a word, and CBOW predicts the word using context.</p>
+<p>Network structure is as follow:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/cbow.jpg" alt></p>
+<p>It is different from the Skip-gram model in parallel. Here, the input becomes multiple words, so we need to process the input (generally sum and then average) first. The cost function of the output is unchanged. For detail you can read this paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a>.</p>
+<h3 id="2-3-training-tricks"><a href="#2-3-training-tricks" class="headerlink" title="2.3 training tricks"></a>2.3 training tricks</h3><p>Why do we need training tricks? As we just mentioned, Word2vec is essentially a language model, its output node number is V, corresponding to V words, which is essentially a multi-classification problem. But in reality, the number of words is very, very large. It will cause great difficulty in calculation, so we need to use tricks to accelerate the training.</p>
+<p>Here are two tricks:</p>
+<ul>
+<li><p>hierarchical softmax: turn the N classification problem into log(N) secondary classification.</p>
+</li>
+<li><p>negative sampling: predict a subset of the overall category.</p>
+</li>
+</ul>
+<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-Natural-Language-Processing1-Word-To-Vectors"><a href="#1-Natural-Language-Processing1-Word-To-Vectors" class="headerlink" title="1. Natural Language Processing1: Word To Vectors"></a>1. <a href="https://billmazengou.github.io/2020/06/23/NLP1-Word-to-Vectors/" target="_blank" rel="noopener">Natural Language Processing1: Word To Vectors</a></h5><h5 id="2-Word2Vec-Explorer"><a href="#2-Word2Vec-Explorer" class="headerlink" title="2. Word2Vec Explorer"></a>2. <a href="https://github.com/dominiek/word2vec-explorer" target="_blank" rel="noopener">Word2Vec Explorer</a></h5><h5 id="3-Distributed-Representations-of-Sentences-and-Documents"><a href="#3-Distributed-Representations-of-Sentences-and-Documents" class="headerlink" title="3. Distributed Representations of Sentences and Documents"></a>3. <a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a></h5><h5 id="4-Efficient-estimation-of-word-representations-in-vector-space"><a href="#4-Efficient-estimation-of-word-representations-in-vector-space" class="headerlink" title="4. Efficient estimation of word representations in vector space"></a>4. <a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a></h5><h5 id="5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method"><a href="#5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method" class="headerlink" title="5.  word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method"></a>5.  <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a></h5><h5 id="6-word2vec-Parameter-Learning-Explained"><a href="#6-word2vec-Parameter-Learning-Explained" class="headerlink" title="6. word2vec Parameter Learning Explained"></a>6. <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a></h5><h5 id="7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches"><a href="#7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches" class="headerlink" title="7.  Word and Document Embeddings based on Neural Network Approaches"></a>7.  <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a></h5>]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Note of CS224n —— GloVe, Evaluation and Training</title>
+    <url>//blog/2020/06/26/notes-of-cs224n-part2.html</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
 </search>

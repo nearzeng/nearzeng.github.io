@@ -564,4 +564,52 @@ f(x)=\begin{equation}
         <tag>NLP</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Note of CS224n —— subword</title>
+    <url>//blog/2020/06/29/notes-of-CS224n-part3.html</url>
+    <content><![CDATA[<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h2><p>The Word2vec model and GloVe model mentioned in the previous posts are basically based on the word which means word as the basic unit. But theirs disadvantage is that they cannot solve the out-of-vocabulary(OOV for short) that the word is not in the vocabulary. And they have a bad performance on processing the morphology.</p>
+<p>Let’s take a look at these:</p>
+<h3 id="1-1-Word-Level-Model"><a href="#1-1-Word-Level-Model" class="headerlink" title="1.1 Word-Level Model"></a>1.1 Word-Level Model</h3><p>Based on the basic unit — word, this method can well represent each word as a  vector in the vocabulary. Its disadvantages are as follow:</p>
+<h4 id="1-1-1-OOV"><a href="#1-1-1-OOV" class="headerlink" title="1.1.1 OOV"></a>1.1.1 OOV</h4><ul>
+<li>Problem: It’s easy to appear that the word we want doesn’t in the vocabulary;</li>
+<li>Solution: Add more words into vocabulary</li>
+</ul>
+<h4 id="1-1-2-Improper-spelling"><a href="#1-1-2-Improper-spelling" class="headerlink" title="1.1.2 Improper spelling"></a>1.1.2 Improper spelling</h4><ul>
+<li>Problem: The system is difficult to deal with the word which has unofficial spelling.</li>
+<li>Solution: Correct the wrong spelling word or add rule constraints.</li>
+</ul>
+<h4 id="1-1-3-Name-Translation"><a href="#1-1-3-Name-Translation" class="headerlink" title="1.1.3 Name Translation"></a>1.1.3 Name Translation</h4><ul>
+<li>Problem: It’s difficult to transliterate names.</li>
+<li>Solution: Add rule constrains.</li>
+</ul>
+<h3 id="1-2-Character-Level-Model"><a href="#1-2-Character-Level-Model" class="headerlink" title="1.2 Character-Level Model"></a>1.2 Character-Level Model</h3><p>Based on character as the basic unit, this method can well vectorize each Char in the font. It’s good at solving OOV problems and having similar embedding among the words that have similar spelling.</p>
+<h4 id="Problem"><a href="#Problem" class="headerlink" title="Problem:"></a>Problem:</h4><p>Compared to word-level, character-level input sentences become longer, making the data sparse, and the dependence on long distance is difficult to learn, and the training speed is reduced.</p>
+<h4 id="Solution"><a href="#Solution" class="headerlink" title="Solution:"></a>Solution:</h4><p><a href="https://arxiv.org/abs/1610.03017" target="_blank" rel="noopener">Fully Character-Level Neural Machine Translation without Explicit Segmentation</a> introduced a way which uses multiple layers of convolution, pooling and highway layer to solve this problem. The structure of the encoder is shown below:</p>
+<p><img src="/blog/2020/06/29/notes-of-CS224n-part3/encoder.jpg" alt></p>
+<p>And how it works:</p>
+<ol>
+<li>The input characters first need to go through the Character embedding layer and be converted into character embeddings representation;</li>
+<li>Convolution kernels with different window sizes are used to perform the convolution operation on the character embeddings of the input characters. The sizes of the windows used in the paper are 3, 4 and 5, respectively, that is, to learn Character-level 3-gram, 4-gram, 5-gram;</li>
+<li>Perform max-pooling operations on the convolution results of different convolutional layers, that is, capture its most significant features to generate segment embedding;</li>
+<li>The segment embedding passes through the Highway Network (some similar to the Residual network, which facilitates the flow of information in the deep network, but some gates are added to control the flow of information);</li>
+<li>The output results go through the single layer BiGRU to get the final encoder output;</li>
+<li>The decoder uses the Attention mechanism and character level GRU to decode it.</li>
+</ol>
+<p>The experimental results show that the character-based model can better handle the OOV problem, and for multi-language scenarios, it can better learn the common morphemes among languages. And it can capture the 3-gram, 4-gram, 5-gram information of the sentence, which is also the prototype of the idea of FastText later.</p>
+<h3 id="1-3-Subword-Model"><a href="#1-3-Subword-Model" class="headerlink" title="1.3 Subword Model"></a>1.3 Subword Model</h3><p>Subword model is a model created by taking a component between characters and words as the basic unit. It is divided into Byte Pair Encoding (BPE) and SentencePiece. </p>
+<h2 id="2-Sub-word-Model"><a href="#2-Sub-word-Model" class="headerlink" title="2. Sub-word Model"></a>2. Sub-word Model</h2><p>Sub-word model has now become an important NLP model performance improvement method. Since BERT was born in 2018 and swept through the major rankings in the NLP world, various pre-trained language models have emerged like mushrooms, among which the Sub-word model has become a standard. And it has great advantages compared with the traditional space separation tokenization technology.</p>
+<h3 id="2-1-Byte-Pair-Enconding-BPE"><a href="#2-1-Byte-Pair-Enconding-BPE" class="headerlink" title="2.1 Byte Pair Enconding(BPE)"></a>2.1 Byte Pair Enconding(BPE)</h3><p>BPE is one of the compression algorithms. The main idea is to replace the frequently occurring byte pair with a new byte. For example, if (‘A’,’B’) appears frequently in sequence, then use a new flag (‘AB’) To replace them. </p>
+<p>Given a text library, our initial vocabulary contains only all single characters, and then continuously add the n-gram pair with the highest frequency as a new n-gram to the vocabulary until the size of the vocabulary reaches a certain goal we set.</p>
+<p>Google’s NMT model also evolved from BPE, one called word-piece model and one called sentence-piece model. The word-piece model does not select the n-gram with the highest frequency each time, but selects the n-gram that can reduce the complexity of the language model each time. </p>
+<h3 id="2-2-Sentence-Piece"><a href="#2-2-Sentence-Piece" class="headerlink" title="2.2 Sentence-Piece"></a>2.2 Sentence-Piece</h3><p>The sentence-piece model regards the gap between words as a word, so that the entire sentence can be directly processed without preprocessing into words and then embedding.</p>
+<h2 id="3-Hybrid-character-and-word-level-models"><a href="#3-Hybrid-character-and-word-level-models" class="headerlink" title="3. Hybrid character and word-level models"></a>3. Hybrid character and word-level models</h2><p>The key idea: most of the time, the word-level model is used for translation. Only when the words of rare or unseen are encountered, the character-level model will be used to assist. This approach has produced very good results.</p>
+<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><h5 id="1-Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models"><a href="#1-Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models" class="headerlink" title="1. Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models"></a>1. <a href="https://arxiv.org/abs/1604.00788v1" target="_blank" rel="noopener">Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models</a></h5><h5 id="2-Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation"><a href="#2-Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation" class="headerlink" title="2.Fully Character-Level Neural Machine Translation without Explicit Segmentation"></a>2.<a href="https://arxiv.org/abs/1610.03017" target="_blank" rel="noopener">Fully Character-Level Neural Machine Translation without Explicit Segmentation</a></h5><h5 id="3-Enriching-Word-Vectors-with-Subword-Information"><a href="#3-Enriching-Word-Vectors-with-Subword-Information" class="headerlink" title="3. Enriching Word Vectors with Subword Information"></a>3. <a href="https://arxiv.org/pdf/1607.04606.pdf" target="_blank" rel="noopener">Enriching Word Vectors with Subword Information</a></h5>]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
 </search>

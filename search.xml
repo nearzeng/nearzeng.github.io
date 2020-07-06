@@ -143,6 +143,165 @@
       </tags>
   </entry>
   <entry>
+    <title>零基础入门CV之数据读取与数据扩增</title>
+    <url>//blog/2020/05/23/cv-task2.html</url>
+    <content><![CDATA[<h3 id="图像读取"><a href="#图像读取" class="headerlink" title="图像读取"></a>图像读取</h3><p>由于赛题数据是图像数据，赛题的任务是识别图像中的字符。因此我们首先需要完成对数据的读取操作，在Python中有很多库可以完成数据读取的操作，比较常见的有Pillow和OpenCV。     </p>
+<h4 id="Pillow"><a href="#Pillow" class="headerlink" title="Pillow"></a>Pillow</h4><p><a href="https://pillow.readthedocs.io/en/stable/" target="_blank" rel="noopener">官方文档</a></p>
+<p>Pillow是Python图像处理函式库(PIL）的一个分支。Pillow提供了常见的图像读取和处理的操作，而且可以与ipython notebook无缝集成，是应用比较广泛的库。 </p>
+<p>可以简单看下这个库常用的模块：</p>
+<p><img src="https://img-blog.csdnimg.cn/20190303145700384.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0ZXZlbnRpYW43Mg==,size_16,color_FFFFFF,t_70" alt></p>
+<p> <strong>接着我们来演示一下简单其最基本的几个操作</strong>：               <img src="/blog/2020/05/23/cv-task2/2_1.png" alt="原图"></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_2.png" alt="rotate"></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_3.png" alt="thumbnail"></p>
+<p>Pillow还有很多图像操作，是图像处理的必备库。</p>
+<h4 id="OpenCV"><a href="#OpenCV" class="headerlink" title="OpenCV"></a>OpenCV</h4><p>OpenCV是一个跨平台的计算机视觉库，最早由Intel开源得来。OpenCV发展的非常早，拥有众多的计算机视觉、数字图像处理和机器视觉等功能。<strong>OpenCV在功能上比Pillow更加强大很多，学习成本也高很多。</strong></p>
+<p>我们可以看看OpenCV的学习思维导图：</p>
+<p> <img src="https://img-blog.csdn.net/20160812160354901?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt></p>
+<p><strong>同样，下面我们演示一些基本的操作：</strong></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_4.png" alt></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_5.png" alt="gray"></p>
+<p><img src="/blog/2020/05/23/cv-task2/2_6.png" alt="canny"></p>
+<p>OpenCV包含了众多的图像处理的功能，OpenCV包含了你能想得到的只要与图像相关的操作。此外OpenCV还内置了很多的图像特征处理算法，如关键点检测、边缘检测和直线检测等。<br>OpenCV官网：<a href="https://opencv.org/" target="_blank" rel="noopener">https://opencv.org/</a><br>OpenCV Github：<a href="https://github.com/opencv/opencv" target="_blank" rel="noopener">https://github.com/opencv/opencv</a><br>OpenCV 扩展算法库：<a href="https://github.com/opencv/opencv_contrib" target="_blank" rel="noopener">https://github.com/opencv/opencv_contrib</a></p>
+<h3 id="数据扩增方法"><a href="#数据扩增方法" class="headerlink" title="数据扩增方法"></a>数据扩增方法</h3><p>在上一小节中给大家初步介绍了Pillow和OpenCV的使用，现在回到赛题街道字符识别任务中。在赛题中我们需要对的图像进行字符识别，因此需要我们完成的数据的读取操作，同时也需要完成数据扩增（Data Augmentation）操作。     </p>
+<h4 id="数据扩增介绍"><a href="#数据扩增介绍" class="headerlink" title="数据扩增介绍"></a>数据扩增介绍</h4><p><strong>在深度学习中数据扩增方法非常重要，数据扩增可以增加训练集的样本，同时也可以有效缓解模型过拟合的情况，也可以给模型带来的更强的泛化能力。</strong></p>
+<p><img src="/blog/2020/05/23/cv-task2/数据扩增.png" alt="IMG"></p>
+<ul>
+<li><h4 id="数据扩增为什么有用？"><a href="#数据扩增为什么有用？" class="headerlink" title="数据扩增为什么有用？"></a>数据扩增为什么有用？</h4>在深度学习模型的训练过程中，数据扩增是必不可少的环节。现有深度学习的参数非常多，一般的模型可训练的参数量基本上都是万到百万级别，而训练集样本的数量很难有这么多。<br>其次数据扩增可以扩展样本空间，假设现在的分类模型需要对汽车进行分类，左边的是汽车A，右边为汽车B。如果不使用任何数据扩增方法，深度学习模型会从汽车车头的角度来进行判别，而不是汽车具体的区别。     </li>
+</ul>
+<p><img src="/blog/2020/05/23/cv-task2/数据扩增car.png" alt="IMG">   </p>
+<ul>
+<li><h4 id="有哪些数据扩增方法？"><a href="#有哪些数据扩增方法？" class="headerlink" title="有哪些数据扩增方法？"></a>有哪些数据扩增方法？</h4>数据扩增方法有很多：从颜色空间、尺度空间到样本空间，同时根据不同任务数据扩增都有相应的区别。        <strong>对于图像分类，数据扩增一般不会改变标签；对于物体检测，数据扩增会改变物体坐标位置；对于图像分割，数据扩增会改变像素标签。</strong>      <h4 id="常见的数据扩增方法"><a href="#常见的数据扩增方法" class="headerlink" title="常见的数据扩增方法"></a>常见的数据扩增方法</h4>在常见的数据扩增方法中，一般会从图像颜色、尺寸、形态、空间和像素等角度进行变换。当然不同的数据扩增方法可以自由进行组合，得到更加丰富的数据扩增方法。         </li>
+</ul>
+<p>以torchvision为例，常见的数据扩增方法包括：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">扩增方法</th>
+<th style="text-align:center">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">transforms.CenterCrop</td>
+<td style="text-align:center">对图片中心进行裁剪</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.ColorJitter</td>
+<td style="text-align:center">调整图像颜色的对比度、饱和度和零度</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.FiveCrop</td>
+<td style="text-align:center">对图像四个角和中心进行裁剪得到五分图像</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.Grayscale</td>
+<td style="text-align:center">对图像进行灰度变换</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.Pad</td>
+<td style="text-align:center">使用固定值进行像素填充</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.RandomAffine</td>
+<td style="text-align:center">随机仿射变换</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.RandomCrop</td>
+<td style="text-align:center">随机区域裁剪</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.RandomHorizontalFlip</td>
+<td style="text-align:center">随机水平翻转</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.RandomRotation</td>
+<td style="text-align:center">随机旋转</td>
+</tr>
+<tr>
+<td style="text-align:center">transforms.RandomVerticalFlip</td>
+<td style="text-align:center">随机垂直翻转</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p> <img src="/blog/2020/05/23/cv-task2/数据扩增示例.png" alt="IMG">    </p>
+<p>在本次赛题中，赛题任务是需要对图像中的字符进行识别，因此对于字符图片并不能进行翻转操作。比如字符6经过水平翻转就变成了字符9，会改变字符原本的含义。    </p>
+<h4 id="常用的数据扩增库"><a href="#常用的数据扩增库" class="headerlink" title="常用的数据扩增库"></a>常用的数据扩增库</h4><ul>
+<li><h4 id="torchvision"><a href="#torchvision" class="headerlink" title="torchvision"></a><a href="https://github.com/pytorch/vision" target="_blank" rel="noopener">torchvision</a></h4><p>pytorch官方提供的数据扩增库，提供了基本的数据数据扩增方法，可以无缝与torch进行集成；但数据扩增方法种类较少，且速度中等；下面给出的例子就是用这种方法。       </p>
+</li>
+<li><h4 id="imgaug"><a href="#imgaug" class="headerlink" title="imgaug"></a><a href="https://github.com/aleju/imgaug" target="_blank" rel="noopener">imgaug</a></h4><p>imgaug是常用的第三方数据扩增库，提供了多样的数据扩增方法，且组合起来非常方便，速度较快；      </p>
+</li>
+<li><h4 id="albumentations"><a href="#albumentations" class="headerlink" title="albumentations"></a><a href="https://albumentations.readthedocs.io" target="_blank" rel="noopener">albumentations</a></h4><p>是常用的第三方数据扩增库，提供了多样的数据扩增方法，对图像分类、语义分割、物体检测和关键点检测都支持，速度较快。      </p>
+</li>
+</ul>
+<h2 id="Pytorch读取数据"><a href="#Pytorch读取数据" class="headerlink" title="Pytorch读取数据"></a>Pytorch读取数据</h2><p>由于本次赛题我们使用Pytorch框架讲解具体的解决方案，接下来将是解决赛题的第一步 —— 使用Pytorch读取赛题数据。<br><strong>在Pytorch中数据是通过Dataset进行封装，并通过DataLoder进行并行读取。</strong></p>
+<p>我们先来看一下<strong>Dataset</strong>这个类：</p>
+<ol>
+<li><strong>作用: 创建数据集，有<code>__getitem__</code>(self, index)函数来根据索引序号获取图片和标签，有<code>__len__</code>(self)函数来获取数据集的长度。</strong></li>
+<li><strong>其他的数据集类必须是torch.utils.data.Dataset的子类,比如说torchvision.ImageFolder</strong></li>
+</ol>
+<p>所以我们只需要重载一下数据读取的逻辑就可以完成数据的读取。      </p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">data = SVHNDataset(train_path, train_label,</span><br><span class="line">          transforms.Compose([</span><br><span class="line">              <span class="comment"># 缩放到固定尺寸</span></span><br><span class="line">              transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 随机颜色变换</span></span><br><span class="line">              transforms.ColorJitter(<span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 加入随机旋转</span></span><br><span class="line">              transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 将图片转换为pytorch 的tesntor</span></span><br><span class="line">              <span class="comment"># transforms.ToTensor(),</span></span><br><span class="line"></span><br><span class="line">              <span class="comment"># 对图像像素进行归一化</span></span><br><span class="line">              <span class="comment"># transforms.Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])</span></span><br><span class="line">            ]))</span><br></pre></td></tr></table></figure>
+<p>通过上述代码，可以将赛题的图像数据和对应标签进行读取，在读取过程中的进行数据扩增，效果如下所示：</p>
+<p>​       </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="/blog/2020/05/23/cv-task2/23.png" alt="IMG"></td>
+<td><img src="/blog/2020/05/23/cv-task2/23_1.png" alt="IMG"></td>
+<td><img src="/blog/2020/05/23/cv-task2/23_2.png" alt="IMG"></td>
+</tr>
+<tr>
+<td><img src="/blog/2020/05/23/cv-task2/144_1.png" alt="IMG"></td>
+<td><img src="/blog/2020/05/23/cv-task2/144_2.png" alt="IMG"></td>
+<td><img src="/blog/2020/05/23/cv-task2/144_3.png" alt="IMG"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>接下来我们将在定义好的Dataset基础上构建DataLoder，你可以会问有了Dataset为什么还要有DataLoder？其实这两个是两个不同的概念，是为了实现不同的功能。                 </p>
+<ul>
+<li><strong>Dataset：对数据集的封装，提供索引方式的对数据样本进行读取</strong>      </li>
+<li><strong>DataLoder：对Dataset进行封装，提供批量读取的迭代读取</strong>    </li>
+</ul>
+<p>其中，<strong>DataLoder</strong>的参数说明如下：</p>
+<ul>
+<li><code>dataset</code> 传入的数据集；</li>
+<li><code>batch_size</code>每个batch有多少个样本；</li>
+<li><code>shuffle</code>是否打乱数据；</li>
+<li><code>num_workers</code>有几个进程来处理data loading；win下一般不能多进程，只能设置为0；</li>
+<li><code>collate_fn</code>将一个list的sample组成一个mini-batch的函数；</li>
+</ul>
+<p>其主要逻辑处理过程是先通过Dataset类里面的<code>__getitem__</code>函数获取单个的数据，然后组合成batch，再使用<code>collate_fn</code>所指定的函数对这个batch做一些操作，比如padding之类的。</p>
+<p> 加入DataLoder后，数据读取代码改为如下：<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(</span><br><span class="line">        SVHNDataset(train_path, train_label,</span><br><span class="line">                   transforms.Compose([</span><br><span class="line">                       transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line">                       transforms.ColorJitter(<span class="number">0.3</span>, <span class="number">0.3</span>, <span class="number">0.2</span>),</span><br><span class="line">                       transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line">                       transforms.ToTensor(),</span><br><span class="line">                       transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">            ])), </span><br><span class="line">    batch_size=<span class="number">10</span>, <span class="comment"># 每批样本个数</span></span><br><span class="line">    shuffle=<span class="literal">False</span>, <span class="comment"># 是否打乱顺序</span></span><br><span class="line">    num_workers=<span class="number">10</span>, <span class="comment"># 读取的线程个数</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> train_loader:</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure></p>
+<p>在加入DataLoder后，数据按照批次获取，每批次调用Dataset读取单个样本进行拼接。此时data的格式为：<br>                <code>torch.Size([10, 3, 64, 128]), torch.Size([10, 6])</code><br>前者为图像文件，为<code>batchsize</code>  <em>  <code>chanel</code>  </em>  <code>height</code>  *  <code>width</code>次序；后者为字符标签。      </p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章对数据读取进行了详细的讲解，并介绍了常见的数据扩增方法和使用，最后使用Pytorch框架对本次赛题的数据进行读取。 </p>
+<h5 id="鸣谢和参考"><a href="#鸣谢和参考" class="headerlink" title="鸣谢和参考"></a>鸣谢和参考</h5><p>References</p>
+<ol>
+<li><a href="https://blog.csdn.net/wfy2695766757/article/details/81193370" target="_blank" rel="noopener">Python的Pillow库进行图像文件处理</a></li>
+<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2002%20%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9E.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task2 数据读取与数据扩增</a></li>
+<li><a href="https://blog.csdn.net/steventian72/article/details/88088277?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-2" target="_blank" rel="noopener">Python图像处理库PIL的知识点思维导图</a></li>
+</ol>
+<p>​     </p>
+]]></content>
+      <categories>
+        <category>入门</category>
+        <category>天池赛题</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>零基础入门CV之CNN初探</title>
     <url>//blog/2020/05/26/cv-task3.html</url>
     <content><![CDATA[<h2 id="CNN-简介"><a href="#CNN-简介" class="headerlink" title="CNN 简介"></a>CNN 简介</h2><h5 id="1、CNN的组成"><a href="#1、CNN的组成" class="headerlink" title="1、CNN的组成"></a>1、CNN的组成</h5><p>CNN由纽约大学的Yann LeCun于1998年提出。本质上是一个多层感知机，其成功的原因关键在于它所采用的局部连接和共享权值的方式。CNN是一类特殊的人工神经网络，是深度学习中重要的一个分支。CNN在很多领域都表现优异，精度和速度比传统计算学习算法高很多。特别是在计算机视觉领域，CNN是解决图像分类、图像检索、物体检测和语义分割的主流模型。CNN通常由卷积（convolution）、池化（pooling）、非线性激活函数（non-linear activation function）和全连接层（fully connected layer）构成。</p>
@@ -284,6 +443,56 @@
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Exploring of Word2vec</title>
+    <url>//blog/2020/06/26/exploring-of-word2vec.html</url>
+    <content><![CDATA[<blockquote>
+<p>Word2vec is a deep learning technique that feeds massive amounts of text into a shallow neural net which can then be used to solve a variety of NLP and ML problems. Usually, Word2vec Explorer uses <a href="https://github.com/piskvorky/gensim" target="_blank" rel="noopener">Gensim</a> to list and compare vectors. </p>
+</blockquote>
+<h2 id="1-recommented-refs-of-Word2vec"><a href="#1-recommented-refs-of-Word2vec" class="headerlink" title="1. recommented refs of Word2vec"></a>1. recommented refs of Word2vec</h2><ol>
+<li>Mikolov’s papers:<ol>
+<li><a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a> Word2vec, a more powerful language model framework, is proposed and used to generate word vectors.</li>
+<li><a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a> mainly about two tricks of word2vec: hierarchical softmax, negative sampling.</li>
+</ol>
+</li>
+<li>Yoav Goldberg’s paper: <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a> good for learning more about the formula of negative sampling.</li>
+<li>Xin Rong’s paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a> highly recommented! There are both high-level intuition explanations and detailed derivation processes.</li>
+<li>Siwei lai’s paper: <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a> </li>
+</ol>
+<h2 id="2-Word2vec"><a href="#2-Word2vec" class="headerlink" title="2. Word2vec"></a>2. Word2vec</h2><h3 id="2-1-what’s-Word2vec？"><a href="#2-1-what’s-Word2vec？" class="headerlink" title="2.1 what’s Word2vec？"></a>2.1 what’s Word2vec？</h3><p>To perform NLP, we need to find a way to vectorise words so that we can input them into our machine. So we need word embedding, which can convert symbolic words into numerical forms, in other word, embedded into a mathematical space. And Word2vec is a kind of word embedding. </p>
+<p>Word2vec only care about the model parameters (specifically the weight of the neural network), and take these parameters as a kind of vectorized representation of the input word. That means we can use Word2vec to generate word vectors.</p>
+<h3 id="2-2-Skip-gram-and-CBOW"><a href="#2-2-Skip-gram-and-CBOW" class="headerlink" title="2.2 Skip-gram and CBOW"></a>2.2 Skip-gram and CBOW</h3><ul>
+<li><strong>Skip-gram</strong>: a model use a word as input to predict the context around it.</li>
+<li><strong>CBOW</strong>: a model use the context around a word as input to predict the word itself.</li>
+</ul>
+<h4 id="2-2-1-Skip-gram"><a href="#2-2-1-Skip-gram" class="headerlink" title="2.2.1 Skip-gram"></a>2.2.1 Skip-gram</h4><p>we can take a look at the Skip-gram network structure:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/vec.jpg" alt></p>
+<p>which x is one-hot encoder which is a vector only containing one one and all other zeros and used to uniquely represent a word; y is the probability of these V words output as a group.</p>
+<p>Let’s notice this: <strong>the activation function of the hidden layer is actually linear</strong>, which the key method of Word2vec simplify the previous language model. And we use BP to train this neural network. After training, we got the weights of this net. Because only the weight corresponding to the different position of 1’s is activated, this Vx which is consisted of the weights we got can be used to uniquely represent x.  And the dimension of Vx is generally far smaller than the total number of words V, so Word2vec is essentially a dimensionality reduction operation.</p>
+<p>while y has multiple words, the network structure is as follows:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/vet2.jpg" alt></p>
+<p>It can be seen as a parallel of a single x-&gt;single y model, and the cost function is the accumulation of a single cost function (after taking log). </p>
+<h4 id="2-2-2-CBOW"><a href="#2-2-2-CBOW" class="headerlink" title="2.2.2 CBOW"></a>2.2.2 CBOW</h4><p>Similar to Skip-gram, except Skip-gram predicts the context of a word, and CBOW predicts the word using context.</p>
+<p>Network structure is as follow:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/cbow.jpg" alt></p>
+<p>It is different from the Skip-gram model in parallel. Here, the input becomes multiple words, so we need to process the input (generally sum and then average) first. The cost function of the output is unchanged. For detail you can read this paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a>.</p>
+<h3 id="2-3-training-tricks"><a href="#2-3-training-tricks" class="headerlink" title="2.3 training tricks"></a>2.3 training tricks</h3><p>Why do we need training tricks? As we just mentioned, Word2vec is essentially a language model, its output node number is V, corresponding to V words, which is essentially a multi-classification problem. But in reality, the number of words is very, very large. It will cause great difficulty in calculation, so we need to use tricks to accelerate the training.</p>
+<p>Here are two tricks:</p>
+<ul>
+<li><p>hierarchical softmax: turn the N classification problem into log(N) secondary classification.</p>
+</li>
+<li><p>negative sampling: predict a subset of the overall category.</p>
+</li>
+</ul>
+<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-Natural-Language-Processing1-Word-To-Vectors"><a href="#1-Natural-Language-Processing1-Word-To-Vectors" class="headerlink" title="1. Natural Language Processing1: Word To Vectors"></a>1. <a href="https://billmazengou.github.io/2020/06/23/NLP1-Word-to-Vectors/" target="_blank" rel="noopener">Natural Language Processing1: Word To Vectors</a></h5><h5 id="2-Word2Vec-Explorer"><a href="#2-Word2Vec-Explorer" class="headerlink" title="2. Word2Vec Explorer"></a>2. <a href="https://github.com/dominiek/word2vec-explorer" target="_blank" rel="noopener">Word2Vec Explorer</a></h5><h5 id="3-Distributed-Representations-of-Sentences-and-Documents"><a href="#3-Distributed-Representations-of-Sentences-and-Documents" class="headerlink" title="3. Distributed Representations of Sentences and Documents"></a>3. <a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a></h5><h5 id="4-Efficient-estimation-of-word-representations-in-vector-space"><a href="#4-Efficient-estimation-of-word-representations-in-vector-space" class="headerlink" title="4. Efficient estimation of word representations in vector space"></a>4. <a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a></h5><h5 id="5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method"><a href="#5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method" class="headerlink" title="5.  word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method"></a>5.  <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a></h5><h5 id="6-word2vec-Parameter-Learning-Explained"><a href="#6-word2vec-Parameter-Learning-Explained" class="headerlink" title="6. word2vec Parameter Learning Explained"></a>6. <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a></h5><h5 id="7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches"><a href="#7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches" class="headerlink" title="7.  Word and Document Embeddings based on Neural Network Approaches"></a>7.  <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a></h5>]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
@@ -452,222 +661,16 @@ f(x)=\begin{equation}
   <entry>
     <title>Note of CS224n —— Homework</title>
     <url>//blog/2020/07/06/notes-of-CS224n-part5.html</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>入门</category>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>NLP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Exploring of Word2vec</title>
-    <url>//blog/2020/06/26/exploring-of-word2vec.html</url>
-    <content><![CDATA[<blockquote>
-<p>Word2vec is a deep learning technique that feeds massive amounts of text into a shallow neural net which can then be used to solve a variety of NLP and ML problems. Usually, Word2vec Explorer uses <a href="https://github.com/piskvorky/gensim" target="_blank" rel="noopener">Gensim</a> to list and compare vectors. </p>
-</blockquote>
-<h2 id="1-recommented-refs-of-Word2vec"><a href="#1-recommented-refs-of-Word2vec" class="headerlink" title="1. recommented refs of Word2vec"></a>1. recommented refs of Word2vec</h2><ol>
-<li>Mikolov’s papers:<ol>
-<li><a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a> Word2vec, a more powerful language model framework, is proposed and used to generate word vectors.</li>
-<li><a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a> mainly about two tricks of word2vec: hierarchical softmax, negative sampling.</li>
-</ol>
-</li>
-<li>Yoav Goldberg’s paper: <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a> good for learning more about the formula of negative sampling.</li>
-<li>Xin Rong’s paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a> highly recommented! There are both high-level intuition explanations and detailed derivation processes.</li>
-<li>Siwei lai’s paper: <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a> </li>
-</ol>
-<h2 id="2-Word2vec"><a href="#2-Word2vec" class="headerlink" title="2. Word2vec"></a>2. Word2vec</h2><h3 id="2-1-what’s-Word2vec？"><a href="#2-1-what’s-Word2vec？" class="headerlink" title="2.1 what’s Word2vec？"></a>2.1 what’s Word2vec？</h3><p>To perform NLP, we need to find a way to vectorise words so that we can input them into our machine. So we need word embedding, which can convert symbolic words into numerical forms, in other word, embedded into a mathematical space. And Word2vec is a kind of word embedding. </p>
-<p>Word2vec only care about the model parameters (specifically the weight of the neural network), and take these parameters as a kind of vectorized representation of the input word. That means we can use Word2vec to generate word vectors.</p>
-<h3 id="2-2-Skip-gram-and-CBOW"><a href="#2-2-Skip-gram-and-CBOW" class="headerlink" title="2.2 Skip-gram and CBOW"></a>2.2 Skip-gram and CBOW</h3><ul>
-<li><strong>Skip-gram</strong>: a model use a word as input to predict the context around it.</li>
-<li><strong>CBOW</strong>: a model use the context around a word as input to predict the word itself.</li>
-</ul>
-<h4 id="2-2-1-Skip-gram"><a href="#2-2-1-Skip-gram" class="headerlink" title="2.2.1 Skip-gram"></a>2.2.1 Skip-gram</h4><p>we can take a look at the Skip-gram network structure:</p>
-<p><img src="/blog/2020/06/26/exploring-of-word2vec/vec.jpg" alt></p>
-<p>which x is one-hot encoder which is a vector only containing one one and all other zeros and used to uniquely represent a word; y is the probability of these V words output as a group.</p>
-<p>Let’s notice this: <strong>the activation function of the hidden layer is actually linear</strong>, which the key method of Word2vec simplify the previous language model. And we use BP to train this neural network. After training, we got the weights of this net. Because only the weight corresponding to the different position of 1’s is activated, this Vx which is consisted of the weights we got can be used to uniquely represent x.  And the dimension of Vx is generally far smaller than the total number of words V, so Word2vec is essentially a dimensionality reduction operation.</p>
-<p>while y has multiple words, the network structure is as follows:</p>
-<p><img src="/blog/2020/06/26/exploring-of-word2vec/vet2.jpg" alt></p>
-<p>It can be seen as a parallel of a single x-&gt;single y model, and the cost function is the accumulation of a single cost function (after taking log). </p>
-<h4 id="2-2-2-CBOW"><a href="#2-2-2-CBOW" class="headerlink" title="2.2.2 CBOW"></a>2.2.2 CBOW</h4><p>Similar to Skip-gram, except Skip-gram predicts the context of a word, and CBOW predicts the word using context.</p>
-<p>Network structure is as follow:</p>
-<p><img src="/blog/2020/06/26/exploring-of-word2vec/cbow.jpg" alt></p>
-<p>It is different from the Skip-gram model in parallel. Here, the input becomes multiple words, so we need to process the input (generally sum and then average) first. The cost function of the output is unchanged. For detail you can read this paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a>.</p>
-<h3 id="2-3-training-tricks"><a href="#2-3-training-tricks" class="headerlink" title="2.3 training tricks"></a>2.3 training tricks</h3><p>Why do we need training tricks? As we just mentioned, Word2vec is essentially a language model, its output node number is V, corresponding to V words, which is essentially a multi-classification problem. But in reality, the number of words is very, very large. It will cause great difficulty in calculation, so we need to use tricks to accelerate the training.</p>
-<p>Here are two tricks:</p>
-<ul>
-<li><p>hierarchical softmax: turn the N classification problem into log(N) secondary classification.</p>
-</li>
-<li><p>negative sampling: predict a subset of the overall category.</p>
-</li>
-</ul>
-<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-Natural-Language-Processing1-Word-To-Vectors"><a href="#1-Natural-Language-Processing1-Word-To-Vectors" class="headerlink" title="1. Natural Language Processing1: Word To Vectors"></a>1. <a href="https://billmazengou.github.io/2020/06/23/NLP1-Word-to-Vectors/" target="_blank" rel="noopener">Natural Language Processing1: Word To Vectors</a></h5><h5 id="2-Word2Vec-Explorer"><a href="#2-Word2Vec-Explorer" class="headerlink" title="2. Word2Vec Explorer"></a>2. <a href="https://github.com/dominiek/word2vec-explorer" target="_blank" rel="noopener">Word2Vec Explorer</a></h5><h5 id="3-Distributed-Representations-of-Sentences-and-Documents"><a href="#3-Distributed-Representations-of-Sentences-and-Documents" class="headerlink" title="3. Distributed Representations of Sentences and Documents"></a>3. <a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a></h5><h5 id="4-Efficient-estimation-of-word-representations-in-vector-space"><a href="#4-Efficient-estimation-of-word-representations-in-vector-space" class="headerlink" title="4. Efficient estimation of word representations in vector space"></a>4. <a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a></h5><h5 id="5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method"><a href="#5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method" class="headerlink" title="5.  word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method"></a>5.  <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a></h5><h5 id="6-word2vec-Parameter-Learning-Explained"><a href="#6-word2vec-Parameter-Learning-Explained" class="headerlink" title="6. word2vec Parameter Learning Explained"></a>6. <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a></h5><h5 id="7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches"><a href="#7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches" class="headerlink" title="7.  Word and Document Embeddings based on Neural Network Approaches"></a>7.  <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a></h5>]]></content>
-      <categories>
-        <category>入门</category>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>NLP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>零基础入门CV之数据读取与数据扩增</title>
-    <url>//blog/2020/05/23/cv-task2.html</url>
-    <content><![CDATA[<h3 id="图像读取"><a href="#图像读取" class="headerlink" title="图像读取"></a>图像读取</h3><p>由于赛题数据是图像数据，赛题的任务是识别图像中的字符。因此我们首先需要完成对数据的读取操作，在Python中有很多库可以完成数据读取的操作，比较常见的有Pillow和OpenCV。     </p>
-<h4 id="Pillow"><a href="#Pillow" class="headerlink" title="Pillow"></a>Pillow</h4><p><a href="https://pillow.readthedocs.io/en/stable/" target="_blank" rel="noopener">官方文档</a></p>
-<p>Pillow是Python图像处理函式库(PIL）的一个分支。Pillow提供了常见的图像读取和处理的操作，而且可以与ipython notebook无缝集成，是应用比较广泛的库。 </p>
-<p>可以简单看下这个库常用的模块：</p>
-<p><img src="https://img-blog.csdnimg.cn/20190303145700384.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N0ZXZlbnRpYW43Mg==,size_16,color_FFFFFF,t_70" alt></p>
-<p> <strong>接着我们来演示一下简单其最基本的几个操作</strong>：               <img src="/blog/2020/05/23/cv-task2/2_1.png" alt="原图"></p>
-<p><img src="/blog/2020/05/23/cv-task2/2_2.png" alt="rotate"></p>
-<p><img src="/blog/2020/05/23/cv-task2/2_3.png" alt="thumbnail"></p>
-<p>Pillow还有很多图像操作，是图像处理的必备库。</p>
-<h4 id="OpenCV"><a href="#OpenCV" class="headerlink" title="OpenCV"></a>OpenCV</h4><p>OpenCV是一个跨平台的计算机视觉库，最早由Intel开源得来。OpenCV发展的非常早，拥有众多的计算机视觉、数字图像处理和机器视觉等功能。<strong>OpenCV在功能上比Pillow更加强大很多，学习成本也高很多。</strong></p>
-<p>我们可以看看OpenCV的学习思维导图：</p>
-<p> <img src="https://img-blog.csdn.net/20160812160354901?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt></p>
-<p><strong>同样，下面我们演示一些基本的操作：</strong></p>
-<p><img src="/blog/2020/05/23/cv-task2/2_4.png" alt></p>
-<p><img src="/blog/2020/05/23/cv-task2/2_5.png" alt="gray"></p>
-<p><img src="/blog/2020/05/23/cv-task2/2_6.png" alt="canny"></p>
-<p>OpenCV包含了众多的图像处理的功能，OpenCV包含了你能想得到的只要与图像相关的操作。此外OpenCV还内置了很多的图像特征处理算法，如关键点检测、边缘检测和直线检测等。<br>OpenCV官网：<a href="https://opencv.org/" target="_blank" rel="noopener">https://opencv.org/</a><br>OpenCV Github：<a href="https://github.com/opencv/opencv" target="_blank" rel="noopener">https://github.com/opencv/opencv</a><br>OpenCV 扩展算法库：<a href="https://github.com/opencv/opencv_contrib" target="_blank" rel="noopener">https://github.com/opencv/opencv_contrib</a></p>
-<h3 id="数据扩增方法"><a href="#数据扩增方法" class="headerlink" title="数据扩增方法"></a>数据扩增方法</h3><p>在上一小节中给大家初步介绍了Pillow和OpenCV的使用，现在回到赛题街道字符识别任务中。在赛题中我们需要对的图像进行字符识别，因此需要我们完成的数据的读取操作，同时也需要完成数据扩增（Data Augmentation）操作。     </p>
-<h4 id="数据扩增介绍"><a href="#数据扩增介绍" class="headerlink" title="数据扩增介绍"></a>数据扩增介绍</h4><p><strong>在深度学习中数据扩增方法非常重要，数据扩增可以增加训练集的样本，同时也可以有效缓解模型过拟合的情况，也可以给模型带来的更强的泛化能力。</strong></p>
-<p><img src="/blog/2020/05/23/cv-task2/数据扩增.png" alt="IMG"></p>
-<ul>
-<li><h4 id="数据扩增为什么有用？"><a href="#数据扩增为什么有用？" class="headerlink" title="数据扩增为什么有用？"></a>数据扩增为什么有用？</h4>在深度学习模型的训练过程中，数据扩增是必不可少的环节。现有深度学习的参数非常多，一般的模型可训练的参数量基本上都是万到百万级别，而训练集样本的数量很难有这么多。<br>其次数据扩增可以扩展样本空间，假设现在的分类模型需要对汽车进行分类，左边的是汽车A，右边为汽车B。如果不使用任何数据扩增方法，深度学习模型会从汽车车头的角度来进行判别，而不是汽车具体的区别。     </li>
-</ul>
-<p><img src="/blog/2020/05/23/cv-task2/数据扩增car.png" alt="IMG">   </p>
-<ul>
-<li><h4 id="有哪些数据扩增方法？"><a href="#有哪些数据扩增方法？" class="headerlink" title="有哪些数据扩增方法？"></a>有哪些数据扩增方法？</h4>数据扩增方法有很多：从颜色空间、尺度空间到样本空间，同时根据不同任务数据扩增都有相应的区别。        <strong>对于图像分类，数据扩增一般不会改变标签；对于物体检测，数据扩增会改变物体坐标位置；对于图像分割，数据扩增会改变像素标签。</strong>      <h4 id="常见的数据扩增方法"><a href="#常见的数据扩增方法" class="headerlink" title="常见的数据扩增方法"></a>常见的数据扩增方法</h4>在常见的数据扩增方法中，一般会从图像颜色、尺寸、形态、空间和像素等角度进行变换。当然不同的数据扩增方法可以自由进行组合，得到更加丰富的数据扩增方法。         </li>
-</ul>
-<p>以torchvision为例，常见的数据扩增方法包括：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">扩增方法</th>
-<th style="text-align:center">功能</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">transforms.CenterCrop</td>
-<td style="text-align:center">对图片中心进行裁剪</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.ColorJitter</td>
-<td style="text-align:center">调整图像颜色的对比度、饱和度和零度</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.FiveCrop</td>
-<td style="text-align:center">对图像四个角和中心进行裁剪得到五分图像</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.Grayscale</td>
-<td style="text-align:center">对图像进行灰度变换</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.Pad</td>
-<td style="text-align:center">使用固定值进行像素填充</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.RandomAffine</td>
-<td style="text-align:center">随机仿射变换</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.RandomCrop</td>
-<td style="text-align:center">随机区域裁剪</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.RandomHorizontalFlip</td>
-<td style="text-align:center">随机水平翻转</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.RandomRotation</td>
-<td style="text-align:center">随机旋转</td>
-</tr>
-<tr>
-<td style="text-align:center">transforms.RandomVerticalFlip</td>
-<td style="text-align:center">随机垂直翻转</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p> <img src="/blog/2020/05/23/cv-task2/数据扩增示例.png" alt="IMG">    </p>
-<p>在本次赛题中，赛题任务是需要对图像中的字符进行识别，因此对于字符图片并不能进行翻转操作。比如字符6经过水平翻转就变成了字符9，会改变字符原本的含义。    </p>
-<h4 id="常用的数据扩增库"><a href="#常用的数据扩增库" class="headerlink" title="常用的数据扩增库"></a>常用的数据扩增库</h4><ul>
-<li><h4 id="torchvision"><a href="#torchvision" class="headerlink" title="torchvision"></a><a href="https://github.com/pytorch/vision" target="_blank" rel="noopener">torchvision</a></h4><p>pytorch官方提供的数据扩增库，提供了基本的数据数据扩增方法，可以无缝与torch进行集成；但数据扩增方法种类较少，且速度中等；下面给出的例子就是用这种方法。       </p>
-</li>
-<li><h4 id="imgaug"><a href="#imgaug" class="headerlink" title="imgaug"></a><a href="https://github.com/aleju/imgaug" target="_blank" rel="noopener">imgaug</a></h4><p>imgaug是常用的第三方数据扩增库，提供了多样的数据扩增方法，且组合起来非常方便，速度较快；      </p>
-</li>
-<li><h4 id="albumentations"><a href="#albumentations" class="headerlink" title="albumentations"></a><a href="https://albumentations.readthedocs.io" target="_blank" rel="noopener">albumentations</a></h4><p>是常用的第三方数据扩增库，提供了多样的数据扩增方法，对图像分类、语义分割、物体检测和关键点检测都支持，速度较快。      </p>
-</li>
-</ul>
-<h2 id="Pytorch读取数据"><a href="#Pytorch读取数据" class="headerlink" title="Pytorch读取数据"></a>Pytorch读取数据</h2><p>由于本次赛题我们使用Pytorch框架讲解具体的解决方案，接下来将是解决赛题的第一步 —— 使用Pytorch读取赛题数据。<br><strong>在Pytorch中数据是通过Dataset进行封装，并通过DataLoder进行并行读取。</strong></p>
-<p>我们先来看一下<strong>Dataset</strong>这个类：</p>
-<ol>
-<li><strong>作用: 创建数据集，有<code>__getitem__</code>(self, index)函数来根据索引序号获取图片和标签，有<code>__len__</code>(self)函数来获取数据集的长度。</strong></li>
-<li><strong>其他的数据集类必须是torch.utils.data.Dataset的子类,比如说torchvision.ImageFolder</strong></li>
-</ol>
-<p>所以我们只需要重载一下数据读取的逻辑就可以完成数据的读取。      </p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">data = SVHNDataset(train_path, train_label,</span><br><span class="line">          transforms.Compose([</span><br><span class="line">              <span class="comment"># 缩放到固定尺寸</span></span><br><span class="line">              transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 随机颜色变换</span></span><br><span class="line">              transforms.ColorJitter(<span class="number">0.2</span>, <span class="number">0.2</span>, <span class="number">0.2</span>),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 加入随机旋转</span></span><br><span class="line">              transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line"></span><br><span class="line">              <span class="comment"># 将图片转换为pytorch 的tesntor</span></span><br><span class="line">              <span class="comment"># transforms.ToTensor(),</span></span><br><span class="line"></span><br><span class="line">              <span class="comment"># 对图像像素进行归一化</span></span><br><span class="line">              <span class="comment"># transforms.Normalize([0.485,0.456,0.406],[0.229,0.224,0.225])</span></span><br><span class="line">            ]))</span><br></pre></td></tr></table></figure>
-<p>通过上述代码，可以将赛题的图像数据和对应标签进行读取，在读取过程中的进行数据扩增，效果如下所示：</p>
-<p>​       </p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><img src="/blog/2020/05/23/cv-task2/23.png" alt="IMG"></td>
-<td><img src="/blog/2020/05/23/cv-task2/23_1.png" alt="IMG"></td>
-<td><img src="/blog/2020/05/23/cv-task2/23_2.png" alt="IMG"></td>
-</tr>
-<tr>
-<td><img src="/blog/2020/05/23/cv-task2/144_1.png" alt="IMG"></td>
-<td><img src="/blog/2020/05/23/cv-task2/144_2.png" alt="IMG"></td>
-<td><img src="/blog/2020/05/23/cv-task2/144_3.png" alt="IMG"></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>接下来我们将在定义好的Dataset基础上构建DataLoder，你可以会问有了Dataset为什么还要有DataLoder？其实这两个是两个不同的概念，是为了实现不同的功能。                 </p>
-<ul>
-<li><strong>Dataset：对数据集的封装，提供索引方式的对数据样本进行读取</strong>      </li>
-<li><strong>DataLoder：对Dataset进行封装，提供批量读取的迭代读取</strong>    </li>
-</ul>
-<p>其中，<strong>DataLoder</strong>的参数说明如下：</p>
-<ul>
-<li><code>dataset</code> 传入的数据集；</li>
-<li><code>batch_size</code>每个batch有多少个样本；</li>
-<li><code>shuffle</code>是否打乱数据；</li>
-<li><code>num_workers</code>有几个进程来处理data loading；win下一般不能多进程，只能设置为0；</li>
-<li><code>collate_fn</code>将一个list的sample组成一个mini-batch的函数；</li>
-</ul>
-<p>其主要逻辑处理过程是先通过Dataset类里面的<code>__getitem__</code>函数获取单个的数据，然后组合成batch，再使用<code>collate_fn</code>所指定的函数对这个batch做一些操作，比如padding之类的。</p>
-<p> 加入DataLoder后，数据读取代码改为如下：<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os, sys, glob, shutil, json</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data.dataset <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> torchvision.transforms <span class="keyword">as</span> transforms</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SVHNDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, img_path, img_label, transform=None)</span>:</span></span><br><span class="line">        self.img_path = img_path</span><br><span class="line">        self.img_label = img_label </span><br><span class="line">        <span class="keyword">if</span> transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            self.transform = transform</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            self.transform = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, index)</span>:</span></span><br><span class="line">        img = Image.open(self.img_path[index]).convert(<span class="string">'RGB'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> self.transform <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">            img = self.transform(img)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 原始SVHN中类别10为数字0</span></span><br><span class="line">        lbl = np.array(self.img_label[index], dtype=np.int)</span><br><span class="line">        lbl = list(lbl)  + (<span class="number">5</span> - len(lbl)) * [<span class="number">10</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> img, torch.from_numpy(np.array(lbl[:<span class="number">5</span>]))</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.img_path)</span><br><span class="line"></span><br><span class="line">train_path = glob.glob(<span class="string">'../input/train/*.png'</span>)</span><br><span class="line">train_path.sort()</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line">train_label = [train_json[x][<span class="string">'label'</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_json]</span><br><span class="line"></span><br><span class="line">train_loader = torch.utils.data.DataLoader(</span><br><span class="line">        SVHNDataset(train_path, train_label,</span><br><span class="line">                   transforms.Compose([</span><br><span class="line">                       transforms.Resize((<span class="number">64</span>, <span class="number">128</span>)),</span><br><span class="line">                       transforms.ColorJitter(<span class="number">0.3</span>, <span class="number">0.3</span>, <span class="number">0.2</span>),</span><br><span class="line">                       transforms.RandomRotation(<span class="number">5</span>),</span><br><span class="line">                       transforms.ToTensor(),</span><br><span class="line">                       transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">            ])), </span><br><span class="line">    batch_size=<span class="number">10</span>, <span class="comment"># 每批样本个数</span></span><br><span class="line">    shuffle=<span class="literal">False</span>, <span class="comment"># 是否打乱顺序</span></span><br><span class="line">    num_workers=<span class="number">10</span>, <span class="comment"># 读取的线程个数</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> data <span class="keyword">in</span> train_loader:</span><br><span class="line">    <span class="keyword">break</span></span><br></pre></td></tr></table></figure></p>
-<p>在加入DataLoder后，数据按照批次获取，每批次调用Dataset读取单个样本进行拼接。此时data的格式为：<br>                <code>torch.Size([10, 3, 64, 128]), torch.Size([10, 6])</code><br>前者为图像文件，为<code>batchsize</code>  <em>  <code>chanel</code>  </em>  <code>height</code>  *  <code>width</code>次序；后者为字符标签。      </p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>本章对数据读取进行了详细的讲解，并介绍了常见的数据扩增方法和使用，最后使用Pytorch框架对本次赛题的数据进行读取。 </p>
-<h5 id="鸣谢和参考"><a href="#鸣谢和参考" class="headerlink" title="鸣谢和参考"></a>鸣谢和参考</h5><p>References</p>
-<ol>
-<li><a href="https://blog.csdn.net/wfy2695766757/article/details/81193370" target="_blank" rel="noopener">Python的Pillow库进行图像文件处理</a></li>
-<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2002%20%E6%95%B0%E6%8D%AE%E8%AF%BB%E5%8F%96%E4%B8%8E%E6%95%B0%E6%8D%AE%E6%89%A9%E5%A2%9E.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task2 数据读取与数据扩增</a></li>
-<li><a href="https://blog.csdn.net/steventian72/article/details/88088277?utm_medium=distribute.pc_relevant.none-task-blog-baidujs-2" target="_blank" rel="noopener">Python图像处理库PIL的知识点思维导图</a></li>
-</ol>
-<p>​     </p>
+    <content><![CDATA[<h2 id="preview-work"><a href="#preview-work" class="headerlink" title="preview work"></a>preview work</h2><p><a href="http://7497.xyz/blog/2020/06/26/exploring-of-word2vec.html" target="_blank" rel="noopener">Exploring of Word2vec</a></p>
+<h2 id="Homework-reference"><a href="#Homework-reference" class="headerlink" title="Homework reference"></a>Homework reference</h2><p><a href="https://github.com/exuding/NLP/blob/master/bert_classification.ipynb" target="_blank" rel="noopener">fastText_classification.ipynb from winter</a></p>
+<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p>we are planning to attend a NLP contest to learn more about it!!</p>
 ]]></content>
       <categories>
         <category>入门</category>
-        <category>天池赛题</category>
+        <category>NLP</category>
       </categories>
       <tags>
-        <tag>CV</tag>
+        <tag>NLP</tag>
       </tags>
   </entry>
 </search>

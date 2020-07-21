@@ -113,13 +113,13 @@
 <meta property="og:site_name" content="Near&#39;s Notes">
 <meta property="og:description" content="intros and understanding about a competition —— https:&#x2F;&#x2F;tianchi.aliyun.com&#x2F;competition&#x2F;entrance&#x2F;531810&#x2F;introduction">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://p0.ssl.img.360kuai.com/t017141dd916da3881b.webp">
+<meta property="og:image" content="http://picture.ik123.com/uploads/allimg/171116/4-1G116105224.jpg">
 <meta property="article:published_time" content="2020-07-21T00:42:45.000Z">
-<meta property="article:modified_time" content="2020-07-21T03:31:12.278Z">
+<meta property="article:modified_time" content="2020-07-21T07:14:51.425Z">
 <meta property="article:author" content="Near zeng">
 <meta property="article:tag" content="NLP">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://p0.ssl.img.360kuai.com/t017141dd916da3881b.webp">
+<meta name="twitter:image" content="http://picture.ik123.com/uploads/allimg/171116/4-1G116105224.jpg">
 
 
 
@@ -453,7 +453,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  604
+                  709
                 </span>
               
 
@@ -469,7 +469,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  3
+                  4
                 </span>
               
             </div>
@@ -498,9 +498,9 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="https://p0.ssl.img.360kuai.com/t017141dd916da3881b.webp" rel="gallery_ckcvdss6z000u1lynb81gdnxu"
+                 href="http://picture.ik123.com/uploads/allimg/171116/4-1G116105224.jpg" rel="gallery_ckcvlszac000u69yn9jut8k05"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
-                <img src="https://p0.ssl.img.360kuai.com/t017141dd916da3881b.webp" itemprop="contentUrl"/>
+                <img src="http://picture.ik123.com/uploads/allimg/171116/4-1G116105224.jpg" itemprop="contentUrl"/>
               </a>
             
           
@@ -541,7 +541,8 @@
 <h3 id="2-3-Evaluation"><a href="#2-3-Evaluation" class="headerlink" title="2.3 Evaluation"></a>2.3 Evaluation</h3><p>The evaluation standard is the average value of the category <code>f1_score</code>. The results submitted by the players are compared with the categories of the actual test set. The larger the result, the better.</p>
 <p>formula:</p>
 <script type="math/tex; mode=display">
-F1 = 2 * \frac{(precision * recall)}{(precison + recall)}</script><p>coding example:</p>
+F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac{(precision * recall)}{(precison + recall)}</script><p>Mathematically, F1-Socre is defined as the harmonic mean of precision and recall. From the formula, we can see that the size of F1 is affected by Precision and Recall, that is, the short board effect, so F1 Score is more balanced than the direct average result, and it can better explain the quality of a model.</p>
+<p>coding example:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line">y_true = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">y_pred = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">f1_score(y_true, y_pred, average=<span class="string">'macro'</span>)</span><br></pre></td></tr></table></figure>
 <p>output: 0.26666666666666666</p>
 <h3 id="2-4-Solving-Ideas"><a href="#2-4-Solving-Ideas" class="headerlink" title="2.4 Solving Ideas"></a>2.4 Solving Ideas</h3><p><strong>Analysis</strong>: The essence of this challenge is a text classification problem, which needs to be classified according to the characters of each sentence. However, the data given in the question is anonymized, and operations such as Chinese word segmentation cannot be used directly. This is the difficulty of this challenge.</p>
@@ -550,9 +551,8 @@ F1 = 2 * \frac{(precision * recall)}{(precison + recall)}</script><p>coding exam
 <h5 id="Idea-2-FastText"><a href="#Idea-2-FastText" class="headerlink" title="Idea 2: FastText"></a>Idea 2: FastText</h5><p>FastText is an entry-level word vector. Using the FastText tool provided by Facebook, you can quickly build a classifier.</p>
 <h5 id="Idea-3-WordVec-Deep-Learning-Classifier"><a href="#Idea-3-WordVec-Deep-Learning-Classifier" class="headerlink" title="Idea 3: WordVec + Deep Learning Classifier"></a>Idea 3: WordVec + Deep Learning Classifier</h5><p>WordVec is an advanced word vector, and the classification is completed by constructing a deep learning classification. The network structure of deep learning classification can choose TextCNN, TextRNN or BiLSTM.</p>
 <h5 id="Idea-4-Bert-word-vector"><a href="#Idea-4-Bert-word-vector" class="headerlink" title="Idea 4: Bert word vector"></a>Idea 4: Bert word vector</h5><p>Bert is a highly matched word vector with powerful modeling and learning capabilities.</p>
-<h2 id="3-What’s-Next"><a href="#3-What’s-Next" class="headerlink" title="3. What’s Next?"></a>3. What’s Next?</h2><p>todo</p>
-<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><p>todo</p>
-
+<h2 id="3-What’s-Next"><a href="#3-What’s-Next" class="headerlink" title="3. What’s Next?"></a>3. What’s Next?</h2><p>Read the data in and try idea 1.</p>
+<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><h5 id="1-Task1-赛题理解"><a href="#1-Task1-赛题理解" class="headerlink" title="1. Task1 赛题理解"></a>1. <a href="https://tianchi.aliyun.com/notebook-ai/detail?spm=5176.12586969.1002.6.6406111aIKCSLV&amp;postId=118252" target="_blank" rel="noopener">Task1 赛题理解</a></h5><h5 id="2-通过实例来梳理概念-：准确率-Accuracy-、精准率-Precision-、召回率-Recall-和-F值"><a href="#2-通过实例来梳理概念-：准确率-Accuracy-、精准率-Precision-、召回率-Recall-和-F值" class="headerlink" title="2. 通过实例来梳理概念 ：准确率 (Accuracy)、精准率(Precision)、召回率(Recall)和 F值"></a>2. <a href="https://mp.weixin.qq.com/s/d5d3b3tnetqYKuckfUI08w" target="_blank" rel="noopener">通过实例来梳理概念 ：准确率 (Accuracy)、精准率(Precision)、召回率(Recall)和 F值</a></h5>
       
     </div>
 
@@ -811,7 +811,7 @@ F1 = 2 * \frac{(precision * recall)}{(precison + recall)}</script><p>coding exam
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Intros"><span class="nav-number">1.</span> <span class="nav-text">1. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Understanding"><span class="nav-number">2.</span> <span class="nav-text">2. Understanding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Data"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Label"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Label</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Evaluation"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Solving-Ideas"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 Solving Ideas</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Idea-1-TF-IDF-machine-learning-classifier"><span class="nav-number">2.4.0.1.</span> <span class="nav-text">Idea 1: TF-IDF + machine learning classifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Idea-2-FastText"><span class="nav-number">2.4.0.2.</span> <span class="nav-text">Idea 2: FastText</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Idea-3-WordVec-Deep-Learning-Classifier"><span class="nav-number">2.4.0.3.</span> <span class="nav-text">Idea 3: WordVec + Deep Learning Classifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Idea-4-Bert-word-vector"><span class="nav-number">2.4.0.4.</span> <span class="nav-text">Idea 4: Bert word vector</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-What’s-Next"><span class="nav-number">3.</span> <span class="nav-text">3. What’s Next?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-References"><span class="nav-number">4.</span> <span class="nav-text">4. References</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Intros"><span class="nav-number">1.</span> <span class="nav-text">1. Intros</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Understanding"><span class="nav-number">2.</span> <span class="nav-text">2. Understanding</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Data"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Label"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 Label</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Evaluation"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-Solving-Ideas"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 Solving Ideas</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Idea-1-TF-IDF-machine-learning-classifier"><span class="nav-number">2.4.0.1.</span> <span class="nav-text">Idea 1: TF-IDF + machine learning classifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Idea-2-FastText"><span class="nav-number">2.4.0.2.</span> <span class="nav-text">Idea 2: FastText</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Idea-3-WordVec-Deep-Learning-Classifier"><span class="nav-number">2.4.0.3.</span> <span class="nav-text">Idea 3: WordVec + Deep Learning Classifier</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Idea-4-Bert-word-vector"><span class="nav-number">2.4.0.4.</span> <span class="nav-text">Idea 4: Bert word vector</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-What’s-Next"><span class="nav-number">3.</span> <span class="nav-text">3. What’s Next?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-References"><span class="nav-number">4.</span> <span class="nav-text">4. References</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-Task1-赛题理解"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">1. Task1 赛题理解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-通过实例来梳理概念-：准确率-Accuracy-、精准率-Precision-、召回率-Recall-和-F值"><span class="nav-number">4.0.0.2.</span> <span class="nav-text">2. 通过实例来梳理概念 ：准确率 (Accuracy)、精准率(Precision)、召回率(Recall)和 F值</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>

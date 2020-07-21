@@ -673,4 +673,58 @@ f(x)=\begin{equation}
         <tag>NLP</tag>
       </tags>
   </entry>
+  <entry>
+    <title>News Text Classification —— Tianchi Competition Understanding</title>
+    <url>//blog/2020/07/21/news-text-classification-notes1.html</url>
+    <content><![CDATA[<h2 id="1-Intros"><a href="#1-Intros" class="headerlink" title="1. Intros"></a>1. Intros</h2><p>I joined in a NLP team learning activity held by an open-source organization <a href="https://datawhale.club/" target="_blank" rel="noopener">Datawhale</a> again. This time, we’re gonna explore News Text Classification Challenge.</p>
+<p>This is a classic text classification problem which requires players to classify news categories based on news text characters. And this challenge is held by Datawhale and Tianchi, and with the help of Datawhale, we can learn more about the knowledge points of NLP preprocessing, model construction and model training.</p>
+<p>Here’s the competition: <a href="https://tianchi.aliyun.com/competition/entrance/531810/introduction" target="_blank" rel="noopener">https://tianchi.aliyun.com/competition/entrance/531810/introduction</a></p>
+<h2 id="2-Understanding"><a href="#2-Understanding" class="headerlink" title="2. Understanding"></a>2. Understanding</h2><h3 id="2-1-Data"><a href="#2-1-Data" class="headerlink" title="2.1 Data"></a>2.1 Data</h3><p>The contest question use anonymously processed news data as contest question data, and the dataset is visible and downloadable after registration. The contest question data is news text and is anonymized according to character level. Integrate and divide 14 candidate classification categories: finance, lottery, real estate, stocks, home furnishing, education, technology, society, fashion, current affairs, sports, constellation, games and entertainment text data.</p>
+<p>The question data consists of the following parts: 20w samples in the training set, about 5w samples in the test set A, and about 5w samples in the test set B. </p>
+<p>The source of the question data is news on the Internet, which is collected and processed anonymously. Therefore, the contestants can perform data analysis on their own, and can give full play to their strengths to complete various feature projects, without restricting the use of any external data and models.</p>
+<h3 id="2-2-Label"><a href="#2-2-Label" class="headerlink" title="2.2 Label"></a>2.2 Label</h3><p>The corresponding relationship of the labels in the data set is as follows: </p>
+<blockquote>
+<p>{‘Technology’: 0,’Stocks’: 1,’Sports’: 2,’Entertainment’: 3,’Current Affairs’: 4,’Society’: 5,’Education’ : 6,’Finance’: 7,’Home Furnishing’: 8,’Game’: 9,’Property’: 10,’Fashion’: 11,’Lottery’: 12,’Constellation’: 13}</p>
+</blockquote>
+<p>training set columns:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>label</th>
+<th>text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>2967 6758 339 2021 1854 3731 4109 3792 4149 1519 2058 3912 2465 2410 1219 6654 7539 264 2456 4811 12…</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="2-3-Evaluation"><a href="#2-3-Evaluation" class="headerlink" title="2.3 Evaluation"></a>2.3 Evaluation</h3><p>The evaluation standard is the average value of the category <code>f1_score</code>. The results submitted by the players are compared with the categories of the actual test set. The larger the result, the better.</p>
+<p>formula:</p>
+<script type="math/tex; mode=display">
+F1 = 2 * \frac{(precision * recall)}{(precison + recall)}</script><p>coding example:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line">y_true = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">y_pred = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">f1_score(y_true, y_pred, average=<span class="string">'macro'</span>)</span><br></pre></td></tr></table></figure>
+<p>output: 0.26666666666666666</p>
+<h3 id="2-4-Solving-Ideas"><a href="#2-4-Solving-Ideas" class="headerlink" title="2.4 Solving Ideas"></a>2.4 Solving Ideas</h3><p><strong>Analysis</strong>: The essence of this challenge is a text classification problem, which needs to be classified according to the characters of each sentence. However, the data given in the question is anonymized, and operations such as Chinese word segmentation cannot be used directly. This is the difficulty of this challenge.</p>
+<p>Therefore, the difficulty of this competition is the need to model anonymous characters to complete the process of text classification. Since text data is a typical unstructured data, it may involve two parts: <code>feature extraction</code> and <code>classification model</code>. In order to reduce the difficulty of the competition, Datawhale has provided some ideas for solving problems for your reference:</p>
+<h5 id="Idea-1-TF-IDF-machine-learning-classifier"><a href="#Idea-1-TF-IDF-machine-learning-classifier" class="headerlink" title="Idea 1: TF-IDF + machine learning classifier"></a>Idea 1: TF-IDF + machine learning classifier</h5><p>Use TF-IDF to extract features directly from the text, and use the classifier to classify. In the choice of classifier, SVM, LR, or XGBoost can be used.</p>
+<h5 id="Idea-2-FastText"><a href="#Idea-2-FastText" class="headerlink" title="Idea 2: FastText"></a>Idea 2: FastText</h5><p>FastText is an entry-level word vector. Using the FastText tool provided by Facebook, you can quickly build a classifier.</p>
+<h5 id="Idea-3-WordVec-Deep-Learning-Classifier"><a href="#Idea-3-WordVec-Deep-Learning-Classifier" class="headerlink" title="Idea 3: WordVec + Deep Learning Classifier"></a>Idea 3: WordVec + Deep Learning Classifier</h5><p>WordVec is an advanced word vector, and the classification is completed by constructing a deep learning classification. The network structure of deep learning classification can choose TextCNN, TextRNN or BiLSTM.</p>
+<h5 id="Idea-4-Bert-word-vector"><a href="#Idea-4-Bert-word-vector" class="headerlink" title="Idea 4: Bert word vector"></a>Idea 4: Bert word vector</h5><p>Bert is a highly matched word vector with powerful modeling and learning capabilities.</p>
+<h2 id="3-What’s-Next"><a href="#3-What’s-Next" class="headerlink" title="3. What’s Next?"></a>3. What’s Next?</h2><p>todo</p>
+<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><p>todo</p>
+]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+        <category>classification</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
 </search>

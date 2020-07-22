@@ -727,4 +727,19 @@ F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac
         <tag>NLP</tag>
       </tags>
   </entry>
+  <entry>
+    <title>News Text Classification —— Data Analysis</title>
+    <url>//blog/2020/07/22/news-text-classification-notes2.html</url>
+    <content><![CDATA[<h2 id="1-Read-Dataset"><a href="#1-Read-Dataset" class="headerlink" title="1. Read Dataset"></a>1. Read Dataset</h2><p>working on it</p>
+<h2 id="2-Analysis"><a href="#2-Analysis" class="headerlink" title="2. Analysis"></a>2. Analysis</h2><p>working on it</p>
+]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+        <category>classification</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
 </search>

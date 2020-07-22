@@ -730,8 +730,35 @@ F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac
   <entry>
     <title>News Text Classification —— Data Analysis</title>
     <url>//blog/2020/07/22/news-text-classification-notes2.html</url>
-    <content><![CDATA[<h2 id="1-Read-Dataset"><a href="#1-Read-Dataset" class="headerlink" title="1. Read Dataset"></a>1. Read Dataset</h2><p>working on it</p>
-<h2 id="2-Analysis"><a href="#2-Analysis" class="headerlink" title="2. Analysis"></a>2. Analysis</h2><p>working on it</p>
+    <content><![CDATA[<h2 id="1-Read-Dataset"><a href="#1-Read-Dataset" class="headerlink" title="1. Read Dataset"></a>1. Read Dataset</h2><p>The dataset is stored in csv format, we can use pandas to read it. The <code>read_csv</code>  function in pandas has three parameter assignments here:</p>
+<ul>
+<li>The read file path,  you can use a relative path or an absolute path;</li>
+<li>Separator sep, which is the character to be divided in each column, just set to ‘<code>\t</code>;</li>
+<li>The number of rows read, <code>nrows</code>, is the number of rows of the file read this time, which is a numeric type;</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>)</span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<p><img src="/blog/2020/07/22/news-text-classification-notes2/p.png" alt></p>
+<h2 id="2-Analysis"><a href="#2-Analysis" class="headerlink" title="2. Analysis"></a>2. Analysis</h2><h3 id="2-1-Sentence-length-analysis"><a href="#2-1-Sentence-length-analysis" class="headerlink" title="2.1 Sentence length analysis"></a>2.1 Sentence length analysis</h3><p>In this question, the characters of each line of sentences are separated by spaces, so you can directly count the number of words to get the length of each sentence. The statistics are as follows:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">%pylab inline</span><br><span class="line">train_df[<span class="string">'text_len'</span>] = train_df[<span class="string">'text'</span>].apply(<span class="keyword">lambda</span> x: len(x.split(<span class="string">' '</span>)))</span><br><span class="line">print(train_df[<span class="string">'text_len'</span>].describe())</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<p><img src="/blog/2020/07/22/news-text-classification-notes2/p1.png" alt></p>
+<p>The statistics of news sentences can be concluded that the text given in this contest is relatively long, each sentence is composed of about 907 characters on average, the shortest sentence length is 2, and the longest sentence length is 57921.</p>
+<p>The following figure draws a histogram of sentence length:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">_ = plt.hist(train_df[<span class="string">'text_len'</span>], bins=<span class="number">200</span>)</span><br><span class="line">plt.xlabel(<span class="string">'Text char count'</span>)</span><br><span class="line">plt.title(<span class="string">"Histogram of char count"</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/blog/2020/07/22/news-text-classification-notes2/p2.png" alt></p>
+<p>It can be seen that the length of most sentences is within 2000.</p>
+<h3 id="2-2-News-category-distribution"><a href="#2-2-News-category-distribution" class="headerlink" title="2.2 News category distribution"></a>2.2 News category distribution</h3><p>Next, you can perform distribution statistics on the categories of the data set, and specifically count the number of samples of each type of news.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">train_df[<span class="string">'label'</span>].value_counts().plot(kind=<span class="string">'bar'</span>)</span><br><span class="line">plt.title(<span class="string">'News class count'</span>)</span><br><span class="line">plt.xlabel(<span class="string">"category"</span>)</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<p><img src="/blog/2020/07/22/news-text-classification-notes2/p3.png" alt></p>
+<p>The corresponding relationship of the labels in the data set is as follows: </p>
+<blockquote>
+<p>{‘Technology’: 0,’Stocks’: 1,’Sports’: 2,’Entertainment’: 3,’Current Affairs’: 4,’Society’: 5,’Education’ : 6,’Finance’: 7,’Home Furnishing’: 8,’Game’: 9,’Property’: 10,’Fashion’: 11,’Lottery’: 12,’Constellation’: 13}</p>
+</blockquote>
+<p>It can be seen from the statistical results that there is a relatively uneven distribution of the data set categories of the competition questions. In the training set, technology news is the most, followed by stock news, and the least news is constellation news.</p>
+<h3 id="2-3-Character-distribution-statistics"><a href="#2-3-Character-distribution-statistics" class="headerlink" title="2.3 Character distribution statistics"></a>2.3 Character distribution statistics</h3><p>working on it</p>
+<h2 id="3-summary"><a href="#3-summary" class="headerlink" title="3. summary"></a>3. summary</h2><p>working on it</p>
 ]]></content>
       <categories>
         <category>入门</category>

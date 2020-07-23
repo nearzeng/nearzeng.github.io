@@ -115,7 +115,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://picture.ik123.com/uploads/allimg/171116/4-1G116105227.jpg">
 <meta property="article:published_time" content="2020-07-22T15:13:37.000Z">
-<meta property="article:modified_time" content="2020-07-22T15:49:52.154Z">
+<meta property="article:modified_time" content="2020-07-23T05:46:43.391Z">
 <meta property="article:author" content="Near zeng">
 <meta property="article:tag" content="NLP">
 <meta name="twitter:card" content="summary">
@@ -453,7 +453,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  376
+                  819
                 </span>
               
 
@@ -469,7 +469,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  2
+                  5
                 </span>
               
             </div>
@@ -498,7 +498,7 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="http://picture.ik123.com/uploads/allimg/171116/4-1G116105227.jpg" rel="gallery_ckcxjs8tt000wkyynd1hf5vdi"
+                 href="http://picture.ik123.com/uploads/allimg/171116/4-1G116105227.jpg" rel="gallery_ckcydifif000wlryn4f1s5xk2"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
                 <img src="http://picture.ik123.com/uploads/allimg/171116/4-1G116105227.jpg" itemprop="contentUrl"/>
               </a>
@@ -538,8 +538,31 @@
 <p>{‘Technology’: 0,’Stocks’: 1,’Sports’: 2,’Entertainment’: 3,’Current Affairs’: 4,’Society’: 5,’Education’ : 6,’Finance’: 7,’Home Furnishing’: 8,’Game’: 9,’Property’: 10,’Fashion’: 11,’Lottery’: 12,’Constellation’: 13}</p>
 </blockquote>
 <p>It can be seen from the statistical results that there is a relatively uneven distribution of the data set categories of the competition questions. In the training set, technology news is the most, followed by stock news, and the least news is constellation news.</p>
-<h3 id="2-3-Character-distribution-statistics"><a href="#2-3-Character-distribution-statistics" class="headerlink" title="2.3 Character distribution statistics"></a>2.3 Character distribution statistics</h3><p>working on it</p>
-<h2 id="3-summary"><a href="#3-summary" class="headerlink" title="3. summary"></a>3. summary</h2><p>working on it</p>
+<h3 id="2-3-Character-distribution-statistics"><a href="#2-3-Character-distribution-statistics" class="headerlink" title="2.3 Character distribution statistics"></a>2.3 Character distribution statistics</h3><h5 id="2-3-1-Count-the-number-of-occurrences-of-each-character："><a href="#2-3-1-Count-the-number-of-occurrences-of-each-character：" class="headerlink" title="2.3.1 Count the number of occurrences of each character："></a>2.3.1 Count the number of occurrences of each character：</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections <span class="keyword">import</span> Counter</span><br><span class="line">all_lines = <span class="string">' '</span>.join(list(train_df[<span class="string">'text'</span>]))</span><br><span class="line">word_count = Counter(all_lines.split(<span class="string">" "</span>))</span><br><span class="line">word_count = sorted(word_count.items(), key=<span class="keyword">lambda</span> d:d[<span class="number">1</span>], reverse = <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">print(len(word_count))</span><br><span class="line">print(word_count[<span class="number">0</span>])</span><br><span class="line">print(word_count[<span class="number">-1</span>])</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<p><img src="/blog/2020/07/22/news-text-classification-notes2/p4.png" alt></p>
+<h5 id="2-3-2-Count-the-number-of-times-different-characters-appear-in-sentences"><a href="#2-3-2-Count-the-number-of-times-different-characters-appear-in-sentences" class="headerlink" title="2.3.2 Count the number of times different characters appear in sentences:"></a>2.3.2 Count the number of times different characters appear in sentences:</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">train_df[<span class="string">'text_unique'</span>] = train_df[<span class="string">'text'</span>].apply(<span class="keyword">lambda</span> x: <span class="string">' '</span>.join(list(set(x.split(<span class="string">' '</span>)))))</span><br><span class="line">all_lines = <span class="string">' '</span>.join(list(train_df[<span class="string">'text_unique'</span>]))</span><br><span class="line">word_count = Counter(all_lines.split(<span class="string">" "</span>))</span><br><span class="line">word_count = sorted(word_count.items(), key=<span class="keyword">lambda</span> d:int(d[<span class="number">1</span>]), reverse = <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">print(word_count[<span class="number">0</span>])</span><br><span class="line">print(word_count[<span class="number">1</span>])</span><br><span class="line">print(word_count[<span class="number">2</span>])</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<p><img src="/blog/2020/07/22/news-text-classification-notes2/p5.png" alt></p>
+<p>We can see that the coverage of characters 3750, characters 900 and characters 648 in 20w news is close to 99%, most likely they are punctuation marks.</p>
+<h5 id="2-3-3-Assuming-that-character-3750-character-900-and-character-648-are-sentence-punctuation-marks-let’s-take-a-look-at-how-many-sentences-each-news-article-has-on-average"><a href="#2-3-3-Assuming-that-character-3750-character-900-and-character-648-are-sentence-punctuation-marks-let’s-take-a-look-at-how-many-sentences-each-news-article-has-on-average" class="headerlink" title="2.3.3 Assuming that character 3750, character 900 and character 648 are sentence punctuation marks, let’s take a look at how many sentences each news article has on average:"></a>2.3.3 Assuming that character 3750, character 900 and character 648 are sentence punctuation marks, let’s take a look at how many sentences each news article has on average:</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">train_df[<span class="string">'sentence_count1'</span>] = train_df[<span class="string">'text'</span>].apply(<span class="keyword">lambda</span> x: len(x.split(<span class="string">'3750'</span>)))</span><br><span class="line">train_df[<span class="string">'sentence_count2'</span>] = train_df[<span class="string">'text'</span>].apply(<span class="keyword">lambda</span> x: len(x.split(<span class="string">'900'</span>)))</span><br><span class="line">train_df[<span class="string">'sentence_count3'</span>] = train_df[<span class="string">'text'</span>].apply(<span class="keyword">lambda</span> x: len(x.split(<span class="string">'648'</span>)))</span><br><span class="line">train_df[<span class="string">'sentence_count'</span>] = train_df[<span class="string">'text'</span>].apply(<span class="keyword">lambda</span> x: len(x.split(<span class="string">'3750|900|648'</span>)))</span><br><span class="line">print(train_df[<span class="string">'sentence_count1'</span>].describe())</span><br><span class="line">print(train_df[<span class="string">'sentence_count2'</span>].describe())</span><br><span class="line">print(train_df[<span class="string">'sentence_count3'</span>].describe())</span><br><span class="line">print(train_df[<span class="string">'sentence_count'</span>].describe())</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<p><img src="/blog/2020/07/22/news-text-classification-notes2/p6.png" alt></p>
+<p>We can see that the average length of the sentence is about 30 characters.</p>
+<h5 id="2-3-4-Count-the-most-frequent-characters-in-each-type-of-news"><a href="#2-3-4-Count-the-most-frequent-characters-in-each-type-of-news" class="headerlink" title="2.3.4 Count the most frequent characters in each type of news:"></a>2.3.4 Count the most frequent characters in each type of news:</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">14</span>):</span><br><span class="line">    all_lines = <span class="string">' '</span>.join(train_df[train_df[<span class="string">'label'</span>]==i][<span class="string">'text'</span>])</span><br><span class="line">    word_count = Counter(all_lines.split(<span class="string">" "</span>))</span><br><span class="line">    word_count = sorted(word_count.items(), key=<span class="keyword">lambda</span> d: int(d[<span class="number">1</span>]), reverse = <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">    print(i,word_count[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+<p>output:</p>
+<p><img src="/blog/2020/07/22/news-text-classification-notes2/p7.png" alt></p>
+<p>now we can tell the character <code>3750</code> is probably a punctuation mark!</p>
+<h2 id="3-summary"><a href="#3-summary" class="headerlink" title="3. summary"></a>3. summary</h2><p>Through the above analysis, we can draw the following conclusions:</p>
+<ul>
+<li>The 1,000 sentences selected in the contest question contain an average of 904 characters per news, and some news characters are longer;</li>
+<li>The distribution of news categories in the contest questions is uneven, the sample size of stock news is close to more than 200, and the sample size of lottery news is less than 10;</li>
+<li>A total of nearly 4000 characters are included in the 1000 sentences of news;<br>‘3750’, ‘900’, and ‘648’ appear the most often, and it is inferred that they may be punctuation marks.</li>
+<li>The average number of characters in each news item is large and may need to be truncated;</li>
+<li>Due to the imbalance of the categories, it will seriously affect the accuracy of the model;</li>
+<li>For further optimization, hope to infer stop words and remove noise;</li>
+<li>Try to see if adding a clean data set can enhance the effect.</li>
+</ul>
 
       
     </div>
@@ -799,7 +822,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Read-Dataset"><span class="nav-number">1.</span> <span class="nav-text">1. Read Dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Analysis"><span class="nav-number">2.</span> <span class="nav-text">2. Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Sentence-length-analysis"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Sentence length analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-News-category-distribution"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 News category distribution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Character-distribution-statistics"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Character distribution statistics</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-summary"><span class="nav-number">3.</span> <span class="nav-text">3. summary</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Read-Dataset"><span class="nav-number">1.</span> <span class="nav-text">1. Read Dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Analysis"><span class="nav-number">2.</span> <span class="nav-text">2. Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Sentence-length-analysis"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Sentence length analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-News-category-distribution"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 News category distribution</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Character-distribution-statistics"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 Character distribution statistics</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-1-Count-the-number-of-occurrences-of-each-character："><span class="nav-number">2.3.0.1.</span> <span class="nav-text">2.3.1 Count the number of occurrences of each character：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-2-Count-the-number-of-times-different-characters-appear-in-sentences"><span class="nav-number">2.3.0.2.</span> <span class="nav-text">2.3.2 Count the number of times different characters appear in sentences:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-3-Assuming-that-character-3750-character-900-and-character-648-are-sentence-punctuation-marks-let’s-take-a-look-at-how-many-sentences-each-news-article-has-on-average"><span class="nav-number">2.3.0.3.</span> <span class="nav-text">2.3.3 Assuming that character 3750, character 900 and character 648 are sentence punctuation marks, let’s take a look at how many sentences each news article has on average:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-4-Count-the-most-frequent-characters-in-each-type-of-news"><span class="nav-number">2.3.0.4.</span> <span class="nav-text">2.3.4 Count the most frequent characters in each type of news:</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-summary"><span class="nav-number">3.</span> <span class="nav-text">3. summary</span></a></li></ol></div>
             
 
           </div>

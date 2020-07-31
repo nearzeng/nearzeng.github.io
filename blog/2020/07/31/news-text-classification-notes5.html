@@ -115,7 +115,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://f11.baidu.com/it/u=946168756,2909170483&fm=76">
 <meta property="article:published_time" content="2020-07-31T14:25:31.000Z">
-<meta property="article:modified_time" content="2020-07-31T14:45:53.255Z">
+<meta property="article:modified_time" content="2020-07-31T15:10:48.692Z">
 <meta property="article:author" content="Near zeng">
 <meta property="article:tag" content="NLP">
 <meta name="twitter:card" content="summary">
@@ -453,7 +453,7 @@
                   <span class="post-meta-item-text">字数统计</span>
                 
                 <span title="字数统计">
-                  16
+                  399
                 </span>
               
 
@@ -469,7 +469,7 @@
                   <span class="post-meta-item-text">阅读时长</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -498,7 +498,7 @@
           
             <div class="post-gallery-row">
               <a class="post-gallery-img fancybox"
-                 href="https://f11.baidu.com/it/u=946168756,2909170483&fm=76" rel="gallery_ckdacak220014pmynf4f46w44"
+                 href="https://f11.baidu.com/it/u=946168756,2909170483&fm=76" rel="gallery_ckdad6obr0028esyn5chza0tn"
                  itemscope itemtype="http://schema.org/ImageObject" itemprop="url">
                 <img src="https://f11.baidu.com/it/u=946168756,2909170483&fm=76" itemprop="contentUrl"/>
               </a>
@@ -511,11 +511,22 @@
       
 
       
-        <h2 id="1-TextCNN"><a href="#1-TextCNN" class="headerlink" title="1. TextCNN"></a>1. TextCNN</h2><p>working on it</p>
+        <h2 id="1-TextCNN"><a href="#1-TextCNN" class="headerlink" title="1. TextCNN"></a>1. TextCNN</h2><h3 id="1-1-What-TextCNN-is"><a href="#1-1-What-TextCNN-is" class="headerlink" title="1.1 What TextCNN is"></a>1.1 What TextCNN is</h3><h4 id="1-1-1-Paper"><a href="#1-1-1-Paper" class="headerlink" title="1.1.1 Paper"></a>1.1.1 Paper</h4><p>Yoon Kim proposed TextCNN in the paper (2014 EMNLP) <a href="https://arxiv.org/abs/1408.5882" target="_blank" rel="noopener">Convolutional Neural Networks for Sentence Classification</a>.</p>
+<p>The convolutional neural network CNN is applied to text classification tasks, and multiple kernels of different sizes are used to extract key information in sentences (similar to n-grams with multiple window sizes), so as to better capture local correlations.</p>
+<h4 id="1-1-2-Network-Structure"><a href="#1-1-2-Network-Structure" class="headerlink" title="1.1.2 Network Structure"></a>1.1.2 Network Structure</h4><p>The structure is as follow:</p>
+<p><img src="/blog/2020/07/31/news-text-classification-notes5/p1.png" alt></p>
+<p>The schematic diagram is as follows:</p>
+<p><img src="/blog/2020/07/31/news-text-classification-notes5/p3.png" alt></p>
+<ol>
+<li><strong>Embedding</strong>: The first layer is the 7 by 5 sentence matrix on the leftmost side of the picture. Each row is a word vector with dimension = 5. This can be analogous to the original pixels in the image.</li>
+<li><strong>Convolution</strong>: Then go through a one-dimensional convolutional layer with kernel_sizes=(2,3,4), each kernel_size has two output channels.</li>
+<li><strong>MaxPolling</strong>: The third layer is a 1-max pooling layer, so that sentences of different lengths can become fixed-length representations after passing through the pooling layer.</li>
+<li><strong>FullConnection and Softmax</strong>: Finally, a fully connected softmax layer is connected to output the probability of each category.</li>
+</ol>
+<h3 id="1-2-Practice"><a href="#1-2-Practice" class="headerlink" title="1.2 Practice"></a>1.2 Practice</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> keras <span class="keyword">import</span> Input</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Conv1D, MaxPool1D, Dense, Flatten, concatenate, Embedding</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Model</span><br><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> plot_model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">textcnn</span><span class="params">(max_sequence_length, max_token_num, embedding_dim, output_dim, model_img_path=None, embedding_matrix=None)</span>:</span></span><br><span class="line">    <span class="string">""" TextCNN: 1. embedding layers, 2.convolution layer, 3.max-pooling, 4.softmax layer. """</span></span><br><span class="line">    x_input = Input(shape=(max_sequence_length,))</span><br><span class="line">    logging.info(<span class="string">"x_input.shape: %s"</span> % str(x_input.shape))  <span class="comment"># (?, 60)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> embedding_matrix <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        x_emb = Embedding(input_dim=max_token_num, output_dim=embedding_dim, input_length=max_sequence_length)(x_input)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        x_emb = Embedding(input_dim=max_token_num, output_dim=embedding_dim, input_length=max_sequence_length,</span><br><span class="line">                          weights=[embedding_matrix], trainable=<span class="literal">True</span>)(x_input)</span><br><span class="line">    logging.info(<span class="string">"x_emb.shape: %s"</span> % str(x_emb.shape))  <span class="comment"># (?, 60, 300)</span></span><br><span class="line"></span><br><span class="line">    pool_output = []</span><br><span class="line">    kernel_sizes = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>] </span><br><span class="line">    <span class="keyword">for</span> kernel_size <span class="keyword">in</span> kernel_sizes:</span><br><span class="line">        c = Conv1D(filters=<span class="number">2</span>, kernel_size=kernel_size, strides=<span class="number">1</span>)(x_emb)</span><br><span class="line">        p = MaxPool1D(pool_size=int(c.shape[<span class="number">1</span>]))(c)</span><br><span class="line">        pool_output.append(p)</span><br><span class="line">        logging.info(<span class="string">"kernel_size: %s \t c.shape: %s \t p.shape: %s"</span> % (kernel_size, str(c.shape), str(p.shape)))</span><br><span class="line">    pool_output = concatenate([p <span class="keyword">for</span> p <span class="keyword">in</span> pool_output])</span><br><span class="line">    logging.info(<span class="string">"pool_output.shape: %s"</span> % str(pool_output.shape))  <span class="comment"># (?, 1, 6)</span></span><br><span class="line"></span><br><span class="line">    x_flatten = Flatten()(pool_output)  <span class="comment"># (?, 6)</span></span><br><span class="line">    y = Dense(output_dim, activation=<span class="string">'softmax'</span>)(x_flatten)  <span class="comment"># (?, 2)</span></span><br><span class="line">    logging.info(<span class="string">"y.shape: %s \n"</span> % str(y.shape))</span><br><span class="line"></span><br><span class="line">    model = Model([x_input], outputs=[y])</span><br><span class="line">    <span class="keyword">if</span> model_img_path:</span><br><span class="line">        plot_model(model, to_file=model_img_path, show_shapes=<span class="literal">True</span>, show_layer_names=<span class="literal">False</span>)</span><br><span class="line">    model.summary()</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure>
 <h2 id="2-TextRNN"><a href="#2-TextRNN" class="headerlink" title="2. TextRNN"></a>2. TextRNN</h2><p>working on it</p>
 <h2 id="3-Summary"><a href="#3-Summary" class="headerlink" title="3. Summary"></a>3. Summary</h2><p>working on it</p>
-<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><p>working on it</p>
-
+<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><h5 id="1-TextCNN模型原理和实现"><a href="#1-TextCNN模型原理和实现" class="headerlink" title="1. TextCNN模型原理和实现"></a>1. <a href="https://www.cnblogs.com/bymo/p/9675654.html" target="_blank" rel="noopener">TextCNN模型原理和实现</a></h5>
       
     </div>
 
@@ -774,7 +785,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-TextCNN"><span class="nav-number">1.</span> <span class="nav-text">1. TextCNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-TextRNN"><span class="nav-number">2.</span> <span class="nav-text">2. TextRNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Summary"><span class="nav-number">3.</span> <span class="nav-text">3. Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-References"><span class="nav-number">4.</span> <span class="nav-text">4. References</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-TextCNN"><span class="nav-number">1.</span> <span class="nav-text">1. TextCNN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-What-TextCNN-is"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 What TextCNN is</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-1-Paper"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1.1 Paper</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-2-Network-Structure"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.1.2 Network Structure</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Practice"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Practice</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-TextRNN"><span class="nav-number">2.</span> <span class="nav-text">2. TextRNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Summary"><span class="nav-number">3.</span> <span class="nav-text">3. Summary</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-References"><span class="nav-number">4.</span> <span class="nav-text">4. References</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-TextCNN模型原理和实现"><span class="nav-number">4.0.0.1.</span> <span class="nav-text">1. TextCNN模型原理和实现</span></a></li></ol></li></ol></li></ol></li></ol></div>
             
 
           </div>

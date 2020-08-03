@@ -373,85 +373,6 @@
       </tags>
   </entry>
   <entry>
-    <title>零基础入门CV之集成学习</title>
-    <url>//blog/2020/06/02/cv-task5.html</url>
-    <content><![CDATA[<h2 id="集成学习是什么"><a href="#集成学习是什么" class="headerlink" title="集成学习是什么"></a>集成学习是什么</h2><h2 id="一、集成学习是什么"><a href="#一、集成学习是什么" class="headerlink" title="一、集成学习是什么"></a>一、集成学习是什么</h2><p>“团结就是力量”、“综合就是全面”，这是机器学习领域中”集成学习“的基本思想。大多数数据竞赛排名靠前的解决方案所采用的集成方法，都建立在一个假设：组合多个模型以期得到一个更全面的模型，从而得到一个泛化性能更好的模型。</p>
-<p>集成学习一般有Bagging、Boosting和Stacking三种类别：</p>
-<ul>
-<li><strong>Bagging</strong>：利用bootstrap方法从整体数据集中采取有放回抽样得到N个数据集，在每个数据集上学习出一个模型，最后的预测结果利用N个模型的输出综合得到。具体地：分类问题采用N个模型预测投票的方式，回归问题采用N个模型预测平均的方式。</li>
-<li><strong>Boosting</strong>：一种可以用来减小监督学习中偏差的机器学习算法。主要也是学习一系列弱分类器，并将其组合为一个强分类器。</li>
-<li><strong>Stacking</strong>：指训练一个模型用于组合其他各个模型。首先我们先训练多个不同的模型，然后把之前训练的各个模型的输出为输入来训练一个模型，以得到一个最终的输出。</li>
-</ul>
-<h2 id="二、集成学习的应用场景"><a href="#二、集成学习的应用场景" class="headerlink" title="二、集成学习的应用场景"></a>二、集成学习的应用场景</h2><p>集成学习的主要应用场景有以下几个方面：</p>
-<ol>
-<li><strong>模型选择</strong>：相比于只选择一个模型，集成学习对模型集合中所有模型的输出按照某种方法进行组合，例如简单的取平均，可以降低模型选择不当的风险。这个要求能达到适当的多样性，这样才能通过一定的策略优势互补地减少总体误差。</li>
-<li><strong>分而治之</strong>：集成学习系统遵循一种分而治之的方法，将数据空间划分为更小、更易于学习的分区，其中每个模型只学习其中一个更简单的分区。然后通过不同方法来适当组合模型的输出来近似复杂决策边界。这可以解决难以用一个模型来处理的机器学习问题。</li>
-<li><strong>数据融合</strong>：在许多需要自动决策的应用程序中，接收来自不同来源的数据并提供补充信息是很常见的。这种信息的适当组合被称为<strong>数据或信息融合</strong>，与仅根据任何单个数据源进行决策相比，可以提高分类决策的准确性。</li>
-<li><strong>置信度估计</strong>：考虑对一个分类问题训练一个分类器集合，如果集合中绝大多数分类器决策一致，那么就认为整体决策的结果具有较高置信度；反之则具有较低置信度。</li>
-<li><strong>数据扩增</strong>：如果训练数据量太小，那么使用bootstrapping技术可以从总体数据集中有放回的随机采样获得多个样本集，每个样本集作为训练集训练一个模型，最后再以一定策略组合。</li>
-</ol>
-<h2 id="三、集成学习的结合策略"><a href="#三、集成学习的结合策略" class="headerlink" title="三、集成学习的结合策略"></a>三、集成学习的结合策略</h2><p>模型集合的组合方法有很多，我们这里主要介绍在实践中最常用的四种：线性组合、乘积组合、投票组合和学习组合。</p>
-<ol>
-<li><strong>线性组合</strong>：线性组合用于输出实数的模型，因此适用于回归模型结果的集成，或分类模型集成中估计类别的概率。</li>
-<li><strong>乘积组合</strong>：在各模型的类别条件概率估计相互独立的假设下，乘积组合在理论上是最好的组合策略。</li>
-<li><strong>投票组合</strong>：每个分类器对某个类别投票，获得多数票的类别作为集成模型整体的输出。包括相对多数投票法、绝对多数投票法和加权投票法。</li>
-<li><strong>学习组合</strong>：通过机器学习的方式来组合，代表是Stacking。我们将弱学习器称为初级学习器，将用于结合的学习器称为次级学习器。对于测试集，我们首先用初级学习器预测一次，得到次级学习器的输入样本，再用次级学习器预测一次，得到最终的预测结果。</li>
-</ol>
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
-<li><a href="https://www.jianshu.com/p/3e8c44314be5" target="_blank" rel="noopener">集成学习(Ensemble learning)</a></li>
-<li><a href="https://www.cnblogs.com/wxquare/p/5440664.html" target="_blank" rel="noopener">集成学习方法</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>入门</category>
-        <category>天池赛题</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Note of CS224N Lecture1 —— Introduction and word vectors</title>
-    <url>//blog/2020/06/24/notes-of-CS224n-part1.html</url>
-    <content><![CDATA[<h1 id="Note-of-CS224N-Lecture1-Introduction-and-word-vectors"><a href="#Note-of-CS224N-Lecture1-Introduction-and-word-vectors" class="headerlink" title="Note of CS224N Lecture1: Introduction and word vectors"></a>Note of CS224N Lecture1: Introduction and word vectors</h1><blockquote>
-<p>School:  Stanford</p>
-<p>Teacher: Prof. Christopher Manning</p>
-<p>Library: Pytorch</p>
-<p>Course: <a href="https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/index.html" target="_blank" rel="noopener">CS224n</a></p>
-</blockquote>
-<h2 id="1-What’s-NLP"><a href="#1-What’s-NLP" class="headerlink" title="1. What’s NLP?"></a>1. What’s NLP?</h2><h4 id="a-Definition"><a href="#a-Definition" class="headerlink" title="a. Definition"></a>a. Definition</h4><p>Natural Language Processing(NLP for short),  is broadly defined as the automatic manipulation of natural language which refers to the way we humans communicate with each other, like speech and text, by software. </p>
-<h4 id="b-Basic-tasks"><a href="#b-Basic-tasks" class="headerlink" title="b. Basic tasks"></a>b. Basic tasks</h4><p>The study of NLP has been around for more than half a century, and the target of NLP is helping computers understand, interpret and manipulate human language, which isn’t really solved. </p>
-<p>NLP includes many different techniques for interpreting human language, ranging from statistical and machine learning methods to rules-based and algorithmic approaches. We need a broad array of approaches because the text- and voice-based data varies widely, as do the practical applications. </p>
-<p>Basic NLP tasks include tokenization and parsing, lemmatization/stemming, part-of-speech tagging, language detection and identification of semantic relationships. If you ever diagramed sentences in grade school, you’ve done these tasks manually before. </p>
-<p>In general terms, NLP tasks break down language into shorter, elemental pieces, try to understand relationships between the pieces and explore how the pieces work together to create meaning.</p>
-<h5 id="1-Content-categorization"><a href="#1-Content-categorization" class="headerlink" title="1. Content categorization"></a>1. Content categorization</h5><h5 id="2-Topic-discovery-and-modeling"><a href="#2-Topic-discovery-and-modeling" class="headerlink" title="2. Topic discovery and modeling"></a>2. Topic discovery and modeling</h5><h5 id="3-Contextual-extraction"><a href="#3-Contextual-extraction" class="headerlink" title="3. Contextual extraction"></a>3. Contextual extraction</h5><h5 id="4-Sentiment-analysis"><a href="#4-Sentiment-analysis" class="headerlink" title="4. Sentiment analysis"></a>4. Sentiment analysis</h5><h5 id="5-Speech-to-text-and-text-to-speech-conversion"><a href="#5-Speech-to-text-and-text-to-speech-conversion" class="headerlink" title="5. Speech-to-text and text-to-speech conversion"></a>5. Speech-to-text and text-to-speech conversion</h5><h5 id="6-Document-summarization"><a href="#6-Document-summarization" class="headerlink" title="6. Document summarization"></a>6. Document summarization</h5><h5 id="7-Machine-translation"><a href="#7-Machine-translation" class="headerlink" title="7. Machine translation"></a>7. Machine translation</h5><h2 id="2-What’s-word-vectors"><a href="#2-What’s-word-vectors" class="headerlink" title="2. What’s word vectors?"></a>2. What’s word vectors?</h2><p><img src="/blog/2020/06/24/notes-of-CS224n-part1/word_vectors.png" alt></p>
-<p>Obviously, the first step of all NLP tasks is how we represent words as input to any our models. Word vectors which are the texts converted into numbers and there may be different numerical representations of the same text, give a way to this problem. </p>
-<p>A Word vector format generally tries to map a word using a dictionary to a vector. Let us break this phrase down into finer details to have a clear view.</p>
-<p>Take a look at this example - “The banking system is a basic system”; A dictionary may be the list of all unique words in the sentence. So, a dictionary may look like – [‘The’,’banking’,’system’,’is’,’a’,’basic’]. A vector representation of a word may be a one-hot encoded vector, like a vector show in above picture.</p>
-<h5 id="Different-types-of-Word-Vectors"><a href="#Different-types-of-Word-Vectors" class="headerlink" title="Different types of Word Vectors"></a>Different types of Word Vectors</h5><p>The different types of word vectors can be broadly classified into two categories-</p>
-<ol>
-<li>Frequency based</li>
-<li>Prediction based</li>
-</ol>
-<h5 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h5><p><img src="/blog/2020/06/24/notes-of-CS224n-part1/word2vec.png" alt></p>
-<h2 id="3-What’s-next"><a href="#3-What’s-next" class="headerlink" title="3. What’s next?"></a>3. What’s next?</h2><p>I joined in a NLP learning activity held by an open-source organization <a href="https://datawhale.club/" target="_blank" rel="noopener">Datawhale</a> recently. We are gonna learning the awesome course <a href="https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/index.html" target="_blank" rel="noopener">CS224n</a> by Stanford in this activity. </p>
-<p>I will keep updating my progress and my learning note in the upcoming posts on this blog. As a beginner of this field, I have a lot to learn. I may just follow the plan of this activity or this course to have a big picture of NLP. So, my next post may be the exploring of Word2vec.</p>
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
-<li><p><a href="https://www.sas.com/en_us/insights/analytics/what-is-natural-language-processing-nlp.html#howitworks" target="_blank" rel="noopener">NLP: What it is and why it matters</a></p>
-</li>
-<li><p><a href="https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/" target="_blank" rel="noopener">An Intuitive Understanding of Word Embeddings: From Count Vectors to Word2Vec</a></p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>入门</category>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>NLP</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Exploring of Word2vec</title>
     <url>//blog/2020/06/26/exploring-of-word2vec.html</url>
     <content><![CDATA[<blockquote>
@@ -499,6 +420,85 @@
       </categories>
       <tags>
         <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Note of CS224N Lecture1 —— Introduction and word vectors</title>
+    <url>//blog/2020/06/24/notes-of-CS224n-part1.html</url>
+    <content><![CDATA[<h1 id="Note-of-CS224N-Lecture1-Introduction-and-word-vectors"><a href="#Note-of-CS224N-Lecture1-Introduction-and-word-vectors" class="headerlink" title="Note of CS224N Lecture1: Introduction and word vectors"></a>Note of CS224N Lecture1: Introduction and word vectors</h1><blockquote>
+<p>School:  Stanford</p>
+<p>Teacher: Prof. Christopher Manning</p>
+<p>Library: Pytorch</p>
+<p>Course: <a href="https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/index.html" target="_blank" rel="noopener">CS224n</a></p>
+</blockquote>
+<h2 id="1-What’s-NLP"><a href="#1-What’s-NLP" class="headerlink" title="1. What’s NLP?"></a>1. What’s NLP?</h2><h4 id="a-Definition"><a href="#a-Definition" class="headerlink" title="a. Definition"></a>a. Definition</h4><p>Natural Language Processing(NLP for short),  is broadly defined as the automatic manipulation of natural language which refers to the way we humans communicate with each other, like speech and text, by software. </p>
+<h4 id="b-Basic-tasks"><a href="#b-Basic-tasks" class="headerlink" title="b. Basic tasks"></a>b. Basic tasks</h4><p>The study of NLP has been around for more than half a century, and the target of NLP is helping computers understand, interpret and manipulate human language, which isn’t really solved. </p>
+<p>NLP includes many different techniques for interpreting human language, ranging from statistical and machine learning methods to rules-based and algorithmic approaches. We need a broad array of approaches because the text- and voice-based data varies widely, as do the practical applications. </p>
+<p>Basic NLP tasks include tokenization and parsing, lemmatization/stemming, part-of-speech tagging, language detection and identification of semantic relationships. If you ever diagramed sentences in grade school, you’ve done these tasks manually before. </p>
+<p>In general terms, NLP tasks break down language into shorter, elemental pieces, try to understand relationships between the pieces and explore how the pieces work together to create meaning.</p>
+<h5 id="1-Content-categorization"><a href="#1-Content-categorization" class="headerlink" title="1. Content categorization"></a>1. Content categorization</h5><h5 id="2-Topic-discovery-and-modeling"><a href="#2-Topic-discovery-and-modeling" class="headerlink" title="2. Topic discovery and modeling"></a>2. Topic discovery and modeling</h5><h5 id="3-Contextual-extraction"><a href="#3-Contextual-extraction" class="headerlink" title="3. Contextual extraction"></a>3. Contextual extraction</h5><h5 id="4-Sentiment-analysis"><a href="#4-Sentiment-analysis" class="headerlink" title="4. Sentiment analysis"></a>4. Sentiment analysis</h5><h5 id="5-Speech-to-text-and-text-to-speech-conversion"><a href="#5-Speech-to-text-and-text-to-speech-conversion" class="headerlink" title="5. Speech-to-text and text-to-speech conversion"></a>5. Speech-to-text and text-to-speech conversion</h5><h5 id="6-Document-summarization"><a href="#6-Document-summarization" class="headerlink" title="6. Document summarization"></a>6. Document summarization</h5><h5 id="7-Machine-translation"><a href="#7-Machine-translation" class="headerlink" title="7. Machine translation"></a>7. Machine translation</h5><h2 id="2-What’s-word-vectors"><a href="#2-What’s-word-vectors" class="headerlink" title="2. What’s word vectors?"></a>2. What’s word vectors?</h2><p><img src="/blog/2020/06/24/notes-of-CS224n-part1/word_vectors.png" alt></p>
+<p>Obviously, the first step of all NLP tasks is how we represent words as input to any our models. Word vectors which are the texts converted into numbers and there may be different numerical representations of the same text, give a way to this problem. </p>
+<p>A Word vector format generally tries to map a word using a dictionary to a vector. Let us break this phrase down into finer details to have a clear view.</p>
+<p>Take a look at this example - “The banking system is a basic system”; A dictionary may be the list of all unique words in the sentence. So, a dictionary may look like – [‘The’,’banking’,’system’,’is’,’a’,’basic’]. A vector representation of a word may be a one-hot encoded vector, like a vector show in above picture.</p>
+<h5 id="Different-types-of-Word-Vectors"><a href="#Different-types-of-Word-Vectors" class="headerlink" title="Different types of Word Vectors"></a>Different types of Word Vectors</h5><p>The different types of word vectors can be broadly classified into two categories-</p>
+<ol>
+<li>Frequency based</li>
+<li>Prediction based</li>
+</ol>
+<h5 id="Word2vec"><a href="#Word2vec" class="headerlink" title="Word2vec"></a>Word2vec</h5><p><img src="/blog/2020/06/24/notes-of-CS224n-part1/word2vec.png" alt></p>
+<h2 id="3-What’s-next"><a href="#3-What’s-next" class="headerlink" title="3. What’s next?"></a>3. What’s next?</h2><p>I joined in a NLP learning activity held by an open-source organization <a href="https://datawhale.club/" target="_blank" rel="noopener">Datawhale</a> recently. We are gonna learning the awesome course <a href="https://web.stanford.edu/class/archive/cs/cs224n/cs224n.1194/index.html" target="_blank" rel="noopener">CS224n</a> by Stanford in this activity. </p>
+<p>I will keep updating my progress and my learning note in the upcoming posts on this blog. As a beginner of this field, I have a lot to learn. I may just follow the plan of this activity or this course to have a big picture of NLP. So, my next post may be the exploring of Word2vec.</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
+<li><p><a href="https://www.sas.com/en_us/insights/analytics/what-is-natural-language-processing-nlp.html#howitworks" target="_blank" rel="noopener">NLP: What it is and why it matters</a></p>
+</li>
+<li><p><a href="https://www.analyticsvidhya.com/blog/2017/06/word-embeddings-count-word2veec/" target="_blank" rel="noopener">An Intuitive Understanding of Word Embeddings: From Count Vectors to Word2Vec</a></p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>零基础入门CV之集成学习</title>
+    <url>//blog/2020/06/02/cv-task5.html</url>
+    <content><![CDATA[<h2 id="集成学习是什么"><a href="#集成学习是什么" class="headerlink" title="集成学习是什么"></a>集成学习是什么</h2><h2 id="一、集成学习是什么"><a href="#一、集成学习是什么" class="headerlink" title="一、集成学习是什么"></a>一、集成学习是什么</h2><p>“团结就是力量”、“综合就是全面”，这是机器学习领域中”集成学习“的基本思想。大多数数据竞赛排名靠前的解决方案所采用的集成方法，都建立在一个假设：组合多个模型以期得到一个更全面的模型，从而得到一个泛化性能更好的模型。</p>
+<p>集成学习一般有Bagging、Boosting和Stacking三种类别：</p>
+<ul>
+<li><strong>Bagging</strong>：利用bootstrap方法从整体数据集中采取有放回抽样得到N个数据集，在每个数据集上学习出一个模型，最后的预测结果利用N个模型的输出综合得到。具体地：分类问题采用N个模型预测投票的方式，回归问题采用N个模型预测平均的方式。</li>
+<li><strong>Boosting</strong>：一种可以用来减小监督学习中偏差的机器学习算法。主要也是学习一系列弱分类器，并将其组合为一个强分类器。</li>
+<li><strong>Stacking</strong>：指训练一个模型用于组合其他各个模型。首先我们先训练多个不同的模型，然后把之前训练的各个模型的输出为输入来训练一个模型，以得到一个最终的输出。</li>
+</ul>
+<h2 id="二、集成学习的应用场景"><a href="#二、集成学习的应用场景" class="headerlink" title="二、集成学习的应用场景"></a>二、集成学习的应用场景</h2><p>集成学习的主要应用场景有以下几个方面：</p>
+<ol>
+<li><strong>模型选择</strong>：相比于只选择一个模型，集成学习对模型集合中所有模型的输出按照某种方法进行组合，例如简单的取平均，可以降低模型选择不当的风险。这个要求能达到适当的多样性，这样才能通过一定的策略优势互补地减少总体误差。</li>
+<li><strong>分而治之</strong>：集成学习系统遵循一种分而治之的方法，将数据空间划分为更小、更易于学习的分区，其中每个模型只学习其中一个更简单的分区。然后通过不同方法来适当组合模型的输出来近似复杂决策边界。这可以解决难以用一个模型来处理的机器学习问题。</li>
+<li><strong>数据融合</strong>：在许多需要自动决策的应用程序中，接收来自不同来源的数据并提供补充信息是很常见的。这种信息的适当组合被称为<strong>数据或信息融合</strong>，与仅根据任何单个数据源进行决策相比，可以提高分类决策的准确性。</li>
+<li><strong>置信度估计</strong>：考虑对一个分类问题训练一个分类器集合，如果集合中绝大多数分类器决策一致，那么就认为整体决策的结果具有较高置信度；反之则具有较低置信度。</li>
+<li><strong>数据扩增</strong>：如果训练数据量太小，那么使用bootstrapping技术可以从总体数据集中有放回的随机采样获得多个样本集，每个样本集作为训练集训练一个模型，最后再以一定策略组合。</li>
+</ol>
+<h2 id="三、集成学习的结合策略"><a href="#三、集成学习的结合策略" class="headerlink" title="三、集成学习的结合策略"></a>三、集成学习的结合策略</h2><p>模型集合的组合方法有很多，我们这里主要介绍在实践中最常用的四种：线性组合、乘积组合、投票组合和学习组合。</p>
+<ol>
+<li><strong>线性组合</strong>：线性组合用于输出实数的模型，因此适用于回归模型结果的集成，或分类模型集成中估计类别的概率。</li>
+<li><strong>乘积组合</strong>：在各模型的类别条件概率估计相互独立的假设下，乘积组合在理论上是最好的组合策略。</li>
+<li><strong>投票组合</strong>：每个分类器对某个类别投票，获得多数票的类别作为集成模型整体的输出。包括相对多数投票法、绝对多数投票法和加权投票法。</li>
+<li><strong>学习组合</strong>：通过机器学习的方式来组合，代表是Stacking。我们将弱学习器称为初级学习器，将用于结合的学习器称为次级学习器。对于测试集，我们首先用初级学习器预测一次，得到次级学习器的输入样本，再用次级学习器预测一次，得到最终的预测结果。</li>
+</ol>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ol>
+<li><a href="https://www.jianshu.com/p/3e8c44314be5" target="_blank" rel="noopener">集成学习(Ensemble learning)</a></li>
+<li><a href="https://www.cnblogs.com/wxquare/p/5440664.html" target="_blank" rel="noopener">集成学习方法</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>入门</category>
+        <category>天池赛题</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
@@ -565,45 +565,12 @@ f(x)=\begin{equation}
       </tags>
   </entry>
   <entry>
-    <title>Note of CS224n —— subword</title>
-    <url>//blog/2020/06/29/notes-of-CS224n-part3.html</url>
-    <content><![CDATA[<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h2><p>The Word2vec model and GloVe model mentioned in the previous posts are basically based on the word which means word as the basic unit. But theirs disadvantage is that they cannot solve the out-of-vocabulary(OOV for short) that the word is not in the vocabulary. And they have a bad performance on processing the morphology.</p>
-<p>Let’s take a look at these:</p>
-<h3 id="1-1-Word-Level-Model"><a href="#1-1-Word-Level-Model" class="headerlink" title="1.1 Word-Level Model"></a>1.1 Word-Level Model</h3><p>Based on the basic unit — word, this method can well represent each word as a  vector in the vocabulary. Its disadvantages are as follow:</p>
-<h4 id="1-1-1-OOV"><a href="#1-1-1-OOV" class="headerlink" title="1.1.1 OOV"></a>1.1.1 OOV</h4><ul>
-<li>Problem: It’s easy to appear that the word we want doesn’t in the vocabulary;</li>
-<li>Solution: Add more words into vocabulary</li>
-</ul>
-<h4 id="1-1-2-Improper-spelling"><a href="#1-1-2-Improper-spelling" class="headerlink" title="1.1.2 Improper spelling"></a>1.1.2 Improper spelling</h4><ul>
-<li>Problem: The system is difficult to deal with the word which has unofficial spelling.</li>
-<li>Solution: Correct the wrong spelling word or add rule constraints.</li>
-</ul>
-<h4 id="1-1-3-Name-Translation"><a href="#1-1-3-Name-Translation" class="headerlink" title="1.1.3 Name Translation"></a>1.1.3 Name Translation</h4><ul>
-<li>Problem: It’s difficult to transliterate names.</li>
-<li>Solution: Add rule constrains.</li>
-</ul>
-<h3 id="1-2-Character-Level-Model"><a href="#1-2-Character-Level-Model" class="headerlink" title="1.2 Character-Level Model"></a>1.2 Character-Level Model</h3><p>Based on character as the basic unit, this method can well vectorize each Char in the font. It’s good at solving OOV problems and having similar embedding among the words that have similar spelling.</p>
-<h4 id="Problem"><a href="#Problem" class="headerlink" title="Problem:"></a>Problem:</h4><p>Compared to word-level, character-level input sentences become longer, making the data sparse, and the dependence on long distance is difficult to learn, and the training speed is reduced.</p>
-<h4 id="Solution"><a href="#Solution" class="headerlink" title="Solution:"></a>Solution:</h4><p><a href="https://arxiv.org/abs/1610.03017" target="_blank" rel="noopener">Fully Character-Level Neural Machine Translation without Explicit Segmentation</a> introduced a way which uses multiple layers of convolution, pooling and highway layer to solve this problem. The structure of the encoder is shown below:</p>
-<p><img src="/blog/2020/06/29/notes-of-CS224n-part3/encoder.jpg" alt></p>
-<p>And how it works:</p>
-<ol>
-<li>The input characters first need to go through the Character embedding layer and be converted into character embeddings representation;</li>
-<li>Convolution kernels with different window sizes are used to perform the convolution operation on the character embeddings of the input characters. The sizes of the windows used in the paper are 3, 4 and 5, respectively, that is, to learn Character-level 3-gram, 4-gram, 5-gram;</li>
-<li>Perform max-pooling operations on the convolution results of different convolutional layers, that is, capture its most significant features to generate segment embedding;</li>
-<li>The segment embedding passes through the Highway Network (some similar to the Residual network, which facilitates the flow of information in the deep network, but some gates are added to control the flow of information);</li>
-<li>The output results go through the single layer BiGRU to get the final encoder output;</li>
-<li>The decoder uses the Attention mechanism and character level GRU to decode it.</li>
-</ol>
-<p>The experimental results show that the character-based model can better handle the OOV problem, and for multi-language scenarios, it can better learn the common morphemes among languages. And it can capture the 3-gram, 4-gram, 5-gram information of the sentence, which is also the prototype of the idea of FastText later.</p>
-<h3 id="1-3-Subword-Model"><a href="#1-3-Subword-Model" class="headerlink" title="1.3 Subword Model"></a>1.3 Subword Model</h3><p>Subword model is a model created by taking a component between characters and words as the basic unit. It is divided into Byte Pair Encoding (BPE) and SentencePiece. </p>
-<h2 id="2-Sub-word-Model"><a href="#2-Sub-word-Model" class="headerlink" title="2. Sub-word Model"></a>2. Sub-word Model</h2><p>Sub-word model has now become an important NLP model performance improvement method. Since BERT was born in 2018 and swept through the major rankings in the NLP world, various pre-trained language models have emerged like mushrooms, among which the Sub-word model has become a standard. And it has great advantages compared with the traditional space separation tokenization technology.</p>
-<h3 id="2-1-Byte-Pair-Enconding-BPE"><a href="#2-1-Byte-Pair-Enconding-BPE" class="headerlink" title="2.1 Byte Pair Enconding(BPE)"></a>2.1 Byte Pair Enconding(BPE)</h3><p>BPE is one of the compression algorithms. The main idea is to replace the frequently occurring byte pair with a new byte. For example, if (‘A’,’B’) appears frequently in sequence, then use a new flag (‘AB’) To replace them. </p>
-<p>Given a text library, our initial vocabulary contains only all single characters, and then continuously add the n-gram pair with the highest frequency as a new n-gram to the vocabulary until the size of the vocabulary reaches a certain goal we set.</p>
-<p>Google’s NMT model also evolved from BPE, one called word-piece model and one called sentence-piece model. The word-piece model does not select the n-gram with the highest frequency each time, but selects the n-gram that can reduce the complexity of the language model each time. </p>
-<h3 id="2-2-Sentence-Piece"><a href="#2-2-Sentence-Piece" class="headerlink" title="2.2 Sentence-Piece"></a>2.2 Sentence-Piece</h3><p>The sentence-piece model regards the gap between words as a word, so that the entire sentence can be directly processed without preprocessing into words and then embedding.</p>
-<h2 id="3-Hybrid-character-and-word-level-models"><a href="#3-Hybrid-character-and-word-level-models" class="headerlink" title="3. Hybrid character and word-level models"></a>3. Hybrid character and word-level models</h2><p>The key idea: most of the time, the word-level model is used for translation. Only when the words of rare or unseen are encountered, the character-level model will be used to assist. This approach has produced very good results.</p>
-<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><h5 id="1-Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models"><a href="#1-Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models" class="headerlink" title="1. Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models"></a>1. <a href="https://arxiv.org/abs/1604.00788v1" target="_blank" rel="noopener">Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models</a></h5><h5 id="2-Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation"><a href="#2-Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation" class="headerlink" title="2.Fully Character-Level Neural Machine Translation without Explicit Segmentation"></a>2.<a href="https://arxiv.org/abs/1610.03017" target="_blank" rel="noopener">Fully Character-Level Neural Machine Translation without Explicit Segmentation</a></h5><h5 id="3-Enriching-Word-Vectors-with-Subword-Information"><a href="#3-Enriching-Word-Vectors-with-Subword-Information" class="headerlink" title="3. Enriching Word Vectors with Subword Information"></a>3. <a href="https://arxiv.org/pdf/1607.04606.pdf" target="_blank" rel="noopener">Enriching Word Vectors with Subword Information</a></h5>]]></content>
+    <title>Note of CS224n —— Homework</title>
+    <url>//blog/2020/07/06/notes-of-CS224n-part5.html</url>
+    <content><![CDATA[<h2 id="preview-work"><a href="#preview-work" class="headerlink" title="preview work"></a>preview work</h2><p><a href="http://7497.xyz/blog/2020/06/26/exploring-of-word2vec.html" target="_blank" rel="noopener">Exploring of Word2vec</a></p>
+<h2 id="Homework-reference"><a href="#Homework-reference" class="headerlink" title="Homework reference"></a>Homework reference</h2><p><a href="https://github.com/exuding/NLP/blob/master/bert_classification.ipynb" target="_blank" rel="noopener">fastText_classification.ipynb from winter</a></p>
+<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p>we are planning to attend a NLP contest to learn more about it!!</p>
+]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
@@ -659,15 +626,58 @@ f(x)=\begin{equation}
       </tags>
   </entry>
   <entry>
-    <title>Note of CS224n —— Homework</title>
-    <url>//blog/2020/07/06/notes-of-CS224n-part5.html</url>
-    <content><![CDATA[<h2 id="preview-work"><a href="#preview-work" class="headerlink" title="preview work"></a>preview work</h2><p><a href="http://7497.xyz/blog/2020/06/26/exploring-of-word2vec.html" target="_blank" rel="noopener">Exploring of Word2vec</a></p>
-<h2 id="Homework-reference"><a href="#Homework-reference" class="headerlink" title="Homework reference"></a>Homework reference</h2><p><a href="https://github.com/exuding/NLP/blob/master/bert_classification.ipynb" target="_blank" rel="noopener">fastText_classification.ipynb from winter</a></p>
-<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p>we are planning to attend a NLP contest to learn more about it!!</p>
+    <title>News Text Classification with ML</title>
+    <url>//blog/2020/07/24/news-text-classification-notes3.html</url>
+    <content><![CDATA[<h2 id="1-Count-Vectors-RidgeClassifier"><a href="#1-Count-Vectors-RidgeClassifier" class="headerlink" title="1. Count Vectors + RidgeClassifier"></a>1. Count Vectors + RidgeClassifier</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Count Vectors + RidgeClassifier</span></span><br><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> RidgeClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line"></span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>, nrows=<span class="number">15000</span>)</span><br><span class="line"></span><br><span class="line">vectorizer = CountVectorizer(max_features=<span class="number">3000</span>)</span><br><span class="line">train_test = vectorizer.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line"></span><br><span class="line">clf = RidgeClassifier()</span><br><span class="line">clf.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = clf.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
+<p><strong>output</strong>: 0.7410794074418383</p>
+<h2 id="2-TF-IDF-RidgeClassifier"><a href="#2-TF-IDF-RidgeClassifier" class="headerlink" title="2. TF-IDF + RidgeClassifier"></a>2. TF-IDF + RidgeClassifier</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> TfidfVectorizer</span><br><span class="line"></span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>, nrows=<span class="number">15000</span>)</span><br><span class="line">tfidf = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>), max_features=<span class="number">3000</span>)</span><br><span class="line">train_test = tfidf.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line">clf = RidgeClassifier()</span><br><span class="line">clf.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = clf.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
+<p><strong>output</strong>: 0.8721598830546126</p>
+<p>Try a bigger max_features:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tfid_try = TfidfVectorizer(ngram_range=(<span class="number">1</span>, <span class="number">3</span>), max_features=<span class="number">5000</span>)</span><br><span class="line">train_try = tfid_try.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line">clf_try = RidgeClassifier()</span><br><span class="line">clf_try.fit(train_try[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line">val_pred_try = clf_try.predict(train_try[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred_try, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
+<p><strong>output</strong>: 0.8850817067811825</p>
+<h2 id="3-LogisticRegression"><a href="#3-LogisticRegression" class="headerlink" title="3. LogisticRegression"></a>3. LogisticRegression</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">tfidf = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>), max_features=<span class="number">5000</span>)</span><br><span class="line">train_test = tfidf.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line"></span><br><span class="line">reg = linear_model.LogisticRegression(penalty=<span class="string">'l2'</span>, C=<span class="number">1.0</span>, solver=<span class="string">'liblinear'</span>)</span><br><span class="line">reg.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = reg.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
+<p><strong>output</strong>: 0.8464704900433653</p>
+<h2 id="4-SGDClassifier"><a href="#4-SGDClassifier" class="headerlink" title="4. SGDClassifier"></a>4. SGDClassifier</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tfidf = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>), max_features=<span class="number">5000</span>)</span><br><span class="line">train_test = tfidf.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line"></span><br><span class="line">reg = linear_model.SGDClassifier(loss=<span class="string">"log"</span>, penalty=<span class="string">'l2'</span>, alpha=<span class="number">0.0001</span>,l1_ratio=<span class="number">0.15</span>) </span><br><span class="line">reg.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = reg.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
+<p><strong>output</strong>: 0.8461511856339045</p>
+<h2 id="5-SVM"><a href="#5-SVM" class="headerlink" title="5. SVM"></a>5. SVM</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line">tfidf = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>), max_features=<span class="number">5000</span>)</span><br><span class="line">train_test = tfidf.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line"></span><br><span class="line">reg = svm.SVC(C=<span class="number">1.0</span>, kernel=<span class="string">'linear'</span>, degree=<span class="number">3</span>, gamma=<span class="string">'auto'</span>,decision_function_shape=<span class="string">'ovr'</span>)</span><br><span class="line">reg.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = reg.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
+<p><strong>output</strong>: 0.883129115819089</p>
+<h2 id="6-Summary"><a href="#6-Summary" class="headerlink" title="6. Summary"></a>6. Summary</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>f1_score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Count Vectors + RidgeClassifier</td>
+<td>0.7410794074418383</td>
+</tr>
+<tr>
+<td>TF-IDF + RidgeClassifier</td>
+<td><strong>0.8850817067811825</strong></td>
+</tr>
+<tr>
+<td>TF-IDF + LogisticRegression</td>
+<td>0.8464704900433653</td>
+</tr>
+<tr>
+<td>TF-IDF + SGDClassifier</td>
+<td>0.8461511856339045</td>
+</tr>
+<tr>
+<td>TF-IDF + SVM</td>
+<td><strong>0.883129115819089</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
 ]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
+        <category>classification</category>
       </categories>
       <tags>
         <tag>NLP</tag>
@@ -793,76 +803,12 @@ F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac
       </tags>
   </entry>
   <entry>
-    <title>News Text Classification with ML</title>
-    <url>//blog/2020/07/24/news-text-classification-notes3.html</url>
-    <content><![CDATA[<h2 id="1-Count-Vectors-RidgeClassifier"><a href="#1-Count-Vectors-RidgeClassifier" class="headerlink" title="1. Count Vectors + RidgeClassifier"></a>1. Count Vectors + RidgeClassifier</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Count Vectors + RidgeClassifier</span></span><br><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> CountVectorizer</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> RidgeClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line"></span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>, nrows=<span class="number">15000</span>)</span><br><span class="line"></span><br><span class="line">vectorizer = CountVectorizer(max_features=<span class="number">3000</span>)</span><br><span class="line">train_test = vectorizer.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line"></span><br><span class="line">clf = RidgeClassifier()</span><br><span class="line">clf.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = clf.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>output</strong>: 0.7410794074418383</p>
-<h2 id="2-TF-IDF-RidgeClassifier"><a href="#2-TF-IDF-RidgeClassifier" class="headerlink" title="2. TF-IDF + RidgeClassifier"></a>2. TF-IDF + RidgeClassifier</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.feature_extraction.text <span class="keyword">import</span> TfidfVectorizer</span><br><span class="line"></span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>, nrows=<span class="number">15000</span>)</span><br><span class="line">tfidf = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>), max_features=<span class="number">3000</span>)</span><br><span class="line">train_test = tfidf.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line">clf = RidgeClassifier()</span><br><span class="line">clf.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = clf.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>output</strong>: 0.8721598830546126</p>
-<p>Try a bigger max_features:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tfid_try = TfidfVectorizer(ngram_range=(<span class="number">1</span>, <span class="number">3</span>), max_features=<span class="number">5000</span>)</span><br><span class="line">train_try = tfid_try.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line">clf_try = RidgeClassifier()</span><br><span class="line">clf_try.fit(train_try[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line">val_pred_try = clf_try.predict(train_try[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred_try, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>output</strong>: 0.8850817067811825</p>
-<h2 id="3-LogisticRegression"><a href="#3-LogisticRegression" class="headerlink" title="3. LogisticRegression"></a>3. LogisticRegression</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> linear_model</span><br><span class="line"></span><br><span class="line">tfidf = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>), max_features=<span class="number">5000</span>)</span><br><span class="line">train_test = tfidf.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line"></span><br><span class="line">reg = linear_model.LogisticRegression(penalty=<span class="string">'l2'</span>, C=<span class="number">1.0</span>, solver=<span class="string">'liblinear'</span>)</span><br><span class="line">reg.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = reg.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>output</strong>: 0.8464704900433653</p>
-<h2 id="4-SGDClassifier"><a href="#4-SGDClassifier" class="headerlink" title="4. SGDClassifier"></a>4. SGDClassifier</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">tfidf = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>), max_features=<span class="number">5000</span>)</span><br><span class="line">train_test = tfidf.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line"></span><br><span class="line">reg = linear_model.SGDClassifier(loss=<span class="string">"log"</span>, penalty=<span class="string">'l2'</span>, alpha=<span class="number">0.0001</span>,l1_ratio=<span class="number">0.15</span>) </span><br><span class="line">reg.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = reg.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>output</strong>: 0.8461511856339045</p>
-<h2 id="5-SVM"><a href="#5-SVM" class="headerlink" title="5. SVM"></a>5. SVM</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn <span class="keyword">import</span> svm</span><br><span class="line">tfidf = TfidfVectorizer(ngram_range=(<span class="number">1</span>,<span class="number">3</span>), max_features=<span class="number">5000</span>)</span><br><span class="line">train_test = tfidf.fit_transform(train_df[<span class="string">'text'</span>])</span><br><span class="line"></span><br><span class="line">reg = svm.SVC(C=<span class="number">1.0</span>, kernel=<span class="string">'linear'</span>, degree=<span class="number">3</span>, gamma=<span class="string">'auto'</span>,decision_function_shape=<span class="string">'ovr'</span>)</span><br><span class="line">reg.fit(train_test[:<span class="number">10000</span>], train_df[<span class="string">'label'</span>].values[:<span class="number">10000</span>])</span><br><span class="line"></span><br><span class="line">val_pred = reg.predict(train_test[<span class="number">10000</span>:])</span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">10000</span>:], val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>output</strong>: 0.883129115819089</p>
-<h2 id="6-Summary"><a href="#6-Summary" class="headerlink" title="6. Summary"></a>6. Summary</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>method</th>
-<th>f1_score</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Count Vectors + RidgeClassifier</td>
-<td>0.7410794074418383</td>
-</tr>
-<tr>
-<td>TF-IDF + RidgeClassifier</td>
-<td><strong>0.8850817067811825</strong></td>
-</tr>
-<tr>
-<td>TF-IDF + LogisticRegression</td>
-<td>0.8464704900433653</td>
-</tr>
-<tr>
-<td>TF-IDF + SGDClassifier</td>
-<td>0.8461511856339045</td>
-</tr>
-<tr>
-<td>TF-IDF + SVM</td>
-<td><strong>0.883129115819089</strong></td>
-</tr>
-</tbody>
-</table>
-</div>
-]]></content>
-      <categories>
-        <category>入门</category>
-        <category>NLP</category>
-        <category>classification</category>
-      </categories>
-      <tags>
-        <tag>NLP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>News Text Classification with FastText</title>
-    <url>//blog/2020/07/27/news-text-classification-notes4.html</url>
-    <content><![CDATA[<h2 id="1-What-FastText-is"><a href="#1-What-FastText-is" class="headerlink" title="1. What FastText is"></a>1. What FastText is</h2><p>FastText is a word vector calculation and text classification tool open sourced by Facebook in 2016. It is not academically innovative. But its advantages are also very obvious. In text classification tasks, FastText can often achieve accuracy comparable to that of deep networks, but the training time is many orders of magnitude faster than deep networks. On a standard multi-core CPU, the word vectors of a 1 billion word-level corpus can be trained in 10 minutes, and more than 500,000 sentences with more than 300,000 categories can be classified in 1 minute!</p>
-<h3 id="1-1-model-architecture"><a href="#1-1-model-architecture" class="headerlink" title="1.1 model architecture"></a>1.1 model architecture</h3><p>The fastText model architecture is very similar to the CBOW model architecture of word2vec. The following is a diagram of the fastText model architecture:</p>
-<p><img src="/blog/2020/07/27/news-text-classification-notes4/p1.png" alt></p>
-<p><strong>Like CBOW, the FastText model has only three layers: input layer, hidden layer, and output layer (Hierarchical Softmax)</strong>. The input is multiple words represented by vectors, the output is a specific target, and the hidden layers are all right The superposition average of multiple word vectors. The difference is that the input of CBOW is the context of the target word, the input of FastText is multiple words and their n-gram features, which are used to represent a single document; the input word of CBOW is encoded by one-hot, and the input feature of FastText is Embedding has been done; the output of CBOW is the target vocabulary, and the output of FastText is the class label corresponding to the document.</p>
-<p>It is worth noting that FastText uses the character-level n-gram vector of the word as an additional feature when input; and FastText uses hierarchical Softmax when output, which greatly reduces the model training time.</p>
-<h3 id="1-2-key-idea"><a href="#1-2-key-idea" class="headerlink" title="1.2 key idea"></a>1.2 key idea</h3><p>what is the key idea of FastText? Carefully observe the second half of the model, from the output of the hidden layer to the output of the output layer. <strong>You will find that it is a softmax linear multi-class classifier</strong>. The input of the classifier is a vector used to characterize the current document; the first half of the model, That is, from the input of the input layer to the output of the hidden layer, it is mainly doing one thing: <strong>generating a vector used to characterize the document</strong>. So how does it do it? Superimpose all the words and n-gram word vectors that make up this document, and then take the average. The idea behind superimposing word vectors is the traditional bag-of-words method, which treats a document as a collection of words.</p>
-<p><strong>So the key idea of FastText is</strong>: superimpose and average the words and n-gram vectors of the entire document to get the document vector, and then use the document vector to do softmax multi-classification. This involves two techniques: the introduction of character-level n-gram features and hierarchical Softmax classification.</p>
-<h2 id="2-Text-Classification-with-FastText"><a href="#2-Text-Classification-with-FastText" class="headerlink" title="2. Text Classification with FastText"></a>2. Text Classification with FastText</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> fasttext</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line"> </span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>) </span><br><span class="line">train_df[<span class="string">'label_ft'</span>] = <span class="string">'__label__'</span> + train_df[<span class="string">'label'</span>].astype(str)</span><br><span class="line"> </span><br><span class="line">train_df[[<span class="string">'text'</span>,<span class="string">'label_ft'</span>]].iloc[:<span class="number">-5000</span>].to_csv(<span class="string">'train.csv'</span>, index=<span class="literal">None</span>, header=<span class="literal">None</span>, sep=<span class="string">'\t'</span>)</span><br><span class="line"> </span><br><span class="line">model = fasttext.train_supervised(<span class="string">'train.csv'</span>, lr=<span class="number">1.0</span>, wordNgrams=<span class="number">2</span>, \</span><br><span class="line">                                  verbose=<span class="number">2</span>, minCount=<span class="number">1</span>, epoch=<span class="number">25</span>, loss=<span class="string">"hs"</span>)</span><br><span class="line"> </span><br><span class="line">val_pred = [model.predict(x)[<span class="number">0</span>][<span class="number">0</span>].split(<span class="string">'__'</span>)[<span class="number">-1</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_df.iloc[<span class="number">-5000</span>:][<span class="string">'text'</span>]] </span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">-5000</span>:].astype(str), val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>output</strong>: 0.9094285991495592</p>
-<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-fastText原理及实践"><a href="#1-fastText原理及实践" class="headerlink" title="1. fastText原理及实践"></a>1. <a href="https://zhuanlan.zhihu.com/p/32965521" target="_blank" rel="noopener">fastText原理及实践</a></h5><h5 id="2-Bag-of-Tricks-for-Efficient-Text-Classification"><a href="#2-Bag-of-Tricks-for-Efficient-Text-Classification" class="headerlink" title="2. Bag of Tricks for Efficient Text Classification"></a>2. <a href="https://arxiv.org/abs/1607.01759" target="_blank" rel="noopener">Bag of Tricks for Efficient Text Classification</a></h5>]]></content>
+    <title>News Text Classification with Bert</title>
+    <url>//blog/2020/08/03/news-text-classification-notes6.html</url>
+    <content><![CDATA[<h2 id="1-Bert"><a href="#1-Bert" class="headerlink" title="1. Bert"></a>1. Bert</h2><h3 id="1-1-what-Bert-is"><a href="#1-1-what-Bert-is" class="headerlink" title="1.1 what Bert is"></a>1.1 what Bert is</h3><p>BERT (Bidirectional Encoder Representations from Transformers) is a Transformer’s bidirectional encoder, which aims to pre-train deep bidirectional representations from unlabeled text through conditional calculations shared in the left and right contexts. Therefore, the pre-trained BERT model can be fine-tuned with an additional output layer to generate the latest models for various natural language processing tasks.</p>
+<p>This is what we often say [pre-training] + [fine tuning]</p>
+<h3 id="1-2-three-key-points"><a href="#1-2-three-key-points" class="headerlink" title="1.2 three key points"></a>1.2 three key points</h3><h3 id="1-3-input-representation"><a href="#1-3-input-representation" class="headerlink" title="1.3 input representation"></a>1.3 input representation</h3><h3 id="1-4-pre-train-task"><a href="#1-4-pre-train-task" class="headerlink" title="1.4 pre-train task"></a>1.4 pre-train task</h3><h4 id="1-4-1-Masked-LM"><a href="#1-4-1-Masked-LM" class="headerlink" title="1.4.1 Masked LM"></a>1.4.1 Masked LM</h4><h4 id="1-4-2-Next-Sentence-Prediction"><a href="#1-4-2-Next-Sentence-Prediction" class="headerlink" title="1.4.2 Next Sentence Prediction"></a>1.4.2 Next Sentence Prediction</h4><h3 id="1-5-fine-turning"><a href="#1-5-fine-turning" class="headerlink" title="1.5 fine-turning"></a>1.5 fine-turning</h3><h3 id="1-6-Polysemous-word-problem"><a href="#1-6-Polysemous-word-problem" class="headerlink" title="1.6 Polysemous word problem"></a>1.6 Polysemous word problem</h3><h2 id="2-Practice"><a href="#2-Practice" class="headerlink" title="2. Practice"></a>2. Practice</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2>]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
@@ -905,6 +851,76 @@ F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac
         <category>入门</category>
         <category>NLP</category>
         <category>classification</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>News Text Classification with FastText</title>
+    <url>//blog/2020/07/27/news-text-classification-notes4.html</url>
+    <content><![CDATA[<h2 id="1-What-FastText-is"><a href="#1-What-FastText-is" class="headerlink" title="1. What FastText is"></a>1. What FastText is</h2><p>FastText is a word vector calculation and text classification tool open sourced by Facebook in 2016. It is not academically innovative. But its advantages are also very obvious. In text classification tasks, FastText can often achieve accuracy comparable to that of deep networks, but the training time is many orders of magnitude faster than deep networks. On a standard multi-core CPU, the word vectors of a 1 billion word-level corpus can be trained in 10 minutes, and more than 500,000 sentences with more than 300,000 categories can be classified in 1 minute!</p>
+<h3 id="1-1-model-architecture"><a href="#1-1-model-architecture" class="headerlink" title="1.1 model architecture"></a>1.1 model architecture</h3><p>The fastText model architecture is very similar to the CBOW model architecture of word2vec. The following is a diagram of the fastText model architecture:</p>
+<p><img src="/blog/2020/07/27/news-text-classification-notes4/p1.png" alt></p>
+<p><strong>Like CBOW, the FastText model has only three layers: input layer, hidden layer, and output layer (Hierarchical Softmax)</strong>. The input is multiple words represented by vectors, the output is a specific target, and the hidden layers are all right The superposition average of multiple word vectors. The difference is that the input of CBOW is the context of the target word, the input of FastText is multiple words and their n-gram features, which are used to represent a single document; the input word of CBOW is encoded by one-hot, and the input feature of FastText is Embedding has been done; the output of CBOW is the target vocabulary, and the output of FastText is the class label corresponding to the document.</p>
+<p>It is worth noting that FastText uses the character-level n-gram vector of the word as an additional feature when input; and FastText uses hierarchical Softmax when output, which greatly reduces the model training time.</p>
+<h3 id="1-2-key-idea"><a href="#1-2-key-idea" class="headerlink" title="1.2 key idea"></a>1.2 key idea</h3><p>what is the key idea of FastText? Carefully observe the second half of the model, from the output of the hidden layer to the output of the output layer. <strong>You will find that it is a softmax linear multi-class classifier</strong>. The input of the classifier is a vector used to characterize the current document; the first half of the model, That is, from the input of the input layer to the output of the hidden layer, it is mainly doing one thing: <strong>generating a vector used to characterize the document</strong>. So how does it do it? Superimpose all the words and n-gram word vectors that make up this document, and then take the average. The idea behind superimposing word vectors is the traditional bag-of-words method, which treats a document as a collection of words.</p>
+<p><strong>So the key idea of FastText is</strong>: superimpose and average the words and n-gram vectors of the entire document to get the document vector, and then use the document vector to do softmax multi-classification. This involves two techniques: the introduction of character-level n-gram features and hierarchical Softmax classification.</p>
+<h2 id="2-Text-Classification-with-FastText"><a href="#2-Text-Classification-with-FastText" class="headerlink" title="2. Text Classification with FastText"></a>2. Text Classification with FastText</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> fasttext</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line"> </span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>) </span><br><span class="line">train_df[<span class="string">'label_ft'</span>] = <span class="string">'__label__'</span> + train_df[<span class="string">'label'</span>].astype(str)</span><br><span class="line"> </span><br><span class="line">train_df[[<span class="string">'text'</span>,<span class="string">'label_ft'</span>]].iloc[:<span class="number">-5000</span>].to_csv(<span class="string">'train.csv'</span>, index=<span class="literal">None</span>, header=<span class="literal">None</span>, sep=<span class="string">'\t'</span>)</span><br><span class="line"> </span><br><span class="line">model = fasttext.train_supervised(<span class="string">'train.csv'</span>, lr=<span class="number">1.0</span>, wordNgrams=<span class="number">2</span>, \</span><br><span class="line">                                  verbose=<span class="number">2</span>, minCount=<span class="number">1</span>, epoch=<span class="number">25</span>, loss=<span class="string">"hs"</span>)</span><br><span class="line"> </span><br><span class="line">val_pred = [model.predict(x)[<span class="number">0</span>][<span class="number">0</span>].split(<span class="string">'__'</span>)[<span class="number">-1</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_df.iloc[<span class="number">-5000</span>:][<span class="string">'text'</span>]] </span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">-5000</span>:].astype(str), val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
+<p><strong>output</strong>: 0.9094285991495592</p>
+<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-fastText原理及实践"><a href="#1-fastText原理及实践" class="headerlink" title="1. fastText原理及实践"></a>1. <a href="https://zhuanlan.zhihu.com/p/32965521" target="_blank" rel="noopener">fastText原理及实践</a></h5><h5 id="2-Bag-of-Tricks-for-Efficient-Text-Classification"><a href="#2-Bag-of-Tricks-for-Efficient-Text-Classification" class="headerlink" title="2. Bag of Tricks for Efficient Text Classification"></a>2. <a href="https://arxiv.org/abs/1607.01759" target="_blank" rel="noopener">Bag of Tricks for Efficient Text Classification</a></h5>]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+        <category>classification</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Note of CS224n —— subword</title>
+    <url>//blog/2020/06/29/notes-of-CS224n-part3.html</url>
+    <content><![CDATA[<h2 id="1-Introduction"><a href="#1-Introduction" class="headerlink" title="1. Introduction"></a>1. Introduction</h2><p>The Word2vec model and GloVe model mentioned in the previous posts are basically based on the word which means word as the basic unit. But theirs disadvantage is that they cannot solve the out-of-vocabulary(OOV for short) that the word is not in the vocabulary. And they have a bad performance on processing the morphology.</p>
+<p>Let’s take a look at these:</p>
+<h3 id="1-1-Word-Level-Model"><a href="#1-1-Word-Level-Model" class="headerlink" title="1.1 Word-Level Model"></a>1.1 Word-Level Model</h3><p>Based on the basic unit — word, this method can well represent each word as a  vector in the vocabulary. Its disadvantages are as follow:</p>
+<h4 id="1-1-1-OOV"><a href="#1-1-1-OOV" class="headerlink" title="1.1.1 OOV"></a>1.1.1 OOV</h4><ul>
+<li>Problem: It’s easy to appear that the word we want doesn’t in the vocabulary;</li>
+<li>Solution: Add more words into vocabulary</li>
+</ul>
+<h4 id="1-1-2-Improper-spelling"><a href="#1-1-2-Improper-spelling" class="headerlink" title="1.1.2 Improper spelling"></a>1.1.2 Improper spelling</h4><ul>
+<li>Problem: The system is difficult to deal with the word which has unofficial spelling.</li>
+<li>Solution: Correct the wrong spelling word or add rule constraints.</li>
+</ul>
+<h4 id="1-1-3-Name-Translation"><a href="#1-1-3-Name-Translation" class="headerlink" title="1.1.3 Name Translation"></a>1.1.3 Name Translation</h4><ul>
+<li>Problem: It’s difficult to transliterate names.</li>
+<li>Solution: Add rule constrains.</li>
+</ul>
+<h3 id="1-2-Character-Level-Model"><a href="#1-2-Character-Level-Model" class="headerlink" title="1.2 Character-Level Model"></a>1.2 Character-Level Model</h3><p>Based on character as the basic unit, this method can well vectorize each Char in the font. It’s good at solving OOV problems and having similar embedding among the words that have similar spelling.</p>
+<h4 id="Problem"><a href="#Problem" class="headerlink" title="Problem:"></a>Problem:</h4><p>Compared to word-level, character-level input sentences become longer, making the data sparse, and the dependence on long distance is difficult to learn, and the training speed is reduced.</p>
+<h4 id="Solution"><a href="#Solution" class="headerlink" title="Solution:"></a>Solution:</h4><p><a href="https://arxiv.org/abs/1610.03017" target="_blank" rel="noopener">Fully Character-Level Neural Machine Translation without Explicit Segmentation</a> introduced a way which uses multiple layers of convolution, pooling and highway layer to solve this problem. The structure of the encoder is shown below:</p>
+<p><img src="/blog/2020/06/29/notes-of-CS224n-part3/encoder.jpg" alt></p>
+<p>And how it works:</p>
+<ol>
+<li>The input characters first need to go through the Character embedding layer and be converted into character embeddings representation;</li>
+<li>Convolution kernels with different window sizes are used to perform the convolution operation on the character embeddings of the input characters. The sizes of the windows used in the paper are 3, 4 and 5, respectively, that is, to learn Character-level 3-gram, 4-gram, 5-gram;</li>
+<li>Perform max-pooling operations on the convolution results of different convolutional layers, that is, capture its most significant features to generate segment embedding;</li>
+<li>The segment embedding passes through the Highway Network (some similar to the Residual network, which facilitates the flow of information in the deep network, but some gates are added to control the flow of information);</li>
+<li>The output results go through the single layer BiGRU to get the final encoder output;</li>
+<li>The decoder uses the Attention mechanism and character level GRU to decode it.</li>
+</ol>
+<p>The experimental results show that the character-based model can better handle the OOV problem, and for multi-language scenarios, it can better learn the common morphemes among languages. And it can capture the 3-gram, 4-gram, 5-gram information of the sentence, which is also the prototype of the idea of FastText later.</p>
+<h3 id="1-3-Subword-Model"><a href="#1-3-Subword-Model" class="headerlink" title="1.3 Subword Model"></a>1.3 Subword Model</h3><p>Subword model is a model created by taking a component between characters and words as the basic unit. It is divided into Byte Pair Encoding (BPE) and SentencePiece. </p>
+<h2 id="2-Sub-word-Model"><a href="#2-Sub-word-Model" class="headerlink" title="2. Sub-word Model"></a>2. Sub-word Model</h2><p>Sub-word model has now become an important NLP model performance improvement method. Since BERT was born in 2018 and swept through the major rankings in the NLP world, various pre-trained language models have emerged like mushrooms, among which the Sub-word model has become a standard. And it has great advantages compared with the traditional space separation tokenization technology.</p>
+<h3 id="2-1-Byte-Pair-Enconding-BPE"><a href="#2-1-Byte-Pair-Enconding-BPE" class="headerlink" title="2.1 Byte Pair Enconding(BPE)"></a>2.1 Byte Pair Enconding(BPE)</h3><p>BPE is one of the compression algorithms. The main idea is to replace the frequently occurring byte pair with a new byte. For example, if (‘A’,’B’) appears frequently in sequence, then use a new flag (‘AB’) To replace them. </p>
+<p>Given a text library, our initial vocabulary contains only all single characters, and then continuously add the n-gram pair with the highest frequency as a new n-gram to the vocabulary until the size of the vocabulary reaches a certain goal we set.</p>
+<p>Google’s NMT model also evolved from BPE, one called word-piece model and one called sentence-piece model. The word-piece model does not select the n-gram with the highest frequency each time, but selects the n-gram that can reduce the complexity of the language model each time. </p>
+<h3 id="2-2-Sentence-Piece"><a href="#2-2-Sentence-Piece" class="headerlink" title="2.2 Sentence-Piece"></a>2.2 Sentence-Piece</h3><p>The sentence-piece model regards the gap between words as a word, so that the entire sentence can be directly processed without preprocessing into words and then embedding.</p>
+<h2 id="3-Hybrid-character-and-word-level-models"><a href="#3-Hybrid-character-and-word-level-models" class="headerlink" title="3. Hybrid character and word-level models"></a>3. Hybrid character and word-level models</h2><p>The key idea: most of the time, the word-level model is used for translation. Only when the words of rare or unseen are encountered, the character-level model will be used to assist. This approach has produced very good results.</p>
+<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><h5 id="1-Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models"><a href="#1-Achieving-Open-Vocabulary-Neural-Machine-Translation-with-Hybrid-Word-Character-Models" class="headerlink" title="1. Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models"></a>1. <a href="https://arxiv.org/abs/1604.00788v1" target="_blank" rel="noopener">Achieving Open Vocabulary Neural Machine Translation with Hybrid Word-Character Models</a></h5><h5 id="2-Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation"><a href="#2-Fully-Character-Level-Neural-Machine-Translation-without-Explicit-Segmentation" class="headerlink" title="2.Fully Character-Level Neural Machine Translation without Explicit Segmentation"></a>2.<a href="https://arxiv.org/abs/1610.03017" target="_blank" rel="noopener">Fully Character-Level Neural Machine Translation without Explicit Segmentation</a></h5><h5 id="3-Enriching-Word-Vectors-with-Subword-Information"><a href="#3-Enriching-Word-Vectors-with-Subword-Information" class="headerlink" title="3. Enriching Word Vectors with Subword Information"></a>3. <a href="https://arxiv.org/pdf/1607.04606.pdf" target="_blank" rel="noopener">Enriching Word Vectors with Subword Information</a></h5>]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
       </categories>
       <tags>
         <tag>NLP</tag>

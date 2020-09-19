@@ -1,148 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>零基础入门CV之赛题理解</title>
-    <url>//blog/2020/05/22/cv-task1.html</url>
-    <content><![CDATA[<h2 id="CV初探"><a href="#CV初探" class="headerlink" title="CV初探"></a>CV初探</h2><h4 id="CV是什么"><a href="#CV是什么" class="headerlink" title="CV是什么"></a>CV是什么</h4><p>计算机视觉（Computational Vision），英文简写CV，是一门“赋予机器自然视觉能力”的学科，是使用计算机模仿人类视觉系统的科学，让计算机拥有类似人类 提取、处理、理解和分析图像以及图像序列的能力。它是一门包含领域很广的综合性学科。从现阶段的研究来看，计算机视觉试图建立一种人工系统，提出的越来越多的理论和技术主要目的是为了从图像或者多维数据中获取信息。</p>
-<h4 id="CV可以解决什么问题"><a href="#CV可以解决什么问题" class="headerlink" title="CV可以解决什么问题"></a>CV可以解决什么问题</h4><p>好奇CV可以做什么，是一个比较适用的兴趣点和动力源。一般来说，CV的目标是”看到“。其在具体应用中往往都要解决一些相同的问题，这些问题包括：</p>
-<ol>
-<li><strong>识别</strong> —— ”看到“图像中的特定目标并能识别出来。</li>
-<li><strong>运动</strong> —— ”看到“序列图像中物体的运动和自己在运动，或跟踪运动的物体。</li>
-<li><strong>场景重建</strong> —— ”看到“序列图像并建立起完整的三维表面模型。</li>
-<li><strong>图像恢复</strong> —— ”看到“一些被影响的部分背后的内容，主要是移除噪声和改善模糊状态</li>
-</ol>
-<h4 id="CV工程的常见步骤"><a href="#CV工程的常见步骤" class="headerlink" title="CV工程的常见步骤"></a>CV工程的常见步骤</h4><p>简单了解一下工程方面的步骤，有利于知道后续的实践和增加对CV的认识。一般来说，CV工程分为以下5步：</p>
-<ol>
-<li><strong>图像获取</strong> —— 通过各种图像感知器获取需要的图像数据。</li>
-<li><strong>预处理</strong> —— 通过对图像进行一定的预处理来使其满足后续的操作要求。</li>
-<li><strong>特征提取</strong> —— 从图像中提取各种复杂度的特征，以便识别目标。</li>
-<li><strong>检测/分割</strong> —— 处理过程中，可能需要进一步分割有价值的部分用于后继处理。例如分割出包含特定目标的部分。</li>
-<li><strong>高级处理</strong> —— 根据具体应用的需要，验证得到的数据是否符合要求，估测特定的系数等。</li>
-</ol>
-<h2 id="赛题理解"><a href="#赛题理解" class="headerlink" title="赛题理解"></a>赛题理解</h2><p>通过比赛来实践是一个学习的捷径，在压力之下可能会打破自己原来设定的界限，做到自我突破。当然，对我们这种新手来说，还是要脚踏实地一步一步来的。先来了解下Datawhale与天池联合发起的零基础入门系列赛事第二场 —— <a href="https://tianchi.aliyun.com/competition/entrance/531795/introduction" target="_blank" rel="noopener">零基础入门CV赛事之街景字符识别</a>。</p>
-<ul>
-<li><strong>赛题名称</strong>：零基础入门CV之街道字符识别            </li>
-<li><strong>赛题目标</strong>：通过这道赛题可以引导大家走入计算机视觉的世界，主要针对竞赛选手上手视觉赛题，提高对数据建模能力。       </li>
-<li><strong>赛题任务</strong>：赛题以计算机视觉中字符识别为背景，要求选手预测街道字符编码，这是一个典型的字符识别问题。<br>为了简化赛题难度，赛题数据采用公开数据集<a href="http://ufldl.stanford.edu/housenumbers/" target="_blank" rel="noopener">SVHN</a>，因此大家可以选择很多相应的paper作为思路参考。          <h4 id="赛题数据"><a href="#赛题数据" class="headerlink" title="赛题数据"></a>赛题数据</h4></li>
-</ul>
-<p>赛题以街道字符为赛题数据，数据集报名后可见并可下载，该数据来自公开数据集SVHN收集的街道字符，并进行了匿名采样处理。  </p>
-<p><img src="/blog/2020/05/22/cv-task1/数据集样本展示.png" alt="数据示例"></p>
-<p><strong>注意: 按照比赛规则，所有的参赛选手只能使用比赛给定的数据集完成训练，不能使用SVHN原始数据集进行训练。比赛结束后将会对Top选手进行代码审核，违规的选手将清除排行榜成绩。</strong></p>
-<p>训练集数据包括3W张照片，验证集数据包括1W张照片，每张照片包括颜色图像和对应的编码类别和具体位置；为了保证比赛的公平性，测试集A包括4W张照片，测试集B包括4W张照片。</p>
-<p>需要注意的是本赛题需要选手识别图片中所有的字符，为了降低比赛难度，该赛题还提供了训练集、验证集和测试集中所有字符的位置框。</p>
-<h4 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h4><p>对于训练数据每张图片将给出对应的编码标签和具体的字符框的位置（训练集、测试集和验证集都给出字符位置），可用于模型训练：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">Field</th>
-<th style="text-align:center">Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">top</td>
-<td style="text-align:center">左上角坐标X </td>
-</tr>
-<tr>
-<td style="text-align:center">height</td>
-<td style="text-align:center">字符高度 </td>
-</tr>
-<tr>
-<td style="text-align:center">left</td>
-<td style="text-align:center">左上角最表Y </td>
-</tr>
-<tr>
-<td style="text-align:center">width</td>
-<td style="text-align:center">字符宽度 </td>
-</tr>
-<tr>
-<td style="text-align:center">label</td>
-<td style="text-align:center">字符编码 </td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>字符的坐标具体如下所示：<img src="/blog/2020/05/22/cv-task1/字符坐标.png" alt="坐标">     </p>
-<p> 在比赛数据（训练集、测试集和验证集）中，同一张图片中可能包括一个或者多个字符，因此在比赛数据的JSON标注中，会有多个字符的边框信息：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">原始图片</th>
-<th style="text-align:center">图片JSON标注</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><img src="/blog/2020/05/22/cv-task1/原始图片.png" alt="19"></td>
-<td style="text-align:center"><img src="/blog/2020/05/22/cv-task1/原始图片标注.png" alt="标注"></td>
-</tr>
-</tbody>
-</table>
-</div>
-<h4 id="评测指标"><a href="#评测指标" class="headerlink" title="评测指标"></a>评测指标</h4><p> 选手提交结果与实际图片的编码进行对比，以编码整体识别准确率为评价指标。任何一个字符错误都为错误，最终评测指标结果越大越好，具体计算公式如下：<br>                                              Score = 编码识别正确的数量 / 测试集图片数量        </p>
-<h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><p> 这里给出JSON中标签的读取方式：  </p>
- <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">import</span> json</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据标注处理</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_json</span><span class="params">(d)</span>:</span></span><br><span class="line">    arr = np.array([</span><br><span class="line">        d[<span class="string">'top'</span>], d[<span class="string">'height'</span>], d[<span class="string">'left'</span>],  d[<span class="string">'width'</span>], d[<span class="string">'label'</span>]</span><br><span class="line">    ])</span><br><span class="line">    arr = arr.astype(int)</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">'../input/train/000000.png'</span>)</span><br><span class="line">arr = parse_json(train_json[<span class="string">'000000.png'</span>])</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">10</span>))</span><br><span class="line">plt.subplot(<span class="number">1</span>, arr.shape[<span class="number">1</span>]+<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">plt.imshow(img)</span><br><span class="line">plt.xticks([]); plt.yticks([])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> range(arr.shape[<span class="number">1</span>]):</span><br><span class="line">    plt.subplot(<span class="number">1</span>, arr.shape[<span class="number">1</span>]+<span class="number">1</span>, idx+<span class="number">2</span>)</span><br><span class="line">    plt.imshow(img[arr[<span class="number">0</span>, idx]:arr[<span class="number">0</span>, idx]+arr[<span class="number">1</span>, idx],arr[<span class="number">2</span>, idx]:arr[<span class="number">2</span>, idx]+arr[<span class="number">3</span>, idx]])</span><br><span class="line">    plt.title(arr[<span class="number">4</span>, idx])</span><br><span class="line">    plt.xticks([]); plt.yticks([])</span><br></pre></td></tr></table></figure>
-<p><img src="/blog/2020/05/22/cv-task1/19.png" alt="19">     </p>
-<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>赛题思路分析：<strong>赛题本质是一个分类识别问题，需要对图片的字符进行识别</strong>。但赛题给定的数据图片中不同图片中包含的字符数量不等。如下图所示，有的图片的字符个数为2，有的图片字符个数为3，有的图片字符个数为4。      </p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>字符属性</th>
-<th>图片</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>字符：42   字符个数：2</td>
-<td><img src="/blog/2020/05/22/cv-task1/42.png" alt="标注"></td>
-</tr>
-<tr>
-<td>字符：241   字符个数：3</td>
-<td><img src="/blog/2020/05/22/cv-task1/2411.png" alt="标注"></td>
-</tr>
-<tr>
-<td>字符：7358   字符个数：4</td>
-<td><img src="/blog/2020/05/22/cv-task1/7358.png" alt="标注"></td>
-</tr>
-</tbody>
-</table>
-</div>
-<p><strong>因此本次赛题的难点是需要对不定长的字符进行识别，与传统的图像分类识别任务有所不同</strong>。</p>
-<h4 id="解题思路探索"><a href="#解题思路探索" class="headerlink" title="解题思路探索"></a>解题思路探索</h4><h5 id="Datawhale给出了三种思路："><a href="#Datawhale给出了三种思路：" class="headerlink" title="Datawhale给出了三种思路："></a>Datawhale给出了三种思路：</h5><h5 id="1、简单入门思路：定长字符识别"><a href="#1、简单入门思路：定长字符识别" class="headerlink" title="1、简单入门思路：定长字符识别"></a>1、简单入门思路：定长字符识别</h5><p>可以将赛题抽象为一个定长字符识别问题，在赛题数据集中大部分图像中字符个数为2-4个，最多的字符个数为6个。<br>因此可以对于所有的图像都抽象为6个字符的识别问题，字符23填充为23XXXX，字符231填充为231XXX。    </p>
-<p>经过填充之后，原始的赛题可以简化了6个字符的分类问题。在每个字符的分类中会进行11个类别的分类，假如分类为填充字符，则表明该字符为空。可参考Google2014年的论文《Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks》，该论文提出了基于深度卷积神经网络的定长字符分类识别方法。</p>
-<h5 id="2、专业字符识别思路：不定长字符识别"><a href="#2、专业字符识别思路：不定长字符识别" class="headerlink" title="2、专业字符识别思路：不定长字符识别"></a>2、专业字符识别思路：不定长字符识别</h5><p><img src="/blog/2020/05/22/cv-task1/不定长字符识别.png" alt="标注">      </p>
-<p>在字符识别研究中，有特定的方法来解决此种不定长的字符识别问题，比较典型的有CRNN字符识别模型。</p>
-<p>CRNN采取的架构是CNN+RNN+CTC，cnn提取图像像素特征，rnn提取图像时序特征，而ctc归纳字符间的连接特性。CRNN能够获取不同尺寸的输入图像，并产生不同长度的预测。它直接在粗粒度的标签（例如单词）上运行，在训练阶段不需要详细标注每一个单独的元素（例如字符）。</p>
-<p>此外，<strong>由于CRNN放弃了传统神经网络中使用的全连接层，因此得到了更加紧凑和高效的模型。</strong>所有这些属性使得CRNN成为一种基于图像序列识别的极好方法。</p>
-<p>在本次赛题中给定的图像数据都比较规整，可以视为一个单词或者一个句子。   </p>
-<h5 id="3、专业分类思路：检测再识别"><a href="#3、专业分类思路：检测再识别" class="headerlink" title="3、专业分类思路：检测再识别"></a>3、专业分类思路：检测再识别</h5><p>在赛题数据中已经给出了训练集、验证集中所有图片中字符的位置，因此可以首先将字符的位置进行识别，利用物体检测的思路完成。        </p>
-<p><img src="/blog/2020/05/22/cv-task1/检测.png" alt="IMG">           </p>
-<p>此种思路需要参赛选手构建字符检测模型，对测试集中的字符进行识别。选手可以参考物体检测模型SSD或者YOLO来完成。</p>
-<p><strong>SSD算法是一种直接预测目标类别和bounding box的多目标检测算法。</strong>与faster rcnn相比，该算法没有生成 proposal 的过程，这就极大提高了检测速度。针对不同大小的目标检测，传统的做法是先将图像转换成不同大小（图像金字塔），然后分别检测，最后将结果综合起来（NMS）。而SSD算法则利用不同卷积层的 <strong>feature map</strong> 进行综合也能达到同样的效果。算法的主网络结构是VGG16，将最后两个全连接层改成卷积层，并随后增加了4个卷积层来构造网络结构。   </p>
-<p><strong>YOLO（You Only Look Once: Unified, Real-Time Object Detection）</strong>，是Joseph Redmon和Ali Farhadi等人于2015年提出的基于单个神经网络的目标检测系统。YOLO是一个可以一次性预测多个Box位置和类别的卷积神经网络，能够实现端到端的目标检测和识别，其最大的优势就是速度快。事实上，目标检测的本质就是回归，因此一个实现回归功能的CNN并不需要复杂的设计过程。YOLO没有选择滑动窗口（silding window）或提取proposal的方式训练网络，而是直接选用整图训练模型。这样做的好处在于可以更好的区分目标和背景区域，相比之下，采用proposal训练方式的Fast-R-CNN常常把背景区域误检为特定目标。</p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>综上所示，本次赛题虽然是一个简单的字符识别问题，但有多种解法可以使用到计算机视觉领域中的各个模型，是非常适合CV入门学习的。解题思路中由浅至深分析了一个分类识别的问题，也是很有参考价值的，也算是给我们这样的初学者指出了一条不断深入和从不同角度分析解决问题的路子。</p>
-<h5 id="鸣谢与参考"><a href="#鸣谢与参考" class="headerlink" title="鸣谢与参考"></a>鸣谢与参考</h5><p>References</p>
-<ol>
-<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2001%20%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3%20.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task1 赛题理解</a></li>
-<li><a href="https://blog.csdn.net/wsp_1138886114/article/details/82555728?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">CRNN-基于序列的（端到端）图像文本识别</a></li>
-<li><a href="https://cloud.tencent.com/developer/article/1064906" target="_blank" rel="noopener">SSD: Single Shot MultiBox Detector 深度学习笔记之SSD物体检测模型</a></li>
-<li><a href="https://blog.csdn.net/guoyunfei20/article/details/78744753" target="_blank" rel="noopener">YOLO</a></li>
-<li><a href="https://www.cnblogs.com/fariver/p/7446921.html" target="_blank" rel="noopener">YOLO原理</a></li>
-<li><a href="https://arxiv.org/pdf/1312.6082.pdf" target="_blank" rel="noopener">Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>入门</category>
-        <category>天池赛题</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>零基础入门CV之数据读取与数据扩增</title>
     <url>//blog/2020/05/23/cv-task2.html</url>
     <content><![CDATA[<h3 id="图像读取"><a href="#图像读取" class="headerlink" title="图像读取"></a>图像读取</h3><p>由于赛题数据是图像数据，赛题的任务是识别图像中的字符。因此我们首先需要完成对数据的读取操作，在Python中有很多库可以完成数据读取的操作，比较常见的有Pillow和OpenCV。     </p>
@@ -302,66 +160,137 @@
       </tags>
   </entry>
   <entry>
-    <title>零基础入门CV之CNN初探</title>
-    <url>//blog/2020/05/26/cv-task3.html</url>
-    <content><![CDATA[<h2 id="CNN-简介"><a href="#CNN-简介" class="headerlink" title="CNN 简介"></a>CNN 简介</h2><h5 id="1、CNN的组成"><a href="#1、CNN的组成" class="headerlink" title="1、CNN的组成"></a>1、CNN的组成</h5><p>CNN由纽约大学的Yann LeCun于1998年提出。本质上是一个多层感知机，其成功的原因关键在于它所采用的局部连接和共享权值的方式。CNN是一类特殊的人工神经网络，是深度学习中重要的一个分支。CNN在很多领域都表现优异，精度和速度比传统计算学习算法高很多。特别是在计算机视觉领域，CNN是解决图像分类、图像检索、物体检测和语义分割的主流模型。CNN通常由卷积（convolution）、池化（pooling）、非线性激活函数（non-linear activation function）和全连接层（fully connected layer）构成。</p>
-<p>其中conv层和pooling层简介如下：</p>
+    <title>零基础入门CV之赛题理解</title>
+    <url>//blog/2020/05/22/cv-task1.html</url>
+    <content><![CDATA[<h2 id="CV初探"><a href="#CV初探" class="headerlink" title="CV初探"></a>CV初探</h2><h4 id="CV是什么"><a href="#CV是什么" class="headerlink" title="CV是什么"></a>CV是什么</h4><p>计算机视觉（Computational Vision），英文简写CV，是一门“赋予机器自然视觉能力”的学科，是使用计算机模仿人类视觉系统的科学，让计算机拥有类似人类 提取、处理、理解和分析图像以及图像序列的能力。它是一门包含领域很广的综合性学科。从现阶段的研究来看，计算机视觉试图建立一种人工系统，提出的越来越多的理论和技术主要目的是为了从图像或者多维数据中获取信息。</p>
+<h4 id="CV可以解决什么问题"><a href="#CV可以解决什么问题" class="headerlink" title="CV可以解决什么问题"></a>CV可以解决什么问题</h4><p>好奇CV可以做什么，是一个比较适用的兴趣点和动力源。一般来说，CV的目标是”看到“。其在具体应用中往往都要解决一些相同的问题，这些问题包括：</p>
 <ol>
-<li>conv层的理论依据主要是生物学上的感受野概念，通俗点讲就是权值共享，这样可以大大减少神经网络需要训练的参数；卷积核是CNN的重要组成，常见做法是从原始图像中采样，基于无监督学习算法进行训练得到，这一步就是DNN中的预训练。</li>
-<li>pooling层，其实就是对图像进行子采样，利用图像局部相关性的原理，在减少数据量的同时又保留有用信息。常见的pooling有max跟mean，就是对每一个采样区域做max运算或者mean运算，既可以减少参数，又可以保留信息，与此同时，还引入平移不变性等图像性质。</li>
+<li><strong>识别</strong> —— ”看到“图像中的特定目标并能识别出来。</li>
+<li><strong>运动</strong> —— ”看到“序列图像中物体的运动和自己在运动，或跟踪运动的物体。</li>
+<li><strong>场景重建</strong> —— ”看到“序列图像并建立起完整的三维表面模型。</li>
+<li><strong>图像恢复</strong> —— ”看到“一些被影响的部分背后的内容，主要是移除噪声和改善模糊状态</li>
 </ol>
-<h5 id="2、CNN模型的典型结构"><a href="#2、CNN模型的典型结构" class="headerlink" title="2、CNN模型的典型结构"></a>2、CNN模型的典型结构</h5><ol>
-<li>LeNet：最早用于数字识别的CNN；</li>
-<li>AlexNet：2012年 ILSVRC比赛中远超第二名的CNN，用多层小卷积层替换掉单层大卷积层；</li>
-<li>GoogLeNet：2014年 ILSVRC比赛冠军；</li>
-<li>VGGNet：2014年表现略差于GoogLeNet，但是在其他图像转换领域表现较好，如目标检测领域；</li>
-<li>InceptionV3</li>
-<li>ResNet<br><img src="https://upload-images.jianshu.io/upload_images/4070307-d58cba17916ff535.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp" alt="comp"></li>
+<h4 id="CV工程的常见步骤"><a href="#CV工程的常见步骤" class="headerlink" title="CV工程的常见步骤"></a>CV工程的常见步骤</h4><p>简单了解一下工程方面的步骤，有利于知道后续的实践和增加对CV的认识。一般来说，CV工程分为以下5步：</p>
+<ol>
+<li><strong>图像获取</strong> —— 通过各种图像感知器获取需要的图像数据。</li>
+<li><strong>预处理</strong> —— 通过对图像进行一定的预处理来使其满足后续的操作要求。</li>
+<li><strong>特征提取</strong> —— 从图像中提取各种复杂度的特征，以便识别目标。</li>
+<li><strong>检测/分割</strong> —— 处理过程中，可能需要进一步分割有价值的部分用于后继处理。例如分割出包含特定目标的部分。</li>
+<li><strong>高级处理</strong> —— 根据具体应用的需要，验证得到的数据是否符合要求，估测特定的系数等。</li>
 </ol>
-<h2 id="用pytorch构建简单的CNN模型"><a href="#用pytorch构建简单的CNN模型" class="headerlink" title="用pytorch构建简单的CNN模型"></a>用pytorch构建简单的CNN模型</h2><h5 id="1、导入所需包"><a href="#1、导入所需包" class="headerlink" title="1、导入所需包"></a>1、导入所需包</h5><p><img src="/blog/2020/05/26/cv-task3/img1.jpg" alt="tu1"></p>
-<h5 id="2、构建一个简单的CNN模型"><a href="#2、构建一个简单的CNN模型" class="headerlink" title="2、构建一个简单的CNN模型"></a>2、构建一个简单的CNN模型</h5><p><img src="/blog/2020/05/26/cv-task3/img4.jpg" alt="tu1"><br><img src="/blog/2020/05/26/cv-task3/img3.jpg" alt="tu1"><br>从<code>print</code>结果可以看出，我们构建了一个由两层卷积层、两层基于max的pool层和两个激活函数构成的简单模型。</p>
-<h5 id="3、定义损失函数和优化器"><a href="#3、定义损失函数和优化器" class="headerlink" title="3、定义损失函数和优化器"></a>3、定义损失函数和优化器</h5><p><img src="/blog/2020/05/26/cv-task3/img2.jpg" alt="tu1"><br>我们使用交叉验证损失函数和Adam优化器来训练我们的简单模型。</p>
-<h5 id="4、训练网络"><a href="#4、训练网络" class="headerlink" title="4、训练网络"></a>4、训练网络</h5><p><img src="/blog/2020/05/26/cv-task3/img5.jpg" alt="tu1"><br><img src="/blog/2020/05/26/cv-task3/img6.jpg" alt="tu1"></p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>以上介绍了CNN并用pytorch构建了一个很简单的网络模型，还对该模型进行了必要的分析，以便有一个感性的认识。CNN用处很大，目前了解只是皮毛，还需通过实践来进一步深入的了解和加深实践经验。后续有用到或者有时间再做深入吧。</p>
-<h5 id="鸣谢与引用"><a href="#鸣谢与引用" class="headerlink" title="鸣谢与引用"></a>鸣谢与引用</h5><ol>
-<li><a href="https://zm.sm-tc.cn/?src=l4uLj4zF0NCdk5CY0ZyMm5HRkZqL0JuNmp6SoJyei5yXmo2gzs%2FQno2LlpyTmtCbmouelpOM0MvIz8%2FOz8rO&amp;uid=2a9b68a44a4de1455fea961a81551e33&amp;hid=884939928472aaaae9ef4cbb2001feec&amp;pos=4&amp;cid=9&amp;time=1590485479485&amp;from=click&amp;restype=1&amp;pagetype=0020004002010402&amp;bu=news_natural&amp;query=CNN%E6%A8%A1%E5%9E%8B&amp;mode=&amp;v=1&amp;force=true&amp;wap=false&amp;province=%E5%B9%BF%E4%B8%9C%E7%9C%81&amp;city=%E5%B9%BF%E5%B7%9E%E5%B8%82&amp;uc_param_str=dnntnwvepffrgibijbprsvdsdichei" target="_blank" rel="noopener">CNN模型</a></li>
-<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2003%20%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task3 字符识别模型</a></li>
-</ol>
-]]></content>
-      <categories>
-        <category>入门</category>
-        <category>天池赛题</category>
-      </categories>
-      <tags>
-        <tag>CV</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>零基础入门CV之模型评估与性能度量</title>
-    <url>//blog/2020/05/29/cv-task4.html</url>
-    <content><![CDATA[<h2 id="模型评估方法"><a href="#模型评估方法" class="headerlink" title="模型评估方法"></a>模型评估方法</h2><p>现实任务中，我们往往有多种学习算法可供选择，甚至对于同一个学习算法，当我们使用不同的参数配置时，也会产生不同的模型。这种情况下，我们选择模型时就得比较和评估，以便我们能选择出泛化性能最好的那个模型。</p>
-<p>用学生学习的情况来类比，我们希望学生在一定的课本知识<strong>(训练集)</strong>上学习到某些知识，然后在平时的作业和模拟考<strong>(验证集)</strong>中检查自己学的知识和实际的知识点之间是否有出入，以便最后在期终考试<strong>(测试集、实际应用数据)</strong>有一个比较好的表现——教全面地掌握所要学习的知识。</p>
-<p>通过上面这个类比，想必对于大家在机器学习领域常常听说的训练集、验证集和测试集有相对清晰的认识了吧。对我们评估的目标——泛化性能较强这个目标想必也有所理解了。</p>
-<h4 id="训练集、验证集和测试集"><a href="#训练集、验证集和测试集" class="headerlink" title="训练集、验证集和测试集"></a>训练集、验证集和测试集</h4><p>我们先来看看为什么要分这三种数据集。在机器学习的过程中，我们的目标是找到那个泛化性能最好的模型，因此我们有两方面的参数需要确定：1、模型里函数的参数，也就是我们常说的权重矩阵w和修正b；这类参数一般在训练过程中通过各种最优化算法求得；2、模型参数，比如多项式回归的次数、规则化参数λ等；这些参数也成为超参数。很明显，为了获得这些参数，我们需要在数据集上训练模型，这就需要一个训练集。为了评估训练出来的模型，以便选择一个效果最好的模型，我们需要一个验证集；为了用上一步选出的最优模型来进行泛化性能评估，我们需要一个测试集。所以，这三个集合的用途分别是：</p>
+<h2 id="赛题理解"><a href="#赛题理解" class="headerlink" title="赛题理解"></a>赛题理解</h2><p>通过比赛来实践是一个学习的捷径，在压力之下可能会打破自己原来设定的界限，做到自我突破。当然，对我们这种新手来说，还是要脚踏实地一步一步来的。先来了解下Datawhale与天池联合发起的零基础入门系列赛事第二场 —— <a href="https://tianchi.aliyun.com/competition/entrance/531795/introduction" target="_blank" rel="noopener">零基础入门CV赛事之街景字符识别</a>。</p>
 <ul>
-<li><h4 id="训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；"><a href="#训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；" class="headerlink" title="训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；"></a>训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；</h4></li>
-<li><h4 id="验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"><a href="#验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；" class="headerlink" title="验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"></a>验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；</h4></li>
-<li><h4 id="测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"><a href="#测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。" class="headerlink" title="测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"></a>测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。</h4></li>
+<li><strong>赛题名称</strong>：零基础入门CV之街道字符识别            </li>
+<li><strong>赛题目标</strong>：通过这道赛题可以引导大家走入计算机视觉的世界，主要针对竞赛选手上手视觉赛题，提高对数据建模能力。       </li>
+<li><strong>赛题任务</strong>：赛题以计算机视觉中字符识别为背景，要求选手预测街道字符编码，这是一个典型的字符识别问题。<br>为了简化赛题难度，赛题数据采用公开数据集<a href="http://ufldl.stanford.edu/housenumbers/" target="_blank" rel="noopener">SVHN</a>，因此大家可以选择很多相应的paper作为思路参考。          <h4 id="赛题数据"><a href="#赛题数据" class="headerlink" title="赛题数据"></a>赛题数据</h4></li>
 </ul>
-<p>一般来说，我们拿到的都只有一个数据集D，那如何对D进行适当的处理，以便从中产生出训练集S、验证集V和测试集T呢？常用的方法有一下三种：</p>
-<h5 id="1、留出法（Hold-Out）"><a href="#1、留出法（Hold-Out）" class="headerlink" title="1、留出法（Hold-Out）"></a>1、留出法（Hold-Out）</h5><p>直接将数据集D划分成两个互斥的部分——训练集S和验证集T。一般来说是把其中的2/3~4/5划为训练集，其余为验证集；与此同时，为了保证划分的集合分布与原集合分布一致，通常使用“分层采样”的方式划分。这种划分方式的优点是最为直接简单，缺点是只得到了一份验证集，有可能导致模型在验证集上过拟合。因此，留出法应用场景一般是数据量比较大的情况。</p>
-<h5 id="2、交叉验证法（Cross-Validation，CV）"><a href="#2、交叉验证法（Cross-Validation，CV）" class="headerlink" title="2、交叉验证法（Cross Validation，CV）"></a>2、交叉验证法（Cross Validation，CV）</h5><p>将训练集划分成K份，将其中的K-1份作为训练集，剩余的1份作为验证集，循环K训练。也就是K折交叉验证。如果K=1，则叫留一法。这种划分方式是所有的训练集都是验证集，最终模型验证精度是K份平均得到。优点是验证集精度比较可靠，训练K次可以得到K个有多样性差异的模型；C缺点是需要训练K次，导致复杂度过大，不适合数据量很大的情况。</p>
-<h5 id="3、自助采样法（BootStrap）"><a href="#3、自助采样法（BootStrap）" class="headerlink" title="3、自助采样法（BootStrap）"></a>3、自助采样法（BootStrap）</h5><p>这种方法我是通过吃自助餐理解的，就是一种数据自助取用的方式。通过有放回的采样方式得到新的训练集和验证集，每次的训练集和验证集都是有区别的。通过概率计算可以知道，大概有2/3左右的数据会被采样到训练集，而有1/3是没有在训练集出现的。这种划分方式一般适用于数据量较小，难以有效划分的情况。此外，自助法能从初始数据集中产生出多个不同的训练集，对于集成学习来说是有利的。缺点是采样过程中一定程度上改变了初始数据集的分布，也就是引入了估计偏差。因此，一般来说用前面两种方法比较多。</p>
-<h2 id="模型性能度量"><a href="#模型性能度量" class="headerlink" title="模型性能度量"></a>模型性能度量</h2><p>对模型的泛化性能进行评估，不仅仅需要有效可行的实验估计方法，还需要有衡量模型泛化能力的评价标准，这就是性能度量(performance measure)。</p>
-<p>一般来说，性能度量是反映任务需求的。就是说，我们要实事求是，不同类型的任务使用不同的性能度量，好的模型不仅取决于算法和数据，还取决于任务需求。</p>
-<h4 id="回归任务的评估"><a href="#回归任务的评估" class="headerlink" title="回归任务的评估"></a>回归任务的评估</h4><p><img src="/blog/2020/05/29/cv-task4/tu1.png" alt></p>
-<h4 id="分类任务的评估"><a href="#分类任务的评估" class="headerlink" title="分类任务的评估"></a>分类任务的评估</h4><p><strong>使用混淆矩阵评估模型</strong>:</p>
-<p><img src="/blog/2020/05/29/cv-task4/tu4.png" alt></p>
-<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>本文简要梳理了机器学习中常见的三种数据集类别：训练集、验证集和测试集；并对常见的三种数据集划分方式做了介绍。最后提了一下模型的性能度量，了解还不够深入，留以后再做补充。</p>
-<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ol>
-<li>《机器学习》. 周志华</li>
-<li><a href="http://stats.stackexchange.com/questions/52274/how-to-choose-a-predictive-model-after-k-fold-cross-validation" target="_blank" rel="noopener">How to choose a predictive model after k-fold cross-validation</a></li>
-<li><a href="https://www.jianshu.com/p/21cb3ad928c6" target="_blank" rel="noopener">模型性能度量方法</a></li>
+<p>赛题以街道字符为赛题数据，数据集报名后可见并可下载，该数据来自公开数据集SVHN收集的街道字符，并进行了匿名采样处理。  </p>
+<p><img src="/blog/2020/05/22/cv-task1/数据集样本展示.png" alt="数据示例"></p>
+<p><strong>注意: 按照比赛规则，所有的参赛选手只能使用比赛给定的数据集完成训练，不能使用SVHN原始数据集进行训练。比赛结束后将会对Top选手进行代码审核，违规的选手将清除排行榜成绩。</strong></p>
+<p>训练集数据包括3W张照片，验证集数据包括1W张照片，每张照片包括颜色图像和对应的编码类别和具体位置；为了保证比赛的公平性，测试集A包括4W张照片，测试集B包括4W张照片。</p>
+<p>需要注意的是本赛题需要选手识别图片中所有的字符，为了降低比赛难度，该赛题还提供了训练集、验证集和测试集中所有字符的位置框。</p>
+<h4 id="数据标签"><a href="#数据标签" class="headerlink" title="数据标签"></a>数据标签</h4><p>对于训练数据每张图片将给出对应的编码标签和具体的字符框的位置（训练集、测试集和验证集都给出字符位置），可用于模型训练：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Field</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">top</td>
+<td style="text-align:center">左上角坐标X </td>
+</tr>
+<tr>
+<td style="text-align:center">height</td>
+<td style="text-align:center">字符高度 </td>
+</tr>
+<tr>
+<td style="text-align:center">left</td>
+<td style="text-align:center">左上角最表Y </td>
+</tr>
+<tr>
+<td style="text-align:center">width</td>
+<td style="text-align:center">字符宽度 </td>
+</tr>
+<tr>
+<td style="text-align:center">label</td>
+<td style="text-align:center">字符编码 </td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>字符的坐标具体如下所示：<img src="/blog/2020/05/22/cv-task1/字符坐标.png" alt="坐标">     </p>
+<p> 在比赛数据（训练集、测试集和验证集）中，同一张图片中可能包括一个或者多个字符，因此在比赛数据的JSON标注中，会有多个字符的边框信息：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">原始图片</th>
+<th style="text-align:center">图片JSON标注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><img src="/blog/2020/05/22/cv-task1/原始图片.png" alt="19"></td>
+<td style="text-align:center"><img src="/blog/2020/05/22/cv-task1/原始图片标注.png" alt="标注"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="评测指标"><a href="#评测指标" class="headerlink" title="评测指标"></a>评测指标</h4><p> 选手提交结果与实际图片的编码进行对比，以编码整体识别准确率为评价指标。任何一个字符错误都为错误，最终评测指标结果越大越好，具体计算公式如下：<br>                                              Score = 编码识别正确的数量 / 测试集图片数量        </p>
+<h4 id="读取数据"><a href="#读取数据" class="headerlink" title="读取数据"></a>读取数据</h4><p> 这里给出JSON中标签的读取方式：  </p>
+ <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"> <span class="keyword">import</span> json</span><br><span class="line">train_json = json.load(open(<span class="string">'../input/train.json'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 数据标注处理</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse_json</span><span class="params">(d)</span>:</span></span><br><span class="line">    arr = np.array([</span><br><span class="line">        d[<span class="string">'top'</span>], d[<span class="string">'height'</span>], d[<span class="string">'left'</span>],  d[<span class="string">'width'</span>], d[<span class="string">'label'</span>]</span><br><span class="line">    ])</span><br><span class="line">    arr = arr.astype(int)</span><br><span class="line">    <span class="keyword">return</span> arr</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">'../input/train/000000.png'</span>)</span><br><span class="line">arr = parse_json(train_json[<span class="string">'000000.png'</span>])</span><br><span class="line"></span><br><span class="line">plt.figure(figsize=(<span class="number">10</span>, <span class="number">10</span>))</span><br><span class="line">plt.subplot(<span class="number">1</span>, arr.shape[<span class="number">1</span>]+<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">plt.imshow(img)</span><br><span class="line">plt.xticks([]); plt.yticks([])</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> range(arr.shape[<span class="number">1</span>]):</span><br><span class="line">    plt.subplot(<span class="number">1</span>, arr.shape[<span class="number">1</span>]+<span class="number">1</span>, idx+<span class="number">2</span>)</span><br><span class="line">    plt.imshow(img[arr[<span class="number">0</span>, idx]:arr[<span class="number">0</span>, idx]+arr[<span class="number">1</span>, idx],arr[<span class="number">2</span>, idx]:arr[<span class="number">2</span>, idx]+arr[<span class="number">3</span>, idx]])</span><br><span class="line">    plt.title(arr[<span class="number">4</span>, idx])</span><br><span class="line">    plt.xticks([]); plt.yticks([])</span><br></pre></td></tr></table></figure>
+<p><img src="/blog/2020/05/22/cv-task1/19.png" alt="19">     </p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>赛题思路分析：<strong>赛题本质是一个分类识别问题，需要对图片的字符进行识别</strong>。但赛题给定的数据图片中不同图片中包含的字符数量不等。如下图所示，有的图片的字符个数为2，有的图片字符个数为3，有的图片字符个数为4。      </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>字符属性</th>
+<th>图片</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>字符：42   字符个数：2</td>
+<td><img src="/blog/2020/05/22/cv-task1/42.png" alt="标注"></td>
+</tr>
+<tr>
+<td>字符：241   字符个数：3</td>
+<td><img src="/blog/2020/05/22/cv-task1/2411.png" alt="标注"></td>
+</tr>
+<tr>
+<td>字符：7358   字符个数：4</td>
+<td><img src="/blog/2020/05/22/cv-task1/7358.png" alt="标注"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>因此本次赛题的难点是需要对不定长的字符进行识别，与传统的图像分类识别任务有所不同</strong>。</p>
+<h4 id="解题思路探索"><a href="#解题思路探索" class="headerlink" title="解题思路探索"></a>解题思路探索</h4><h5 id="Datawhale给出了三种思路："><a href="#Datawhale给出了三种思路：" class="headerlink" title="Datawhale给出了三种思路："></a>Datawhale给出了三种思路：</h5><h5 id="1、简单入门思路：定长字符识别"><a href="#1、简单入门思路：定长字符识别" class="headerlink" title="1、简单入门思路：定长字符识别"></a>1、简单入门思路：定长字符识别</h5><p>可以将赛题抽象为一个定长字符识别问题，在赛题数据集中大部分图像中字符个数为2-4个，最多的字符个数为6个。<br>因此可以对于所有的图像都抽象为6个字符的识别问题，字符23填充为23XXXX，字符231填充为231XXX。    </p>
+<p>经过填充之后，原始的赛题可以简化了6个字符的分类问题。在每个字符的分类中会进行11个类别的分类，假如分类为填充字符，则表明该字符为空。可参考Google2014年的论文《Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks》，该论文提出了基于深度卷积神经网络的定长字符分类识别方法。</p>
+<h5 id="2、专业字符识别思路：不定长字符识别"><a href="#2、专业字符识别思路：不定长字符识别" class="headerlink" title="2、专业字符识别思路：不定长字符识别"></a>2、专业字符识别思路：不定长字符识别</h5><p><img src="/blog/2020/05/22/cv-task1/不定长字符识别.png" alt="标注">      </p>
+<p>在字符识别研究中，有特定的方法来解决此种不定长的字符识别问题，比较典型的有CRNN字符识别模型。</p>
+<p>CRNN采取的架构是CNN+RNN+CTC，cnn提取图像像素特征，rnn提取图像时序特征，而ctc归纳字符间的连接特性。CRNN能够获取不同尺寸的输入图像，并产生不同长度的预测。它直接在粗粒度的标签（例如单词）上运行，在训练阶段不需要详细标注每一个单独的元素（例如字符）。</p>
+<p>此外，<strong>由于CRNN放弃了传统神经网络中使用的全连接层，因此得到了更加紧凑和高效的模型。</strong>所有这些属性使得CRNN成为一种基于图像序列识别的极好方法。</p>
+<p>在本次赛题中给定的图像数据都比较规整，可以视为一个单词或者一个句子。   </p>
+<h5 id="3、专业分类思路：检测再识别"><a href="#3、专业分类思路：检测再识别" class="headerlink" title="3、专业分类思路：检测再识别"></a>3、专业分类思路：检测再识别</h5><p>在赛题数据中已经给出了训练集、验证集中所有图片中字符的位置，因此可以首先将字符的位置进行识别，利用物体检测的思路完成。        </p>
+<p><img src="/blog/2020/05/22/cv-task1/检测.png" alt="IMG">           </p>
+<p>此种思路需要参赛选手构建字符检测模型，对测试集中的字符进行识别。选手可以参考物体检测模型SSD或者YOLO来完成。</p>
+<p><strong>SSD算法是一种直接预测目标类别和bounding box的多目标检测算法。</strong>与faster rcnn相比，该算法没有生成 proposal 的过程，这就极大提高了检测速度。针对不同大小的目标检测，传统的做法是先将图像转换成不同大小（图像金字塔），然后分别检测，最后将结果综合起来（NMS）。而SSD算法则利用不同卷积层的 <strong>feature map</strong> 进行综合也能达到同样的效果。算法的主网络结构是VGG16，将最后两个全连接层改成卷积层，并随后增加了4个卷积层来构造网络结构。   </p>
+<p><strong>YOLO（You Only Look Once: Unified, Real-Time Object Detection）</strong>，是Joseph Redmon和Ali Farhadi等人于2015年提出的基于单个神经网络的目标检测系统。YOLO是一个可以一次性预测多个Box位置和类别的卷积神经网络，能够实现端到端的目标检测和识别，其最大的优势就是速度快。事实上，目标检测的本质就是回归，因此一个实现回归功能的CNN并不需要复杂的设计过程。YOLO没有选择滑动窗口（silding window）或提取proposal的方式训练网络，而是直接选用整图训练模型。这样做的好处在于可以更好的区分目标和背景区域，相比之下，采用proposal训练方式的Fast-R-CNN常常把背景区域误检为特定目标。</p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>综上所示，本次赛题虽然是一个简单的字符识别问题，但有多种解法可以使用到计算机视觉领域中的各个模型，是非常适合CV入门学习的。解题思路中由浅至深分析了一个分类识别的问题，也是很有参考价值的，也算是给我们这样的初学者指出了一条不断深入和从不同角度分析解决问题的路子。</p>
+<h5 id="鸣谢与参考"><a href="#鸣谢与参考" class="headerlink" title="鸣谢与参考"></a>鸣谢与参考</h5><p>References</p>
+<ol>
+<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2001%20%E8%B5%9B%E9%A2%98%E7%90%86%E8%A7%A3%20.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task1 赛题理解</a></li>
+<li><a href="https://blog.csdn.net/wsp_1138886114/article/details/82555728?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">CRNN-基于序列的（端到端）图像文本识别</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1064906" target="_blank" rel="noopener">SSD: Single Shot MultiBox Detector 深度学习笔记之SSD物体检测模型</a></li>
+<li><a href="https://blog.csdn.net/guoyunfei20/article/details/78744753" target="_blank" rel="noopener">YOLO</a></li>
+<li><a href="https://www.cnblogs.com/fariver/p/7446921.html" target="_blank" rel="noopener">YOLO原理</a></li>
+<li><a href="https://arxiv.org/pdf/1312.6082.pdf" target="_blank" rel="noopener">Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks</a></li>
 </ol>
 ]]></content>
       <categories>
@@ -411,6 +340,42 @@
       </tags>
   </entry>
   <entry>
+    <title>零基础入门CV之模型评估与性能度量</title>
+    <url>//blog/2020/05/29/cv-task4.html</url>
+    <content><![CDATA[<h2 id="模型评估方法"><a href="#模型评估方法" class="headerlink" title="模型评估方法"></a>模型评估方法</h2><p>现实任务中，我们往往有多种学习算法可供选择，甚至对于同一个学习算法，当我们使用不同的参数配置时，也会产生不同的模型。这种情况下，我们选择模型时就得比较和评估，以便我们能选择出泛化性能最好的那个模型。</p>
+<p>用学生学习的情况来类比，我们希望学生在一定的课本知识<strong>(训练集)</strong>上学习到某些知识，然后在平时的作业和模拟考<strong>(验证集)</strong>中检查自己学的知识和实际的知识点之间是否有出入，以便最后在期终考试<strong>(测试集、实际应用数据)</strong>有一个比较好的表现——教全面地掌握所要学习的知识。</p>
+<p>通过上面这个类比，想必对于大家在机器学习领域常常听说的训练集、验证集和测试集有相对清晰的认识了吧。对我们评估的目标——泛化性能较强这个目标想必也有所理解了。</p>
+<h4 id="训练集、验证集和测试集"><a href="#训练集、验证集和测试集" class="headerlink" title="训练集、验证集和测试集"></a>训练集、验证集和测试集</h4><p>我们先来看看为什么要分这三种数据集。在机器学习的过程中，我们的目标是找到那个泛化性能最好的模型，因此我们有两方面的参数需要确定：1、模型里函数的参数，也就是我们常说的权重矩阵w和修正b；这类参数一般在训练过程中通过各种最优化算法求得；2、模型参数，比如多项式回归的次数、规则化参数λ等；这些参数也成为超参数。很明显，为了获得这些参数，我们需要在数据集上训练模型，这就需要一个训练集。为了评估训练出来的模型，以便选择一个效果最好的模型，我们需要一个验证集；为了用上一步选出的最优模型来进行泛化性能评估，我们需要一个测试集。所以，这三个集合的用途分别是：</p>
+<ul>
+<li><h4 id="训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；"><a href="#训练集（Train-Set）：用于训练模型和调整模型参数-如w、b-；" class="headerlink" title="训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；"></a>训练集（Train Set）：用于训练模型和调整模型参数(如w、b)；</h4></li>
+<li><h4 id="验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"><a href="#验证集（Validation-Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；" class="headerlink" title="验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；"></a>验证集（Validation Set）：用来验证模型精度和确定模型超参数，以便选出最优模型；</h4></li>
+<li><h4 id="测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"><a href="#测试集（Test-Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。" class="headerlink" title="测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。"></a>测试集（Test Set）：仅用于对最优模型进行性能评估，验证模型的泛化能力。</h4></li>
+</ul>
+<p>一般来说，我们拿到的都只有一个数据集D，那如何对D进行适当的处理，以便从中产生出训练集S、验证集V和测试集T呢？常用的方法有一下三种：</p>
+<h5 id="1、留出法（Hold-Out）"><a href="#1、留出法（Hold-Out）" class="headerlink" title="1、留出法（Hold-Out）"></a>1、留出法（Hold-Out）</h5><p>直接将数据集D划分成两个互斥的部分——训练集S和验证集T。一般来说是把其中的2/3~4/5划为训练集，其余为验证集；与此同时，为了保证划分的集合分布与原集合分布一致，通常使用“分层采样”的方式划分。这种划分方式的优点是最为直接简单，缺点是只得到了一份验证集，有可能导致模型在验证集上过拟合。因此，留出法应用场景一般是数据量比较大的情况。</p>
+<h5 id="2、交叉验证法（Cross-Validation，CV）"><a href="#2、交叉验证法（Cross-Validation，CV）" class="headerlink" title="2、交叉验证法（Cross Validation，CV）"></a>2、交叉验证法（Cross Validation，CV）</h5><p>将训练集划分成K份，将其中的K-1份作为训练集，剩余的1份作为验证集，循环K训练。也就是K折交叉验证。如果K=1，则叫留一法。这种划分方式是所有的训练集都是验证集，最终模型验证精度是K份平均得到。优点是验证集精度比较可靠，训练K次可以得到K个有多样性差异的模型；C缺点是需要训练K次，导致复杂度过大，不适合数据量很大的情况。</p>
+<h5 id="3、自助采样法（BootStrap）"><a href="#3、自助采样法（BootStrap）" class="headerlink" title="3、自助采样法（BootStrap）"></a>3、自助采样法（BootStrap）</h5><p>这种方法我是通过吃自助餐理解的，就是一种数据自助取用的方式。通过有放回的采样方式得到新的训练集和验证集，每次的训练集和验证集都是有区别的。通过概率计算可以知道，大概有2/3左右的数据会被采样到训练集，而有1/3是没有在训练集出现的。这种划分方式一般适用于数据量较小，难以有效划分的情况。此外，自助法能从初始数据集中产生出多个不同的训练集，对于集成学习来说是有利的。缺点是采样过程中一定程度上改变了初始数据集的分布，也就是引入了估计偏差。因此，一般来说用前面两种方法比较多。</p>
+<h2 id="模型性能度量"><a href="#模型性能度量" class="headerlink" title="模型性能度量"></a>模型性能度量</h2><p>对模型的泛化性能进行评估，不仅仅需要有效可行的实验估计方法，还需要有衡量模型泛化能力的评价标准，这就是性能度量(performance measure)。</p>
+<p>一般来说，性能度量是反映任务需求的。就是说，我们要实事求是，不同类型的任务使用不同的性能度量，好的模型不仅取决于算法和数据，还取决于任务需求。</p>
+<h4 id="回归任务的评估"><a href="#回归任务的评估" class="headerlink" title="回归任务的评估"></a>回归任务的评估</h4><p><img src="/blog/2020/05/29/cv-task4/tu1.png" alt></p>
+<h4 id="分类任务的评估"><a href="#分类任务的评估" class="headerlink" title="分类任务的评估"></a>分类任务的评估</h4><p><strong>使用混淆矩阵评估模型</strong>:</p>
+<p><img src="/blog/2020/05/29/cv-task4/tu4.png" alt></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>本文简要梳理了机器学习中常见的三种数据集类别：训练集、验证集和测试集；并对常见的三种数据集划分方式做了介绍。最后提了一下模型的性能度量，了解还不够深入，留以后再做补充。</p>
+<h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><ol>
+<li>《机器学习》. 周志华</li>
+<li><a href="http://stats.stackexchange.com/questions/52274/how-to-choose-a-predictive-model-after-k-fold-cross-validation" target="_blank" rel="noopener">How to choose a predictive model after k-fold cross-validation</a></li>
+<li><a href="https://www.jianshu.com/p/21cb3ad928c6" target="_blank" rel="noopener">模型性能度量方法</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>入门</category>
+        <category>天池赛题</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Note of CS224N Lecture1 —— Introduction and word vectors</title>
     <url>//blog/2020/06/24/notes-of-CS224n-part1.html</url>
     <content><![CDATA[<h1 id="Note-of-CS224N-Lecture1-Introduction-and-word-vectors"><a href="#Note-of-CS224N-Lecture1-Introduction-and-word-vectors" class="headerlink" title="Note of CS224N Lecture1: Introduction and word vectors"></a>Note of CS224N Lecture1: Introduction and word vectors</h1><blockquote>
@@ -443,56 +408,6 @@
 </li>
 </ol>
 ]]></content>
-      <categories>
-        <category>入门</category>
-        <category>NLP</category>
-      </categories>
-      <tags>
-        <tag>NLP</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Exploring of Word2vec</title>
-    <url>//blog/2020/06/26/exploring-of-word2vec.html</url>
-    <content><![CDATA[<blockquote>
-<p>Word2vec is a deep learning technique that feeds massive amounts of text into a shallow neural net which can then be used to solve a variety of NLP and ML problems. Usually, Word2vec Explorer uses <a href="https://github.com/piskvorky/gensim" target="_blank" rel="noopener">Gensim</a> to list and compare vectors. </p>
-</blockquote>
-<h2 id="1-recommented-refs-of-Word2vec"><a href="#1-recommented-refs-of-Word2vec" class="headerlink" title="1. recommented refs of Word2vec"></a>1. recommented refs of Word2vec</h2><ol>
-<li>Mikolov’s papers:<ol>
-<li><a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a> Word2vec, a more powerful language model framework, is proposed and used to generate word vectors.</li>
-<li><a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a> mainly about two tricks of word2vec: hierarchical softmax, negative sampling.</li>
-</ol>
-</li>
-<li>Yoav Goldberg’s paper: <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a> good for learning more about the formula of negative sampling.</li>
-<li>Xin Rong’s paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a> highly recommented! There are both high-level intuition explanations and detailed derivation processes.</li>
-<li>Siwei lai’s paper: <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a> </li>
-</ol>
-<h2 id="2-Word2vec"><a href="#2-Word2vec" class="headerlink" title="2. Word2vec"></a>2. Word2vec</h2><h3 id="2-1-what’s-Word2vec？"><a href="#2-1-what’s-Word2vec？" class="headerlink" title="2.1 what’s Word2vec？"></a>2.1 what’s Word2vec？</h3><p>To perform NLP, we need to find a way to vectorise words so that we can input them into our machine. So we need word embedding, which can convert symbolic words into numerical forms, in other word, embedded into a mathematical space. And Word2vec is a kind of word embedding. </p>
-<p>Word2vec only care about the model parameters (specifically the weight of the neural network), and take these parameters as a kind of vectorized representation of the input word. That means we can use Word2vec to generate word vectors.</p>
-<h3 id="2-2-Skip-gram-and-CBOW"><a href="#2-2-Skip-gram-and-CBOW" class="headerlink" title="2.2 Skip-gram and CBOW"></a>2.2 Skip-gram and CBOW</h3><ul>
-<li><strong>Skip-gram</strong>: a model use a word as input to predict the context around it.</li>
-<li><strong>CBOW</strong>: a model use the context around a word as input to predict the word itself.</li>
-</ul>
-<h4 id="2-2-1-Skip-gram"><a href="#2-2-1-Skip-gram" class="headerlink" title="2.2.1 Skip-gram"></a>2.2.1 Skip-gram</h4><p>we can take a look at the Skip-gram network structure:</p>
-<p><img src="/blog/2020/06/26/exploring-of-word2vec/vec.jpg" alt></p>
-<p>which x is one-hot encoder which is a vector only containing one one and all other zeros and used to uniquely represent a word; y is the probability of these V words output as a group.</p>
-<p>Let’s notice this: <strong>the activation function of the hidden layer is actually linear</strong>, which the key method of Word2vec simplify the previous language model. And we use BP to train this neural network. After training, we got the weights of this net. Because only the weight corresponding to the different position of 1’s is activated, this Vx which is consisted of the weights we got can be used to uniquely represent x.  And the dimension of Vx is generally far smaller than the total number of words V, so Word2vec is essentially a dimensionality reduction operation.</p>
-<p>while y has multiple words, the network structure is as follows:</p>
-<p><img src="/blog/2020/06/26/exploring-of-word2vec/vet2.jpg" alt></p>
-<p>It can be seen as a parallel of a single x-&gt;single y model, and the cost function is the accumulation of a single cost function (after taking log). </p>
-<h4 id="2-2-2-CBOW"><a href="#2-2-2-CBOW" class="headerlink" title="2.2.2 CBOW"></a>2.2.2 CBOW</h4><p>Similar to Skip-gram, except Skip-gram predicts the context of a word, and CBOW predicts the word using context.</p>
-<p>Network structure is as follow:</p>
-<p><img src="/blog/2020/06/26/exploring-of-word2vec/cbow.jpg" alt></p>
-<p>It is different from the Skip-gram model in parallel. Here, the input becomes multiple words, so we need to process the input (generally sum and then average) first. The cost function of the output is unchanged. For detail you can read this paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a>.</p>
-<h3 id="2-3-training-tricks"><a href="#2-3-training-tricks" class="headerlink" title="2.3 training tricks"></a>2.3 training tricks</h3><p>Why do we need training tricks? As we just mentioned, Word2vec is essentially a language model, its output node number is V, corresponding to V words, which is essentially a multi-classification problem. But in reality, the number of words is very, very large. It will cause great difficulty in calculation, so we need to use tricks to accelerate the training.</p>
-<p>Here are two tricks:</p>
-<ul>
-<li><p>hierarchical softmax: turn the N classification problem into log(N) secondary classification.</p>
-</li>
-<li><p>negative sampling: predict a subset of the overall category.</p>
-</li>
-</ul>
-<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-Natural-Language-Processing1-Word-To-Vectors"><a href="#1-Natural-Language-Processing1-Word-To-Vectors" class="headerlink" title="1. Natural Language Processing1: Word To Vectors"></a>1. <a href="https://billmazengou.github.io/2020/06/23/NLP1-Word-to-Vectors/" target="_blank" rel="noopener">Natural Language Processing1: Word To Vectors</a></h5><h5 id="2-Word2Vec-Explorer"><a href="#2-Word2Vec-Explorer" class="headerlink" title="2. Word2Vec Explorer"></a>2. <a href="https://github.com/dominiek/word2vec-explorer" target="_blank" rel="noopener">Word2Vec Explorer</a></h5><h5 id="3-Distributed-Representations-of-Sentences-and-Documents"><a href="#3-Distributed-Representations-of-Sentences-and-Documents" class="headerlink" title="3. Distributed Representations of Sentences and Documents"></a>3. <a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a></h5><h5 id="4-Efficient-estimation-of-word-representations-in-vector-space"><a href="#4-Efficient-estimation-of-word-representations-in-vector-space" class="headerlink" title="4. Efficient estimation of word representations in vector space"></a>4. <a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a></h5><h5 id="5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method"><a href="#5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method" class="headerlink" title="5.  word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method"></a>5.  <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a></h5><h5 id="6-word2vec-Parameter-Learning-Explained"><a href="#6-word2vec-Parameter-Learning-Explained" class="headerlink" title="6. word2vec Parameter Learning Explained"></a>6. <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a></h5><h5 id="7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches"><a href="#7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches" class="headerlink" title="7.  Word and Document Embeddings based on Neural Network Approaches"></a>7.  <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a></h5>]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
@@ -659,12 +574,47 @@ f(x)=\begin{equation}
       </tags>
   </entry>
   <entry>
-    <title>Note of CS224n —— Homework</title>
-    <url>//blog/2020/07/06/notes-of-CS224n-part5.html</url>
-    <content><![CDATA[<h2 id="preview-work"><a href="#preview-work" class="headerlink" title="preview work"></a>preview work</h2><p><a href="http://7497.xyz/blog/2020/06/26/exploring-of-word2vec.html" target="_blank" rel="noopener">Exploring of Word2vec</a></p>
-<h2 id="Homework-reference"><a href="#Homework-reference" class="headerlink" title="Homework reference"></a>Homework reference</h2><p><a href="https://github.com/exuding/NLP/blob/master/bert_classification.ipynb" target="_blank" rel="noopener">fastText_classification.ipynb from winter</a></p>
-<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p>we are planning to attend a NLP contest to learn more about it!!</p>
-]]></content>
+    <title>Exploring of Word2vec</title>
+    <url>//blog/2020/06/26/exploring-of-word2vec.html</url>
+    <content><![CDATA[<blockquote>
+<p>Word2vec is a deep learning technique that feeds massive amounts of text into a shallow neural net which can then be used to solve a variety of NLP and ML problems. Usually, Word2vec Explorer uses <a href="https://github.com/piskvorky/gensim" target="_blank" rel="noopener">Gensim</a> to list and compare vectors. </p>
+</blockquote>
+<h2 id="1-recommented-refs-of-Word2vec"><a href="#1-recommented-refs-of-Word2vec" class="headerlink" title="1. recommented refs of Word2vec"></a>1. recommented refs of Word2vec</h2><ol>
+<li>Mikolov’s papers:<ol>
+<li><a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a> Word2vec, a more powerful language model framework, is proposed and used to generate word vectors.</li>
+<li><a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a> mainly about two tricks of word2vec: hierarchical softmax, negative sampling.</li>
+</ol>
+</li>
+<li>Yoav Goldberg’s paper: <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a> good for learning more about the formula of negative sampling.</li>
+<li>Xin Rong’s paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a> highly recommented! There are both high-level intuition explanations and detailed derivation processes.</li>
+<li>Siwei lai’s paper: <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a> </li>
+</ol>
+<h2 id="2-Word2vec"><a href="#2-Word2vec" class="headerlink" title="2. Word2vec"></a>2. Word2vec</h2><h3 id="2-1-what’s-Word2vec？"><a href="#2-1-what’s-Word2vec？" class="headerlink" title="2.1 what’s Word2vec？"></a>2.1 what’s Word2vec？</h3><p>To perform NLP, we need to find a way to vectorise words so that we can input them into our machine. So we need word embedding, which can convert symbolic words into numerical forms, in other word, embedded into a mathematical space. And Word2vec is a kind of word embedding. </p>
+<p>Word2vec only care about the model parameters (specifically the weight of the neural network), and take these parameters as a kind of vectorized representation of the input word. That means we can use Word2vec to generate word vectors.</p>
+<h3 id="2-2-Skip-gram-and-CBOW"><a href="#2-2-Skip-gram-and-CBOW" class="headerlink" title="2.2 Skip-gram and CBOW"></a>2.2 Skip-gram and CBOW</h3><ul>
+<li><strong>Skip-gram</strong>: a model use a word as input to predict the context around it.</li>
+<li><strong>CBOW</strong>: a model use the context around a word as input to predict the word itself.</li>
+</ul>
+<h4 id="2-2-1-Skip-gram"><a href="#2-2-1-Skip-gram" class="headerlink" title="2.2.1 Skip-gram"></a>2.2.1 Skip-gram</h4><p>we can take a look at the Skip-gram network structure:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/vec.jpg" alt></p>
+<p>which x is one-hot encoder which is a vector only containing one one and all other zeros and used to uniquely represent a word; y is the probability of these V words output as a group.</p>
+<p>Let’s notice this: <strong>the activation function of the hidden layer is actually linear</strong>, which the key method of Word2vec simplify the previous language model. And we use BP to train this neural network. After training, we got the weights of this net. Because only the weight corresponding to the different position of 1’s is activated, this Vx which is consisted of the weights we got can be used to uniquely represent x.  And the dimension of Vx is generally far smaller than the total number of words V, so Word2vec is essentially a dimensionality reduction operation.</p>
+<p>while y has multiple words, the network structure is as follows:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/vet2.jpg" alt></p>
+<p>It can be seen as a parallel of a single x-&gt;single y model, and the cost function is the accumulation of a single cost function (after taking log). </p>
+<h4 id="2-2-2-CBOW"><a href="#2-2-2-CBOW" class="headerlink" title="2.2.2 CBOW"></a>2.2.2 CBOW</h4><p>Similar to Skip-gram, except Skip-gram predicts the context of a word, and CBOW predicts the word using context.</p>
+<p>Network structure is as follow:</p>
+<p><img src="/blog/2020/06/26/exploring-of-word2vec/cbow.jpg" alt></p>
+<p>It is different from the Skip-gram model in parallel. Here, the input becomes multiple words, so we need to process the input (generally sum and then average) first. The cost function of the output is unchanged. For detail you can read this paper: <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a>.</p>
+<h3 id="2-3-training-tricks"><a href="#2-3-training-tricks" class="headerlink" title="2.3 training tricks"></a>2.3 training tricks</h3><p>Why do we need training tricks? As we just mentioned, Word2vec is essentially a language model, its output node number is V, corresponding to V words, which is essentially a multi-classification problem. But in reality, the number of words is very, very large. It will cause great difficulty in calculation, so we need to use tricks to accelerate the training.</p>
+<p>Here are two tricks:</p>
+<ul>
+<li><p>hierarchical softmax: turn the N classification problem into log(N) secondary classification.</p>
+</li>
+<li><p>negative sampling: predict a subset of the overall category.</p>
+</li>
+</ul>
+<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-Natural-Language-Processing1-Word-To-Vectors"><a href="#1-Natural-Language-Processing1-Word-To-Vectors" class="headerlink" title="1. Natural Language Processing1: Word To Vectors"></a>1. <a href="https://billmazengou.github.io/2020/06/23/NLP1-Word-to-Vectors/" target="_blank" rel="noopener">Natural Language Processing1: Word To Vectors</a></h5><h5 id="2-Word2Vec-Explorer"><a href="#2-Word2Vec-Explorer" class="headerlink" title="2. Word2Vec Explorer"></a>2. <a href="https://github.com/dominiek/word2vec-explorer" target="_blank" rel="noopener">Word2Vec Explorer</a></h5><h5 id="3-Distributed-Representations-of-Sentences-and-Documents"><a href="#3-Distributed-Representations-of-Sentences-and-Documents" class="headerlink" title="3. Distributed Representations of Sentences and Documents"></a>3. <a href="https://arxiv.org/pdf/1405.4053.pdf" target="_blank" rel="noopener">Distributed Representations of Sentences and Documents</a></h5><h5 id="4-Efficient-estimation-of-word-representations-in-vector-space"><a href="#4-Efficient-estimation-of-word-representations-in-vector-space" class="headerlink" title="4. Efficient estimation of word representations in vector space"></a>4. <a href="https://arxiv.org/pdf/1301.3781.pdf" target="_blank" rel="noopener">Efficient estimation of word representations in vector space</a></h5><h5 id="5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method"><a href="#5-word2vec-Explained-deriving-Mikolov-et-al-’s-negative-sampling-word-embedding-method" class="headerlink" title="5.  word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method"></a>5.  <a href="https://arxiv.org/pdf/1402.3722.pdf" target="_blank" rel="noopener">word2vec Explained: deriving Mikolov et al.’s negative-sampling word-embedding method</a></h5><h5 id="6-word2vec-Parameter-Learning-Explained"><a href="#6-word2vec-Parameter-Learning-Explained" class="headerlink" title="6. word2vec Parameter Learning Explained"></a>6. <a href="https://arxiv.org/pdf/1411.2738.pdf" target="_blank" rel="noopener">word2vec Parameter Learning Explained</a></h5><h5 id="7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches"><a href="#7-Word-and-Document-Embeddings-based-on-Neural-Network-Approaches" class="headerlink" title="7.  Word and Document Embeddings based on Neural Network Approaches"></a>7.  <a href="https://arxiv.org/ftp/arxiv/papers/1611/1611.05962.pdf" target="_blank" rel="noopener">Word and Document Embeddings based on Neural Network Approaches</a></h5>]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
@@ -674,54 +624,15 @@ f(x)=\begin{equation}
       </tags>
   </entry>
   <entry>
-    <title>News Text Classification —— Tianchi Competition Understanding</title>
-    <url>//blog/2020/07/21/news-text-classification-notes1.html</url>
-    <content><![CDATA[<h2 id="1-Intros"><a href="#1-Intros" class="headerlink" title="1. Intros"></a>1. Intros</h2><p>I joined in a NLP team learning activity held by an open-source organization <a href="https://datawhale.club/" target="_blank" rel="noopener">Datawhale</a> again. This time, we’re gonna explore News Text Classification Challenge.</p>
-<p>This is a classic text classification problem which requires players to classify news categories based on news text characters. And this challenge is held by Datawhale and Tianchi, and with the help of Datawhale, we can learn more about the knowledge points of NLP preprocessing, model construction and model training.</p>
-<p>Here’s the competition: <a href="https://tianchi.aliyun.com/competition/entrance/531810/introduction" target="_blank" rel="noopener">https://tianchi.aliyun.com/competition/entrance/531810/introduction</a></p>
-<h2 id="2-Understanding"><a href="#2-Understanding" class="headerlink" title="2. Understanding"></a>2. Understanding</h2><h3 id="2-1-Data"><a href="#2-1-Data" class="headerlink" title="2.1 Data"></a>2.1 Data</h3><p>The contest question use anonymously processed news data as contest question data, and the dataset is visible and downloadable after registration. The contest question data is news text and is anonymized according to character level. Integrate and divide 14 candidate classification categories: finance, lottery, real estate, stocks, home furnishing, education, technology, society, fashion, current affairs, sports, constellation, games and entertainment text data.</p>
-<p>The question data consists of the following parts: 20w samples in the training set, about 5w samples in the test set A, and about 5w samples in the test set B. </p>
-<p>The source of the question data is news on the Internet, which is collected and processed anonymously. Therefore, the contestants can perform data analysis on their own, and can give full play to their strengths to complete various feature projects, without restricting the use of any external data and models.</p>
-<h3 id="2-2-Label"><a href="#2-2-Label" class="headerlink" title="2.2 Label"></a>2.2 Label</h3><p>The corresponding relationship of the labels in the data set is as follows: </p>
-<blockquote>
-<p>{‘Technology’: 0,’Stocks’: 1,’Sports’: 2,’Entertainment’: 3,’Current Affairs’: 4,’Society’: 5,’Education’ : 6,’Finance’: 7,’Home Furnishing’: 8,’Game’: 9,’Property’: 10,’Fashion’: 11,’Lottery’: 12,’Constellation’: 13}</p>
-</blockquote>
-<p>training set columns:</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th>label</th>
-<th>text</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>2</td>
-<td>2967 6758 339 2021 1854 3731 4109 3792 4149 1519 2058 3912 2465 2410 1219 6654 7539 264 2456 4811 12…</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h3 id="2-3-Evaluation"><a href="#2-3-Evaluation" class="headerlink" title="2.3 Evaluation"></a>2.3 Evaluation</h3><p>The evaluation standard is the average value of the category <code>f1_score</code>. The results submitted by the players are compared with the categories of the actual test set. The larger the result, the better.</p>
-<p>formula:</p>
-<script type="math/tex; mode=display">
-F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac{(precision * recall)}{(precison + recall)}</script><p>Mathematically, F1-Socre is defined as the harmonic mean of precision and recall. From the formula, we can see that the size of F1 is affected by Precision and Recall, that is, the short board effect, so F1 Score is more balanced than the direct average result, and it can better explain the quality of a model.</p>
-<p>coding example:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line">y_true = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">y_pred = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">f1_score(y_true, y_pred, average=<span class="string">'macro'</span>)</span><br></pre></td></tr></table></figure>
-<p>output: 0.26666666666666666</p>
-<h3 id="2-4-Solving-Ideas"><a href="#2-4-Solving-Ideas" class="headerlink" title="2.4 Solving Ideas"></a>2.4 Solving Ideas</h3><p><strong>Analysis</strong>: The essence of this challenge is a text classification problem, which needs to be classified according to the characters of each sentence. However, the data given in the question is anonymized, and operations such as Chinese word segmentation cannot be used directly. This is the difficulty of this challenge.</p>
-<p>Therefore, the difficulty of this competition is the need to model anonymous characters to complete the process of text classification. Since text data is a typical unstructured data, it may involve two parts: <code>feature extraction</code> and <code>classification model</code>. In order to reduce the difficulty of the competition, Datawhale has provided some ideas for solving problems for your reference:</p>
-<h5 id="Idea-1-TF-IDF-machine-learning-classifier"><a href="#Idea-1-TF-IDF-machine-learning-classifier" class="headerlink" title="Idea 1: TF-IDF + machine learning classifier"></a>Idea 1: TF-IDF + machine learning classifier</h5><p>Use TF-IDF to extract features directly from the text, and use the classifier to classify. In the choice of classifier, SVM, LR, or XGBoost can be used.</p>
-<h5 id="Idea-2-FastText"><a href="#Idea-2-FastText" class="headerlink" title="Idea 2: FastText"></a>Idea 2: FastText</h5><p>FastText is an entry-level word vector. Using the FastText tool provided by Facebook, you can quickly build a classifier.</p>
-<h5 id="Idea-3-WordVec-Deep-Learning-Classifier"><a href="#Idea-3-WordVec-Deep-Learning-Classifier" class="headerlink" title="Idea 3: WordVec + Deep Learning Classifier"></a>Idea 3: WordVec + Deep Learning Classifier</h5><p>WordVec is an advanced word vector, and the classification is completed by constructing a deep learning classification. The network structure of deep learning classification can choose TextCNN, TextRNN or BiLSTM.</p>
-<h5 id="Idea-4-Bert-word-vector"><a href="#Idea-4-Bert-word-vector" class="headerlink" title="Idea 4: Bert word vector"></a>Idea 4: Bert word vector</h5><p>Bert is a highly matched word vector with powerful modeling and learning capabilities.</p>
-<h2 id="3-What’s-Next"><a href="#3-What’s-Next" class="headerlink" title="3. What’s Next?"></a>3. What’s Next?</h2><p>Read the data in and try idea 1.</p>
-<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><h5 id="1-Task1-赛题理解"><a href="#1-Task1-赛题理解" class="headerlink" title="1. Task1 赛题理解"></a>1. <a href="https://tianchi.aliyun.com/notebook-ai/detail?spm=5176.12586969.1002.6.6406111aIKCSLV&amp;postId=118252" target="_blank" rel="noopener">Task1 赛题理解</a></h5><h5 id="2-通过实例来梳理概念-：准确率-Accuracy-、精准率-Precision-、召回率-Recall-和-F值"><a href="#2-通过实例来梳理概念-：准确率-Accuracy-、精准率-Precision-、召回率-Recall-和-F值" class="headerlink" title="2. 通过实例来梳理概念 ：准确率 (Accuracy)、精准率(Precision)、召回率(Recall)和 F值"></a>2. <a href="https://mp.weixin.qq.com/s/d5d3b3tnetqYKuckfUI08w" target="_blank" rel="noopener">通过实例来梳理概念 ：准确率 (Accuracy)、精准率(Precision)、召回率(Recall)和 F值</a></h5>]]></content>
+    <title>Note of CS224n —— Homework</title>
+    <url>//blog/2020/07/06/notes-of-CS224n-part5.html</url>
+    <content><![CDATA[<h2 id="preview-work"><a href="#preview-work" class="headerlink" title="preview work"></a>preview work</h2><p><a href="http://7497.xyz/blog/2020/06/26/exploring-of-word2vec.html" target="_blank" rel="noopener">Exploring of Word2vec</a></p>
+<h2 id="Homework-reference"><a href="#Homework-reference" class="headerlink" title="Homework reference"></a>Homework reference</h2><p><a href="https://github.com/exuding/NLP/blob/master/bert_classification.ipynb" target="_blank" rel="noopener">fastText_classification.ipynb from winter</a></p>
+<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><p>we are planning to attend a NLP contest to learn more about it!!</p>
+]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
-        <category>classification</category>
       </categories>
       <tags>
         <tag>NLP</tag>
@@ -851,18 +762,50 @@ F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac
       </tags>
   </entry>
   <entry>
-    <title>News Text Classification with FastText</title>
-    <url>//blog/2020/07/27/news-text-classification-notes4.html</url>
-    <content><![CDATA[<h2 id="1-What-FastText-is"><a href="#1-What-FastText-is" class="headerlink" title="1. What FastText is"></a>1. What FastText is</h2><p>FastText is a word vector calculation and text classification tool open sourced by Facebook in 2016. It is not academically innovative. But its advantages are also very obvious. In text classification tasks, FastText can often achieve accuracy comparable to that of deep networks, but the training time is many orders of magnitude faster than deep networks. On a standard multi-core CPU, the word vectors of a 1 billion word-level corpus can be trained in 10 minutes, and more than 500,000 sentences with more than 300,000 categories can be classified in 1 minute!</p>
-<h3 id="1-1-model-architecture"><a href="#1-1-model-architecture" class="headerlink" title="1.1 model architecture"></a>1.1 model architecture</h3><p>The fastText model architecture is very similar to the CBOW model architecture of word2vec. The following is a diagram of the fastText model architecture:</p>
-<p><img src="/blog/2020/07/27/news-text-classification-notes4/p1.png" alt></p>
-<p><strong>Like CBOW, the FastText model has only three layers: input layer, hidden layer, and output layer (Hierarchical Softmax)</strong>. The input is multiple words represented by vectors, the output is a specific target, and the hidden layers are all right The superposition average of multiple word vectors. The difference is that the input of CBOW is the context of the target word, the input of FastText is multiple words and their n-gram features, which are used to represent a single document; the input word of CBOW is encoded by one-hot, and the input feature of FastText is Embedding has been done; the output of CBOW is the target vocabulary, and the output of FastText is the class label corresponding to the document.</p>
-<p>It is worth noting that FastText uses the character-level n-gram vector of the word as an additional feature when input; and FastText uses hierarchical Softmax when output, which greatly reduces the model training time.</p>
-<h3 id="1-2-key-idea"><a href="#1-2-key-idea" class="headerlink" title="1.2 key idea"></a>1.2 key idea</h3><p>what is the key idea of FastText? Carefully observe the second half of the model, from the output of the hidden layer to the output of the output layer. <strong>You will find that it is a softmax linear multi-class classifier</strong>. The input of the classifier is a vector used to characterize the current document; the first half of the model, That is, from the input of the input layer to the output of the hidden layer, it is mainly doing one thing: <strong>generating a vector used to characterize the document</strong>. So how does it do it? Superimpose all the words and n-gram word vectors that make up this document, and then take the average. The idea behind superimposing word vectors is the traditional bag-of-words method, which treats a document as a collection of words.</p>
-<p><strong>So the key idea of FastText is</strong>: superimpose and average the words and n-gram vectors of the entire document to get the document vector, and then use the document vector to do softmax multi-classification. This involves two techniques: the introduction of character-level n-gram features and hierarchical Softmax classification.</p>
-<h2 id="2-Text-Classification-with-FastText"><a href="#2-Text-Classification-with-FastText" class="headerlink" title="2. Text Classification with FastText"></a>2. Text Classification with FastText</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> fasttext</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line"> </span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>) </span><br><span class="line">train_df[<span class="string">'label_ft'</span>] = <span class="string">'__label__'</span> + train_df[<span class="string">'label'</span>].astype(str)</span><br><span class="line"> </span><br><span class="line">train_df[[<span class="string">'text'</span>,<span class="string">'label_ft'</span>]].iloc[:<span class="number">-5000</span>].to_csv(<span class="string">'train.csv'</span>, index=<span class="literal">None</span>, header=<span class="literal">None</span>, sep=<span class="string">'\t'</span>)</span><br><span class="line"> </span><br><span class="line">model = fasttext.train_supervised(<span class="string">'train.csv'</span>, lr=<span class="number">1.0</span>, wordNgrams=<span class="number">2</span>, \</span><br><span class="line">                                  verbose=<span class="number">2</span>, minCount=<span class="number">1</span>, epoch=<span class="number">25</span>, loss=<span class="string">"hs"</span>)</span><br><span class="line"> </span><br><span class="line">val_pred = [model.predict(x)[<span class="number">0</span>][<span class="number">0</span>].split(<span class="string">'__'</span>)[<span class="number">-1</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_df.iloc[<span class="number">-5000</span>:][<span class="string">'text'</span>]] </span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">-5000</span>:].astype(str), val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
-<p><strong>output</strong>: 0.9094285991495592</p>
-<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-fastText原理及实践"><a href="#1-fastText原理及实践" class="headerlink" title="1. fastText原理及实践"></a>1. <a href="https://zhuanlan.zhihu.com/p/32965521" target="_blank" rel="noopener">fastText原理及实践</a></h5><h5 id="2-Bag-of-Tricks-for-Efficient-Text-Classification"><a href="#2-Bag-of-Tricks-for-Efficient-Text-Classification" class="headerlink" title="2. Bag of Tricks for Efficient Text Classification"></a>2. <a href="https://arxiv.org/abs/1607.01759" target="_blank" rel="noopener">Bag of Tricks for Efficient Text Classification</a></h5>]]></content>
+    <title>News Text Classification —— Tianchi Competition Understanding</title>
+    <url>//blog/2020/07/21/news-text-classification-notes1.html</url>
+    <content><![CDATA[<h2 id="1-Intros"><a href="#1-Intros" class="headerlink" title="1. Intros"></a>1. Intros</h2><p>I joined in a NLP team learning activity held by an open-source organization <a href="https://datawhale.club/" target="_blank" rel="noopener">Datawhale</a> again. This time, we’re gonna explore News Text Classification Challenge.</p>
+<p>This is a classic text classification problem which requires players to classify news categories based on news text characters. And this challenge is held by Datawhale and Tianchi, and with the help of Datawhale, we can learn more about the knowledge points of NLP preprocessing, model construction and model training.</p>
+<p>Here’s the competition: <a href="https://tianchi.aliyun.com/competition/entrance/531810/introduction" target="_blank" rel="noopener">https://tianchi.aliyun.com/competition/entrance/531810/introduction</a></p>
+<h2 id="2-Understanding"><a href="#2-Understanding" class="headerlink" title="2. Understanding"></a>2. Understanding</h2><h3 id="2-1-Data"><a href="#2-1-Data" class="headerlink" title="2.1 Data"></a>2.1 Data</h3><p>The contest question use anonymously processed news data as contest question data, and the dataset is visible and downloadable after registration. The contest question data is news text and is anonymized according to character level. Integrate and divide 14 candidate classification categories: finance, lottery, real estate, stocks, home furnishing, education, technology, society, fashion, current affairs, sports, constellation, games and entertainment text data.</p>
+<p>The question data consists of the following parts: 20w samples in the training set, about 5w samples in the test set A, and about 5w samples in the test set B. </p>
+<p>The source of the question data is news on the Internet, which is collected and processed anonymously. Therefore, the contestants can perform data analysis on their own, and can give full play to their strengths to complete various feature projects, without restricting the use of any external data and models.</p>
+<h3 id="2-2-Label"><a href="#2-2-Label" class="headerlink" title="2.2 Label"></a>2.2 Label</h3><p>The corresponding relationship of the labels in the data set is as follows: </p>
+<blockquote>
+<p>{‘Technology’: 0,’Stocks’: 1,’Sports’: 2,’Entertainment’: 3,’Current Affairs’: 4,’Society’: 5,’Education’ : 6,’Finance’: 7,’Home Furnishing’: 8,’Game’: 9,’Property’: 10,’Fashion’: 11,’Lottery’: 12,’Constellation’: 13}</p>
+</blockquote>
+<p>training set columns:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>label</th>
+<th>text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>2967 6758 339 2021 1854 3731 4109 3792 4149 1519 2058 3912 2465 2410 1219 6654 7539 264 2456 4811 12…</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="2-3-Evaluation"><a href="#2-3-Evaluation" class="headerlink" title="2.3 Evaluation"></a>2.3 Evaluation</h3><p>The evaluation standard is the average value of the category <code>f1_score</code>. The results submitted by the players are compared with the categories of the actual test set. The larger the result, the better.</p>
+<p>formula:</p>
+<script type="math/tex; mode=display">
+F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac{(precision * recall)}{(precison + recall)}</script><p>Mathematically, F1-Socre is defined as the harmonic mean of precision and recall. From the formula, we can see that the size of F1 is affected by Precision and Recall, that is, the short board effect, so F1 Score is more balanced than the direct average result, and it can better explain the quality of a model.</p>
+<p>coding example:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line">y_true = [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">y_pred = [<span class="number">0</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]</span><br><span class="line">f1_score(y_true, y_pred, average=<span class="string">'macro'</span>)</span><br></pre></td></tr></table></figure>
+<p>output: 0.26666666666666666</p>
+<h3 id="2-4-Solving-Ideas"><a href="#2-4-Solving-Ideas" class="headerlink" title="2.4 Solving Ideas"></a>2.4 Solving Ideas</h3><p><strong>Analysis</strong>: The essence of this challenge is a text classification problem, which needs to be classified according to the characters of each sentence. However, the data given in the question is anonymized, and operations such as Chinese word segmentation cannot be used directly. This is the difficulty of this challenge.</p>
+<p>Therefore, the difficulty of this competition is the need to model anonymous characters to complete the process of text classification. Since text data is a typical unstructured data, it may involve two parts: <code>feature extraction</code> and <code>classification model</code>. In order to reduce the difficulty of the competition, Datawhale has provided some ideas for solving problems for your reference:</p>
+<h5 id="Idea-1-TF-IDF-machine-learning-classifier"><a href="#Idea-1-TF-IDF-machine-learning-classifier" class="headerlink" title="Idea 1: TF-IDF + machine learning classifier"></a>Idea 1: TF-IDF + machine learning classifier</h5><p>Use TF-IDF to extract features directly from the text, and use the classifier to classify. In the choice of classifier, SVM, LR, or XGBoost can be used.</p>
+<h5 id="Idea-2-FastText"><a href="#Idea-2-FastText" class="headerlink" title="Idea 2: FastText"></a>Idea 2: FastText</h5><p>FastText is an entry-level word vector. Using the FastText tool provided by Facebook, you can quickly build a classifier.</p>
+<h5 id="Idea-3-WordVec-Deep-Learning-Classifier"><a href="#Idea-3-WordVec-Deep-Learning-Classifier" class="headerlink" title="Idea 3: WordVec + Deep Learning Classifier"></a>Idea 3: WordVec + Deep Learning Classifier</h5><p>WordVec is an advanced word vector, and the classification is completed by constructing a deep learning classification. The network structure of deep learning classification can choose TextCNN, TextRNN or BiLSTM.</p>
+<h5 id="Idea-4-Bert-word-vector"><a href="#Idea-4-Bert-word-vector" class="headerlink" title="Idea 4: Bert word vector"></a>Idea 4: Bert word vector</h5><p>Bert is a highly matched word vector with powerful modeling and learning capabilities.</p>
+<h2 id="3-What’s-Next"><a href="#3-What’s-Next" class="headerlink" title="3. What’s Next?"></a>3. What’s Next?</h2><p>Read the data in and try idea 1.</p>
+<h2 id="4-References"><a href="#4-References" class="headerlink" title="4. References"></a>4. References</h2><h5 id="1-Task1-赛题理解"><a href="#1-Task1-赛题理解" class="headerlink" title="1. Task1 赛题理解"></a>1. <a href="https://tianchi.aliyun.com/notebook-ai/detail?spm=5176.12586969.1002.6.6406111aIKCSLV&amp;postId=118252" target="_blank" rel="noopener">Task1 赛题理解</a></h5><h5 id="2-通过实例来梳理概念-：准确率-Accuracy-、精准率-Precision-、召回率-Recall-和-F值"><a href="#2-通过实例来梳理概念-：准确率-Accuracy-、精准率-Precision-、召回率-Recall-和-F值" class="headerlink" title="2. 通过实例来梳理概念 ：准确率 (Accuracy)、精准率(Precision)、召回率(Recall)和 F值"></a>2. <a href="https://mp.weixin.qq.com/s/d5d3b3tnetqYKuckfUI08w" target="_blank" rel="noopener">通过实例来梳理概念 ：准确率 (Accuracy)、精准率(Precision)、召回率(Recall)和 F值</a></h5>]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
@@ -870,6 +813,41 @@ F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac
       </categories>
       <tags>
         <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>零基础入门CV之CNN初探</title>
+    <url>//blog/2020/05/26/cv-task3.html</url>
+    <content><![CDATA[<h2 id="CNN-简介"><a href="#CNN-简介" class="headerlink" title="CNN 简介"></a>CNN 简介</h2><h5 id="1、CNN的组成"><a href="#1、CNN的组成" class="headerlink" title="1、CNN的组成"></a>1、CNN的组成</h5><p>CNN由纽约大学的Yann LeCun于1998年提出。本质上是一个多层感知机，其成功的原因关键在于它所采用的局部连接和共享权值的方式。CNN是一类特殊的人工神经网络，是深度学习中重要的一个分支。CNN在很多领域都表现优异，精度和速度比传统计算学习算法高很多。特别是在计算机视觉领域，CNN是解决图像分类、图像检索、物体检测和语义分割的主流模型。CNN通常由卷积（convolution）、池化（pooling）、非线性激活函数（non-linear activation function）和全连接层（fully connected layer）构成。</p>
+<p>其中conv层和pooling层简介如下：</p>
+<ol>
+<li>conv层的理论依据主要是生物学上的感受野概念，通俗点讲就是权值共享，这样可以大大减少神经网络需要训练的参数；卷积核是CNN的重要组成，常见做法是从原始图像中采样，基于无监督学习算法进行训练得到，这一步就是DNN中的预训练。</li>
+<li>pooling层，其实就是对图像进行子采样，利用图像局部相关性的原理，在减少数据量的同时又保留有用信息。常见的pooling有max跟mean，就是对每一个采样区域做max运算或者mean运算，既可以减少参数，又可以保留信息，与此同时，还引入平移不变性等图像性质。</li>
+</ol>
+<h5 id="2、CNN模型的典型结构"><a href="#2、CNN模型的典型结构" class="headerlink" title="2、CNN模型的典型结构"></a>2、CNN模型的典型结构</h5><ol>
+<li>LeNet：最早用于数字识别的CNN；</li>
+<li>AlexNet：2012年 ILSVRC比赛中远超第二名的CNN，用多层小卷积层替换掉单层大卷积层；</li>
+<li>GoogLeNet：2014年 ILSVRC比赛冠军；</li>
+<li>VGGNet：2014年表现略差于GoogLeNet，但是在其他图像转换领域表现较好，如目标检测领域；</li>
+<li>InceptionV3</li>
+<li>ResNet<br><img src="https://upload-images.jianshu.io/upload_images/4070307-d58cba17916ff535.png?imageMogr2/auto-orient/strip|imageView2/2/format/webp" alt="comp"></li>
+</ol>
+<h2 id="用pytorch构建简单的CNN模型"><a href="#用pytorch构建简单的CNN模型" class="headerlink" title="用pytorch构建简单的CNN模型"></a>用pytorch构建简单的CNN模型</h2><h5 id="1、导入所需包"><a href="#1、导入所需包" class="headerlink" title="1、导入所需包"></a>1、导入所需包</h5><p><img src="/blog/2020/05/26/cv-task3/img1.jpg" alt="tu1"></p>
+<h5 id="2、构建一个简单的CNN模型"><a href="#2、构建一个简单的CNN模型" class="headerlink" title="2、构建一个简单的CNN模型"></a>2、构建一个简单的CNN模型</h5><p><img src="/blog/2020/05/26/cv-task3/img4.jpg" alt="tu1"><br><img src="/blog/2020/05/26/cv-task3/img3.jpg" alt="tu1"><br>从<code>print</code>结果可以看出，我们构建了一个由两层卷积层、两层基于max的pool层和两个激活函数构成的简单模型。</p>
+<h5 id="3、定义损失函数和优化器"><a href="#3、定义损失函数和优化器" class="headerlink" title="3、定义损失函数和优化器"></a>3、定义损失函数和优化器</h5><p><img src="/blog/2020/05/26/cv-task3/img2.jpg" alt="tu1"><br>我们使用交叉验证损失函数和Adam优化器来训练我们的简单模型。</p>
+<h5 id="4、训练网络"><a href="#4、训练网络" class="headerlink" title="4、训练网络"></a>4、训练网络</h5><p><img src="/blog/2020/05/26/cv-task3/img5.jpg" alt="tu1"><br><img src="/blog/2020/05/26/cv-task3/img6.jpg" alt="tu1"></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>以上介绍了CNN并用pytorch构建了一个很简单的网络模型，还对该模型进行了必要的分析，以便有一个感性的认识。CNN用处很大，目前了解只是皮毛，还需通过实践来进一步深入的了解和加深实践经验。后续有用到或者有时间再做深入吧。</p>
+<h5 id="鸣谢与引用"><a href="#鸣谢与引用" class="headerlink" title="鸣谢与引用"></a>鸣谢与引用</h5><ol>
+<li><a href="https://zm.sm-tc.cn/?src=l4uLj4zF0NCdk5CY0ZyMm5HRkZqL0JuNmp6SoJyei5yXmo2gzs%2FQno2LlpyTmtCbmouelpOM0MvIz8%2FOz8rO&amp;uid=2a9b68a44a4de1455fea961a81551e33&amp;hid=884939928472aaaae9ef4cbb2001feec&amp;pos=4&amp;cid=9&amp;time=1590485479485&amp;from=click&amp;restype=1&amp;pagetype=0020004002010402&amp;bu=news_natural&amp;query=CNN%E6%A8%A1%E5%9E%8B&amp;mode=&amp;v=1&amp;force=true&amp;wap=false&amp;province=%E5%B9%BF%E4%B8%9C%E7%9C%81&amp;city=%E5%B9%BF%E5%B7%9E%E5%B8%82&amp;uc_param_str=dnntnwvepffrgibijbprsvdsdichei" target="_blank" rel="noopener">CNN模型</a></li>
+<li><a href="https://github.com/datawhalechina/team-learning/blob/master/03%20%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89%E5%AE%9E%E8%B7%B5%EF%BC%88%E8%A1%97%E6%99%AF%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81%E8%AF%86%E5%88%AB%EF%BC%89/Datawhale%20%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8CV%20-%20Task%2003%20%E5%AD%97%E7%AC%A6%E8%AF%86%E5%88%AB%E6%A8%A1%E5%9E%8B.md" target="_blank" rel="noopener">Datawhale 零基础入门CV赛事-Task3 字符识别模型</a></li>
+</ol>
+]]></content>
+      <categories>
+        <category>入门</category>
+        <category>天池赛题</category>
+      </categories>
+      <tags>
+        <tag>CV</tag>
       </tags>
   </entry>
   <entry>
@@ -901,6 +879,28 @@ F1 = \frac{1}{\frac{1}{2} * (\frac{1}{precision} + \frac{1}{recall})}= 2 * \frac
 </ol>
 <h5 id="practice"><a href="#practice" class="headerlink" title="practice"></a>practice</h5><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> keras.preprocessing <span class="keyword">import</span> sequence</span><br><span class="line"><span class="keyword">from</span> keras.models <span class="keyword">import</span> Sequential</span><br><span class="line"><span class="keyword">from</span> keras.layers <span class="keyword">import</span> Dense, Dropout, Embedding, LSTM, Bidirectional</span><br><span class="line"><span class="keyword">from</span> keras.datasets <span class="keyword">import</span> imdb</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">max_features = <span class="number">20000</span></span><br><span class="line">maxlen = <span class="number">100</span></span><br><span class="line">batch_size = <span class="number">32</span></span><br><span class="line"></span><br><span class="line">(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=max_features)</span><br><span class="line">print(<span class="string">'train sequences size:'</span>, len(x_train))</span><br><span class="line">print(<span class="string">'test sequences size:'</span>, len(x_test))</span><br><span class="line"></span><br><span class="line">x_train = sequence.pad_sequences(x_train, maxlen=maxlen)</span><br><span class="line">x_test = sequence.pad_sequences(x_test, maxlen=maxlen)</span><br><span class="line">print(<span class="string">'x_train shape:'</span>, x_train.shape)</span><br><span class="line">print(<span class="string">'x_test shape:'</span>, x_test.shape)</span><br><span class="line">y_train = np.array(y_train)</span><br><span class="line">y_test = np.array(y_test)</span><br><span class="line"></span><br><span class="line">model = Sequential()</span><br><span class="line">model.add(Embedding(max_features, <span class="number">128</span>, input_length=maxlen))</span><br><span class="line">model.add(Bidirectional(LSTM(<span class="number">64</span>)))</span><br><span class="line">model.add(Dropout(<span class="number">0.5</span>))</span><br><span class="line">model.add(Dense(<span class="number">1</span>, activation=<span class="string">'sigmoid'</span>))</span><br><span class="line"></span><br><span class="line">model.compile(<span class="string">'adam'</span>, <span class="string">'binary_crossentropy'</span>, metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line"></span><br><span class="line">model.fit(x_train, y_train,</span><br><span class="line">          batch_size=batch_size,</span><br><span class="line">          epochs=<span class="number">4</span>,</span><br><span class="line">          validation_data=[x_test, y_test])</span><br></pre></td></tr></table></figure>
 <h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-TextCNN模型原理和实现"><a href="#1-TextCNN模型原理和实现" class="headerlink" title="1. TextCNN模型原理和实现"></a>1. <a href="https://www.cnblogs.com/bymo/p/9675654.html" target="_blank" rel="noopener">TextCNN模型原理和实现</a></h5><h5 id="2-Recurrent-Convolutional-Neural-Networks-for-Text-Classification"><a href="#2-Recurrent-Convolutional-Neural-Networks-for-Text-Classification" class="headerlink" title="2. Recurrent Convolutional Neural Networks for Text Classification"></a>2. <a href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=F2929368FEDF4A9A7E495DC2A3137D19?doi=10.1.1.822.3091&amp;rep=rep1&amp;type=pdf" target="_blank" rel="noopener">Recurrent Convolutional Neural Networks for Text Classification</a></h5><h5 id="3-Convolutional-Neural-Networks-for-Sentence-Classification"><a href="#3-Convolutional-Neural-Networks-for-Sentence-Classification" class="headerlink" title="3. Convolutional Neural Networks for Sentence Classification"></a>3. <a href="https://arxiv.org/abs/1408.5882" target="_blank" rel="noopener">Convolutional Neural Networks for Sentence Classification</a></h5>]]></content>
+      <categories>
+        <category>入门</category>
+        <category>NLP</category>
+        <category>classification</category>
+      </categories>
+      <tags>
+        <tag>NLP</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>News Text Classification with FastText</title>
+    <url>//blog/2020/07/27/news-text-classification-notes4.html</url>
+    <content><![CDATA[<h2 id="1-What-FastText-is"><a href="#1-What-FastText-is" class="headerlink" title="1. What FastText is"></a>1. What FastText is</h2><p>FastText is a word vector calculation and text classification tool open sourced by Facebook in 2016. It is not academically innovative. But its advantages are also very obvious. In text classification tasks, FastText can often achieve accuracy comparable to that of deep networks, but the training time is many orders of magnitude faster than deep networks. On a standard multi-core CPU, the word vectors of a 1 billion word-level corpus can be trained in 10 minutes, and more than 500,000 sentences with more than 300,000 categories can be classified in 1 minute!</p>
+<h3 id="1-1-model-architecture"><a href="#1-1-model-architecture" class="headerlink" title="1.1 model architecture"></a>1.1 model architecture</h3><p>The fastText model architecture is very similar to the CBOW model architecture of word2vec. The following is a diagram of the fastText model architecture:</p>
+<p><img src="/blog/2020/07/27/news-text-classification-notes4/p1.png" alt></p>
+<p><strong>Like CBOW, the FastText model has only three layers: input layer, hidden layer, and output layer (Hierarchical Softmax)</strong>. The input is multiple words represented by vectors, the output is a specific target, and the hidden layers are all right The superposition average of multiple word vectors. The difference is that the input of CBOW is the context of the target word, the input of FastText is multiple words and their n-gram features, which are used to represent a single document; the input word of CBOW is encoded by one-hot, and the input feature of FastText is Embedding has been done; the output of CBOW is the target vocabulary, and the output of FastText is the class label corresponding to the document.</p>
+<p>It is worth noting that FastText uses the character-level n-gram vector of the word as an additional feature when input; and FastText uses hierarchical Softmax when output, which greatly reduces the model training time.</p>
+<h3 id="1-2-key-idea"><a href="#1-2-key-idea" class="headerlink" title="1.2 key idea"></a>1.2 key idea</h3><p>what is the key idea of FastText? Carefully observe the second half of the model, from the output of the hidden layer to the output of the output layer. <strong>You will find that it is a softmax linear multi-class classifier</strong>. The input of the classifier is a vector used to characterize the current document; the first half of the model, That is, from the input of the input layer to the output of the hidden layer, it is mainly doing one thing: <strong>generating a vector used to characterize the document</strong>. So how does it do it? Superimpose all the words and n-gram word vectors that make up this document, and then take the average. The idea behind superimposing word vectors is the traditional bag-of-words method, which treats a document as a collection of words.</p>
+<p><strong>So the key idea of FastText is</strong>: superimpose and average the words and n-gram vectors of the entire document to get the document vector, and then use the document vector to do softmax multi-classification. This involves two techniques: the introduction of character-level n-gram features and hierarchical Softmax classification.</p>
+<h2 id="2-Text-Classification-with-FastText"><a href="#2-Text-Classification-with-FastText" class="headerlink" title="2. Text Classification with FastText"></a>2. Text Classification with FastText</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> fasttext</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> f1_score</span><br><span class="line"> </span><br><span class="line">train_df = pd.read_csv(<span class="string">'/kaggle/input/newsclassestestdata/train_set.csv/train_set.csv'</span>, sep=<span class="string">'\t'</span>) </span><br><span class="line">train_df[<span class="string">'label_ft'</span>] = <span class="string">'__label__'</span> + train_df[<span class="string">'label'</span>].astype(str)</span><br><span class="line"> </span><br><span class="line">train_df[[<span class="string">'text'</span>,<span class="string">'label_ft'</span>]].iloc[:<span class="number">-5000</span>].to_csv(<span class="string">'train.csv'</span>, index=<span class="literal">None</span>, header=<span class="literal">None</span>, sep=<span class="string">'\t'</span>)</span><br><span class="line"> </span><br><span class="line">model = fasttext.train_supervised(<span class="string">'train.csv'</span>, lr=<span class="number">1.0</span>, wordNgrams=<span class="number">2</span>, \</span><br><span class="line">                                  verbose=<span class="number">2</span>, minCount=<span class="number">1</span>, epoch=<span class="number">25</span>, loss=<span class="string">"hs"</span>)</span><br><span class="line"> </span><br><span class="line">val_pred = [model.predict(x)[<span class="number">0</span>][<span class="number">0</span>].split(<span class="string">'__'</span>)[<span class="number">-1</span>] <span class="keyword">for</span> x <span class="keyword">in</span> train_df.iloc[<span class="number">-5000</span>:][<span class="string">'text'</span>]] </span><br><span class="line">print(f1_score(train_df[<span class="string">'label'</span>].values[<span class="number">-5000</span>:].astype(str), val_pred, average=<span class="string">'macro'</span>))</span><br></pre></td></tr></table></figure>
+<p><strong>output</strong>: 0.9094285991495592</p>
+<h2 id="3-References"><a href="#3-References" class="headerlink" title="3. References"></a>3. References</h2><h5 id="1-fastText原理及实践"><a href="#1-fastText原理及实践" class="headerlink" title="1. fastText原理及实践"></a>1. <a href="https://zhuanlan.zhihu.com/p/32965521" target="_blank" rel="noopener">fastText原理及实践</a></h5><h5 id="2-Bag-of-Tricks-for-Efficient-Text-Classification"><a href="#2-Bag-of-Tricks-for-Efficient-Text-Classification" class="headerlink" title="2. Bag of Tricks for Efficient Text Classification"></a>2. <a href="https://arxiv.org/abs/1607.01759" target="_blank" rel="noopener">Bag of Tricks for Efficient Text Classification</a></h5>]]></content>
       <categories>
         <category>入门</category>
         <category>NLP</category>
